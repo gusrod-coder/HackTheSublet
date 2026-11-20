@@ -13,6 +13,7 @@ import { DESTINATIONS, QUESTIONS, type IncomingProfileBody, type IncomingProfile
 import { SampleBadge } from "@/components/shared/ui";
 import { FitPill, Icon, StepDots, dateRange, roomLabel, styles as s } from "@/components/incoming/ui";
 import { BrowseHelp } from "@/components/incoming/BrowseHelp";
+import { useLiveFit } from "@/components/leaver/use-live-fit";
 import p from "./page.module.css";
 
 const ListingMap = dynamic(() => import("@/components/shared/ListingMap"), { ssr: false });
@@ -21,7 +22,7 @@ type Ranked = MatchesResponse["ranked"][number];
 
 export default function Page() {
   const router = useRouter();
-  const matches = useApi(() => api.incoming.matches(), []);
+  const matches = useLiveFit();
   const profile = useApi(() => api.incoming.profile(), []);
   const [query, setQuery] = useState("");
   const [hover, setHover] = useState<string | null>(null);
@@ -51,6 +52,7 @@ export default function Page() {
               {prof?.startDate && prof.endDate ? `${dateRange(prof.startDate, prof.endDate)} · ` : ""}
               {dest ? `${dest.label} · ` : ""}a house’s fit is set by its weakest match, since you live with everyone.
             </p>
+            <p className={`${s.caption} ${s.muted} ${p.tight}`}>Fits update automatically when household habits change.</p>
           </div>
           <label className={p.search}>
             <input type="search" placeholder="Search a street or area" value={query} onChange={(e) => setQuery(e.target.value)} />
@@ -61,7 +63,13 @@ export default function Page() {
         {matches.error?.code === "PROFILE_INCOMPLETE" && (
           <p className={s.notice}>Finish your profile first: fit scores stay hidden until you’ve answered everything.</p>
         )}
-        {matches.error && matches.error.code !== "PROFILE_INCOMPLETE" && <p className={s.noticeWarn}>{matches.error.message}</p>}
+        {matches.error && matches.error.code !== "PROFILE_INCOMPLETE" && <p className={s.noticeWarn} role="alert">{matches.error.message}{matches.data ? " Showing the last results; we will retry automatically." : ""}</p>}
+        <div className={p.liveStatus} role="status" aria-live="polite" aria-atomic="true">
+          {ranked.filter(({ listing }) => matches.changes.has(listing.id)).map(({ listing }) => {
+            const change = matches.changes.get(listing.id)!;
+            return `${listing.name}: fit updated from ${change.from} to ${change.to}.`;
+          }).join(" ")}
+        </div>
 
         {matches.data && (
           <div className={p.layout}>
@@ -75,7 +83,7 @@ export default function Page() {
                 onSaved={() => { void matches.reload(); void profile.reload(); }}
               />
               {ranked.map((r) => (
-                <ListingCard key={r.listing.id} r={r} top={r.rank === 1} onHover={setHover} />
+                <ListingCard key={r.listing.id} r={r} top={r.rank === 1} onHover={setHover} change={matches.changes.get(r.listing.id)} />
               ))}
 
               {matches.data.unreleased.length > 0 && (
@@ -125,12 +133,12 @@ export default function Page() {
   );
 }
 
-function ListingCard({ r, top, onHover }: { r: Ranked & { rank: number }; top: boolean; onHover: (id: string | null) => void }) {
+function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }; top: boolean; onHover: (id: string | null) => void; change?: { from: number; to: number } }) {
   const { listing: l, fit } = r;
   const single = fit.perStayer.length === 1;
   return (
     <article
-      className={`${top ? s.cardInk : s.cardSoft} ${p.card}`}
+      className={`${top ? s.cardInk : s.cardSoft} ${p.card} ${change ? p.changed : ""}`}
       onMouseEnter={() => onHover(l.id)}
       onMouseLeave={() => onHover(null)}
     >
@@ -139,6 +147,7 @@ function ListingCard({ r, top, onHover }: { r: Ranked & { rank: number }; top: b
           <span className={p.rank}>{r.rank}</span>
           <h2 className={s.headingM}>{l.name}</h2>
           <FitPill label={fit.label} />
+          {change && <span className={p.fitUpdate} aria-hidden="true">Fit updated: {change.from} → {change.to}</span>}
         </div>
         <Link href={`/incoming/listings/${l.id}`} className={`${s.btnSecondary} ${p.view}`}>View household</Link>
       </div>
