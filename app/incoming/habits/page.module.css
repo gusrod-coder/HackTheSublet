@@ -7,17 +7,17 @@
 .segOn { background: var(--deep-teal); }
 .count { margin-left: 6px; font-size: 14px; line-height: 18px; font-weight: 700; color: var(--deep-teal); white-space: nowrap; }
 
-.stage { display: grid; grid-template-columns: 1fr 676px 1fr; align-items: start; gap: 40px; padding-top: 32px; }
+.stage { display: grid; grid-template-columns: 1fr 676px 1fr; align-items: start; gap: 40px; padding: 32px 0 40px; }
 .mascot { justify-self: end; display: flex; flex-direction: column; align-items: center; gap: 20px; padding-top: 160px; }
 .mascotArt { width: 132px; height: 180px; display: flex; align-items: center; justify-content: center; }
 .bubble {
-  max-width: 200px; padding: 10px 20px; text-align: center; border: 2px solid var(--ink); border-radius: var(--radius-lg);
+  width: 168px; padding: 10px 16px; text-align: center; border: 2px solid var(--ink); border-radius: var(--radius-lg);
   background: var(--card); font-size: 14px; line-height: 18px; font-weight: 700;
 }
 
 .deck { position: relative; display: flex; flex-direction: column; gap: 16px; }
 .behindMint, .behindPeach {
-  position: absolute; inset: 0 0 32px; border: 2px solid var(--ink); border-radius: var(--radius-xl);
+  position: absolute; inset: 0 0 72px; border: 2px solid var(--ink); border-radius: var(--radius-xl);
 }
 .behindMint { background: var(--mint); transform: translate(28px, 16px) rotate(4deg); }
 .behindPeach { background: var(--peach); transform: translate(-10px, 10px) rotate(-1.5deg); }

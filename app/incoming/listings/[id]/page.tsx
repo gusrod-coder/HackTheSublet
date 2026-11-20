@@ -15,6 +15,14 @@ import { FitPill, Icon, dateRange, habitSummary, joinNames, roomLabel, styles as
 import { usePoll } from "@/components/incoming/usePoll";
 import p from "./page.module.css";
 
+/** Table cell text. Noise options are long; Figma uses the short phrasing so cells stay on one line. */
+function cellLabel(qi: number, a: number): string {
+  const q = QUESTIONS[qi];
+  if (q.key !== "noise") return q.options[a];
+  const p = q.phrases[a];
+  return p.charAt(0).toUpperCase() + p.slice(1);
+}
+
 export default function Page() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
@@ -28,7 +36,7 @@ export default function Page() {
 
   return (
     <>
-      <div className={s.blob} style={{ width: 360, height: 360, left: "calc(50% + 400px)", top: -40, background: "var(--mint)", opacity: 0.8 }} />
+      <div className={s.blob} style={{ width: 360, height: 360, left: "calc(50% + 400px)", top: 90, background: "var(--mint)", opacity: 0.8 }} />
       <div className={s.page}>
         <Link href="/incoming/browse" className={s.btnText} style={{ alignSelf: "flex-start" }}>
           <Icon name="arrow-left" size={16} /> Back to sublets
@@ -98,14 +106,13 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
             <span className={p.th} role="columnheader">You</span>
             {stayers.map((st) => <span key={st.id} className={p.th} role="columnheader">{st.name}</span>)}
             {data.table.map((row) => {
-              const q = QUESTIONS[row.index];
               return (
                 <div key={row.key} className={p.tr} role="row">
                   <span className={p.topic} role="rowheader">{row.short}</span>
-                  <span className={`${p.cell} ${p.you}`} role="cell">{q.options[row.you]}</span>
+                  <span className={`${p.cell} ${p.you}`} role="cell">{cellLabel(row.index, row.you)}</span>
                   {row.stayers.map((c) => (
                     <span key={c.stayerId} role="cell" className={`${p.cell} ${row.mismatchWith.includes(c.stayerId) ? p.diff : ""}`}>
-                      {q.options[c.answer]}
+                      {cellLabel(row.index, c.answer)}
                     </span>
                   ))}
                 </div>

@@ -5,14 +5,15 @@
  * Shared by the incoming AND the stayers (viewerRole). Contacts unlock for everyone at once
  * (server gate); we poll so every party sees the reveal within a few seconds.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import type { ContactMethod, ContactsResponse, TermKey } from "@/lib/types";
 import { OutsideAppNotice, SampleBadge } from "@/components/shared/ui";
-import { Icon, Page, StepDots, Status, cx, kit } from "@/components/leaver/kit";
+import { Icon, StepDots, Status, cx, kit } from "@/components/leaver/kit";
+import { usePoll } from "@/components/incoming/usePoll";
 import s from "./terms.module.css";
 
 /** Figma order + short labels for the contact pills. */
@@ -23,7 +24,12 @@ const METHODS: Array<{ key: ContactMethod; label: string; placeholder: string; t
   { key: "instagram", label: "Instagram", placeholder: "@yourhandle", type: "text" },
 ];
 const methodLabel = (m: ContactMethod) => METHODS.find((x) => x.key === m)?.label ?? m;
-const POLL_MS = 4000;
+const POLL_MS = 3000;
+
+/** kit .page supplies the --hf-* aliases; s.shell drops its inset card look so this screen lines up with the rest of the app. */
+function Page({ children }: { children: ReactNode; warmTop?: boolean }) {
+  return <div className={cx(kit.page, s.shell)}>{children}</div>;
+}
 
 export default function TermsPage() {
   const { id } = useParams<{ id: string }>();
@@ -51,22 +57,33 @@ export default function TermsPage() {
   // Poll terms until contacts unlock, so the reveal lands for every party at about the same moment.
   const unlocked = terms.data?.contactsUnlocked ?? false;
   const notApproved = terms.error?.code === "NOT_APPROVED";
-  useEffect(() => {
-    if (unlocked) return;
-    const t = setInterval(() => {
-      void (notApproved ? detail.reload().then(() => terms.reload()) : terms.reload());
-    }, POLL_MS);
-    return () => clearInterval(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [unlocked, notApproved]);
+  // usePoll always calls the latest closure (no stale id/reload) and pauses while the tab is hidden.
+  usePoll(() => void (notApproved ? detail.reload().then(() => terms.reload()) : terms.reload()), POLL_MS, !unlocked);
 
-  useEffect(() => {
-    if (!unlocked || contacts) return;
+  // Fetch contacts once unlocked, and keep retrying until it succeeds (h3 REQ: one failed GET used to
+  // leave "Loading contacts…" forever). Results for a stale request id are ignored.
+  const [contactsRetrying, setContactsRetrying] = useState(false);
+  const currentId = useRef(id);
+  currentId.current = id;
+  const fetchContacts = () => {
+    const forId = id;
     api.requests
-      .contacts(id)
-      .then((r) => setContacts(r.contacts))
-      .catch(() => undefined); // CONTACTS_LOCKED race: next poll retries.
-  }, [unlocked, contacts, id]);
+      .contacts(forId)
+      .then((r) => {
+        if (currentId.current !== forId) return;
+        setContacts(r.contacts);
+        setContactsRetrying(false);
+      })
+      .catch(() => currentId.current === forId && setContactsRetrying(true));
+  };
+  useEffect(() => {
+    setContacts(null);
+  }, [id]);
+  useEffect(() => {
+    if (unlocked && !contacts) fetchContacts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unlocked, id]);
+  usePoll(fetchContacts, POLL_MS, unlocked && !contacts);
 
   const myId = me.data?.user?.id;
   const mine = terms.data?.parties.find((p) => p.id === myId);
@@ -192,7 +209,7 @@ export default function TermsPage() {
                   <button
                     key={m.key}
                     type="button"
-                    className={kit.pill}
+                    className={cx(kit.pill, s.pill)}
                     aria-pressed={method === m.key}
                     disabled={unlocked}
                     onClick={() => {
@@ -248,7 +265,7 @@ export default function TermsPage() {
                       </span>
                     </div>
                   ))}
-                {!contacts && <span className={kit.muted}>Loading contacts…</span>}
+                {!contacts && <span className={kit.muted}>{contactsRetrying ? "Couldn’t load contacts yet. Retrying…" : "Loading contacts…"}</span>}
                 <span className={cx(kit.caption, kit.muted)}>
                   {listing?.isSample ? "Sample contacts. " : ""}They can now see yours too.
                 </span>
@@ -283,7 +300,7 @@ export default function TermsPage() {
                   })}
                 </ul>
                 {!(allMineAgreed && contactSaved) ? (
-                  <button type="button" className={kit.btn} disabled={busy} onClick={() => void agreeAllAndShare()}>
+                  <button type="button" className={cx(kit.btn, s.primary)} disabled={busy} onClick={() => void agreeAllAndShare()}>
                     Agree to all and share my contact
                   </button>
                 ) : (
