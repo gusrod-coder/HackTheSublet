@@ -1,5 +1,7 @@
 # Demo script (spec §8)
 
+Talk track, timings, roles and Q&A prep: **`docs/DEMO-GUIDE.md`**. This file is the click reference.
+
 Start from a clean state: **Reset** in the top bar (or `POST /api/demo/reset`). Demo users are in the switcher.
 Numbers below come from the sample data and are pinned by `lib/scoring.test.ts`.
 
