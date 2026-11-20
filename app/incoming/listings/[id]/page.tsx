@@ -13,6 +13,7 @@ import { OutsideAppNotice, SampleBadge } from "@/components/shared/ui";
 import { PERSONA_FOR_ROLE, Persona } from "@/components/shared/Persona";
 import { FitPill, Icon, dateRange, habitSummary, joinNames, roomLabel, styles as s } from "@/components/incoming/ui";
 import { usePoll } from "@/components/incoming/usePoll";
+import { ScoreBreakdown } from "@/components/incoming/ScoreBreakdown";
 import p from "./page.module.css";
 
 /** Table cell text. Noise options are long; Figma uses the short phrasing so cells stay on one line. */
@@ -139,6 +140,7 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
           <RequestCard data={data} onRequested={onRequested} />
         </aside>
       </div>
+      <ScoreBreakdown data={data} />
       <OutsideAppNotice />
     </>
   );
