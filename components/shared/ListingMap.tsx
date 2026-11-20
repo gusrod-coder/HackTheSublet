@@ -6,6 +6,7 @@
  *   const ListingMap = dynamic(() => import("@/components/shared/ListingMap"), { ssr: false });
  *   <ListingMap pins={[{ id, lat, lng, label }]} highlightId={hovered} onPinClick={id => …} />
  *   <ListingMap pins={pin ? [pin] : []} onMapClick={(lat, lng) => setPin(…)} />   // leaver: drop a pin
+ *   pins={[{ …, rank: 1 }]}  → numbered sticker pins (browse)
  */
 import { useEffect } from "react";
 import L from "leaflet";
@@ -27,6 +28,18 @@ export interface MapPin {
   lat: number;
   lng: number;
   label: string;
+  /** If set, the pin is a numbered sticker (Figma browse: "pins numbered by fit rank"). */
+  rank?: number;
+}
+
+function rankIcon(rank: number, active: boolean) {
+  return L.divIcon({
+    className: "",
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
+    popupAnchor: [0, -16],
+    html: `<span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:999px;border:2px solid #2b2420;box-shadow:0 3px 0 #2b2420;background:${active ? "#4ab9b5" : "#fffdf8"};color:#2b2420;font:700 14px/1 var(--font-body),sans-serif">${rank}</span>`,
+  });
 }
 
 interface Props {
@@ -69,7 +82,8 @@ export default function ListingMap({ pins, highlightId, destination, onPinClick,
           <Marker
             key={p.id}
             position={[p.lat, p.lng]}
-            icon={icon}
+            icon={p.rank !== undefined ? rankIcon(p.rank, highlightId === p.id) : icon}
+            zIndexOffset={highlightId === p.id ? 1000 : 0}
             opacity={highlightId && highlightId !== p.id ? 0.5 : 1}
             eventHandlers={{ click: () => onPinClick?.(p.id) }}
           >

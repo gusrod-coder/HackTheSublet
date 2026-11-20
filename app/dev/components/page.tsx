@@ -28,7 +28,7 @@ export default function Components() {
 
       <h2>ListingMap: browse</h2>
       <ListingMap
-        pins={LISTINGS.map((l) => ({ id: l.id, lat: l.lat, lng: l.lng, label: l.address }))}
+        pins={LISTINGS.map((l, i) => ({ id: l.id, lat: l.lat, lng: l.lng, label: l.address, rank: i + 1 }))}
         destination="medical"
         highlightId={hl}
         onPinClick={setHl}
