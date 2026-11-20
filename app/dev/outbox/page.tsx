@@ -43,7 +43,7 @@ export default function Outbox() {
           <p className="muted small" style={{ margin: 0 }}>
             Every notification burrow sends: invites, new requests, approvals, contacts unlocked. Updates live.{" "}
             {data?.mode === "smtp"
-              ? "SMTP is on: real email goes out too (never to sample @example.edu addresses)."
+              ? "SMTP is on: real email goes out too. Sample @example.edu people only get mail if EMAIL_REDIRECT is set (it goes to one team inbox, tagged [to Name])."
               : "Outbox only: no SMTP configured, so nothing leaves this server."}
           </p>
         </div>

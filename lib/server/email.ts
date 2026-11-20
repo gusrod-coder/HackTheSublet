@@ -2,6 +2,8 @@
  * Notification email. OWNER: h1.
  * Every email is written to EmailOutbox (visible at /dev/outbox). If SMTP_* env vars are set it is
  * also sent for real, except to sample/example addresses or ones outside EMAIL_ALLOW.
+ * Demo: set EMAIL_REDIRECT="team@gmail.com" and mail for sample people goes to team+priya@gmail.com
+ * (subject tagged "[to Priya]"), so one real inbox receives every persona's notifications.
  * Emails carry a link, never contact details (gate §2.5) and never message threads (spec §2.6).
  * Never throws: a failed send must not break the action that triggered it.
  */
@@ -59,6 +61,16 @@ export function skipReason(email: string): string | null {
   return null;
 }
 
+/** Where mail for a sample address goes when EMAIL_REDIRECT is set (Gmail-style plus addressing), else null. */
+export function redirectFor(email: string, name?: string): string | null {
+  const target = process.env.EMAIL_REDIRECT?.trim();
+  if (!target || skipReason(email) !== "sample address") return null;
+  const [local, domain] = target.split("@");
+  if (!local || !domain) return null;
+  const tag = (name ?? email.split("@")[0]).toLowerCase().replace(/[^a-z0-9]/g, "");
+  return tag ? `${local}+${tag}@${domain}` : target;
+}
+
 export async function sendEmail(e: EmailInput): Promise<void> {
   const link = e.path ? APP_URL + e.path : null;
   const text = `Hi ${e.to.name ?? "there"},\n\n${e.body}${link ? `\n\n${link}` : ""}\n\n— burrow (sample prototype for Hack the Lease)`;
@@ -73,14 +85,23 @@ export async function sendEmail(e: EmailInput): Promise<void> {
   }
   const t = smtp();
   if (!t) return;
-  const skip = skipReason(e.to.email);
+  const redirect = redirectFor(e.to.email, e.to.name);
+  const skip = redirect ? null : skipReason(e.to.email);
   if (skip) {
     await prisma.emailOutbox.update({ where: { id: row.id }, data: { status: "skipped", error: skip } }).catch(() => {});
     return;
   }
   try {
-    await t.sendMail({ from: process.env.EMAIL_FROM ?? process.env.SMTP_USER, to: e.to.email, subject: e.subject, text });
-    await prisma.emailOutbox.update({ where: { id: row.id }, data: { status: "sent" } });
+    await t.sendMail({
+      from: process.env.EMAIL_FROM ?? process.env.SMTP_USER,
+      to: redirect ?? e.to.email,
+      subject: redirect ? `[to ${e.to.name ?? e.to.email}] ${e.subject}` : e.subject,
+      text,
+    });
+    await prisma.emailOutbox.update({
+      where: { id: row.id },
+      data: { status: "sent", error: redirect ? `redirected to ${redirect}` : null },
+    });
   } catch (err) {
     console.error("[email] send failed", err);
     await prisma.emailOutbox
