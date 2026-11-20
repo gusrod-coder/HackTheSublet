@@ -181,7 +181,10 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
       <div className={p.cardHead}>
         <div className={p.cardTitle}>
           <span className={p.rank}>{r.rank}</span>
-          <h2 className={s.headingM}>{l.name}</h2>
+          <h2 className={s.headingM}>
+            {/* Stretched link: the whole card opens the household (see .cardLink::after). */}
+            <Link href={`/incoming/listings/${l.id}`} className={p.cardLink}>{l.name}</Link>
+          </h2>
           <FitPill label={fit.label} score={fit.householdScore} />
           {change && <span className={p.fitUpdate} aria-hidden="true">Fit updated: {change.from} → {change.to}</span>}
         </div>
@@ -194,11 +197,11 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
           ) : (
             <p className={p.priceNone}>Rent not listed</p>
           )}
-          <Link href={`/incoming/listings/${l.id}`} className={`${s.btnSecondary} ${p.view}`}>View household</Link>
+          <span className={p.openHint} aria-hidden>Open household →</span>
         </div>
       </div>
       <p className={`${s.body} ${s.muted} ${p.tight} ${p.areaRow}`}>
-        <span>{l.area} · {r.distance.label}</span>
+        <span><span className={p.address}>{l.address}</span> · {l.area} · {r.distance.label}</span>
         <SampleBadge show={l.isSample} />
       </p>
       <p className={`${p.meta} ${p.tight}`}>

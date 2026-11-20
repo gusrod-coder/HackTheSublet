@@ -60,7 +60,7 @@ function RequestRow({ r }: { r: Req }) {
           <SampleBadge show={r.listing.isSample} />
         </div>
         <p className={`${s.caption} ${s.muted} ${p.tight}`}>
-          {r.listing.area} · {roomLabel(r.listing.roomType)} · {dateRange(r.listing.startDate, r.listing.endDate)}
+          <strong>{r.listing.address}</strong> · {r.listing.area} · {roomLabel(r.listing.roomType)} · {dateRange(r.listing.startDate, r.listing.endDate)}
         </p>
         <div className={p.votes} aria-label={`${approved} of ${total} ${total === 1 ? "roommate" : "roommates"} approved`}>
           {Array.from({ length: total }, (_, i) => (

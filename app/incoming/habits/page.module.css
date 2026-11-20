@@ -62,13 +62,33 @@
 
 /* Selected answer + the fox's card get the sketch edge too (Figma 03.x). */
 .answer[aria-checked="true"] { position: relative; border-color: transparent; }
-.answer[aria-checked="true"]::after, .foxCard::after {
+.answer[aria-checked="true"]::after {
   content: ""; position: absolute; inset: -2px; border: 2px solid var(--sketch-color, var(--ink));
   border-radius: inherit; filter: url(#hf-sketch); pointer-events: none;
 }
 .answer[aria-checked="true"] { --sketch-color: var(--brand); }
 /* Shared Persona is art-only now; the deck screens put it on a sky card, tilted (Figma 03.1 / 03.9). */
 .foxCard {
+  /* Plain fox, no card behind it (requested). */
   position: relative; display: flex; align-items: flex-end; justify-content: center; width: 104px; height: 136px;
-  background: var(--sky); border-radius: var(--radius-xl); transform: rotate(-4deg) scale(1.3); transform-origin: top center;
+  transform: rotate(-4deg) scale(1.3); transform-origin: top center;
+}
+
+/* Card transitions (forward: old slides left + fades, new rises underneath; back: the reverse). */
+.slot { position: relative; }
+.ghost { position: absolute; top: 0; left: 0; right: 0; pointer-events: none; }
+.exitFwd { z-index: 3; animation: slideOutLeft 280ms cubic-bezier(.4, 0, 1, 1) forwards; }
+.enterFwd { position: relative; z-index: 1; animation: riseIn 280ms cubic-bezier(0, 0, .2, 1); }
+.exitBack { z-index: 1; animation: sinkAway 280ms cubic-bezier(.4, 0, 1, 1) forwards; }
+.enterBack { position: relative; z-index: 3; animation: slideInLeft 280ms cubic-bezier(0, 0, .2, 1); }
+@keyframes slideOutLeft { 0% { transform: none; opacity: 1; } 55% { opacity: .1; } 100% { transform: translateX(-32%) rotate(-5deg); opacity: 0; } }
+@keyframes riseIn { from { transform: translateY(8px) scale(.97); } to { transform: none; } }
+@keyframes slideInLeft { from { transform: translateX(-32%) rotate(-5deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes sinkAway { 0% { transform: none; opacity: 1; } 50% { opacity: .1; } 100% { transform: translateY(10px) scale(.96); opacity: 0; } }
+.question:focus, .dealTitle:focus { outline: none; }
+@media (prefers-reduced-motion: reduce) { .exitFwd, .enterFwd, .exitBack, .enterBack { animation: none; } .ghost { display: none; } }
+@media (max-width: 640px) {
+  /* Shorter travel on phones so the card never feels like it jumps off-screen. */
+  @keyframes slideOutLeft { 0% { transform: none; opacity: 1; } 55% { opacity: .1; } 100% { transform: translateX(-24%) rotate(-4deg); opacity: 0; } }
+  @keyframes slideInLeft { from { transform: translateX(-24%) rotate(-4deg); opacity: 0; } to { transform: none; opacity: 1; } }
 }

@@ -157,6 +157,11 @@ export default function TermsPage() {
           These come from everyone's answers. Once you've all agreed, you'll each see the others' preferred contact. No in-app messaging, no
           awkward DMs from strangers.
         </p>
+        {listing && (
+          <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>
+            <strong>{listing.address}</strong> · {listing.area}
+          </p>
+        )}
       </div>
 
       {notApproved && detail.data && (

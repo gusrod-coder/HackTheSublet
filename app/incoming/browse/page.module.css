@@ -96,3 +96,16 @@
   .cardHead { flex-direction: column; }
   .cardSide { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
 }
+
+/* Whole card is the link to the household (stretched link); no separate "View household" button. */
+.card { position: relative; transition: transform 120ms, box-shadow 120ms; }
+.cardLink { color: inherit; text-decoration: none; }
+.cardLink::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.card:hover { transform: translateY(-2px); }
+.card:has(.cardLink:focus-visible) { outline: 3px solid var(--brand); outline-offset: 3px; }
+.cardLink:focus-visible { outline: none; }
+.openHint { font-size: 13px; font-weight: 700; color: var(--brand); opacity: 0.75; }
+.card:hover .openHint { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+/* Street address in small text so the incoming always knows exactly where the house is. */
+.address { font-weight: 700; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .card, .card:hover { transition: none; transform: none; } }

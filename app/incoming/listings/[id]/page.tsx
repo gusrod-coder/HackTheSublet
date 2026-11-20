@@ -65,7 +65,7 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
         <SampleBadge show={l.isSample} />
       </div>
       <p className={`${s.body} ${s.muted} ${p.sub}`}>
-        {l.rent != null && <><strong>{formatRent(l.rent)}</strong> · </>}{l.area} · {data.distance.label} · {roomLabel(l.roomType).toLowerCase()}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
+        {l.rent != null && <><strong>{formatRent(l.rent)}</strong> · </>}<strong>{l.address}</strong> · {l.area} · {data.distance.label} · {roomLabel(l.roomType).toLowerCase()}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
         {fit.coverage.charAt(0).toLowerCase() + fit.coverage.slice(1)}
       </p>
 
