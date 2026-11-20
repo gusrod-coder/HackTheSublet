@@ -29,6 +29,8 @@ export const POST = handle(async (req) => {
   const l = await prisma.listing.create({
     data: {
       leaverId: u.id,
+      name: b.name,
+      furnished: b.furnished,
       address: b.address,
       lat: b.lat,
       lng: b.lng,

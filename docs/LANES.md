@@ -33,7 +33,7 @@ design needs data the API doesn't return, send a `[REQ]` to h1; don't invent fie
 4. **Branch per lane, small PRs, h1 merges.** Branch names: `h2/<topic>`, `h3/<topic>`. Rebase on `main` often.
    The tailnet dev server runs `main`.
 5. Before opening a PR: `npm run typecheck && npm test`. If you touched anything that calls the API, also run `npm run smoke` against your local dev server.
-6. Styling: use the tokens and primitives in `app/globals.css` (`.card`, `.btn`, `.chip`, `.options`/`.option`, `.notice`, `.stack`, `.row`, `.grid-2`). Put screen-specific CSS in a `*.module.css` next to your page. Layout must collapse to one column under 640px.
+6. Styling: use the tokens and primitives in `app/globals.css` (Figma design system: `.card` + `.mint`/`.butter`/`.peach`/`.blush`, `.btn` + `.secondary`/`.dark`, `.pill`, `.chip`, `.options`/`.option`, `.notice` + `.warn`/`.info`, `.stack`, `.row`, `.grid-2`, `.display`; fonts via `--font-display`/`--font-heading`/`--font-body`). Don't redefine tokens in your lane: ask h1. Put screen-specific CSS in a `*.module.css` next to your page. Layout must collapse to one column under 640px.
 7. Label sample data as sample data (`<SampleBadge show={listing.isSample} />`). Show `<OutsideAppNotice />` where money or agreements come up.
 
 ## Requests between agents (Tailscale messaging)

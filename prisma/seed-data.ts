@@ -17,6 +17,8 @@ export interface SampleUser {
 
 export interface SampleListing {
   id: string;
+  name: string;
+  furnished: boolean;
   leaverId: string;
   address: string;
   lat: number;
@@ -73,6 +75,8 @@ export const USERS: SampleUser[] = [
 export const LISTINGS: SampleListing[] = [
   {
     id: "l_packard",
+    name: "Packard St house",
+    furnished: true,
     leaverId: "u_jordan",
     address: "1021 Packard St",
     lat: 42.2712,
@@ -90,6 +94,8 @@ export const LISTINGS: SampleListing[] = [
   },
   {
     id: "l_state",
+    name: "State St apartment",
+    furnished: true,
     leaverId: "u_maya",
     address: "512 S State St",
     lat: 42.2738,
@@ -107,6 +113,8 @@ export const LISTINGS: SampleListing[] = [
   },
   {
     id: "l_hill",
+    name: "Hill St house",
+    furnished: false,
     leaverId: "u_leo",
     address: "815 Hill St",
     lat: 42.2704,
@@ -124,6 +132,8 @@ export const LISTINGS: SampleListing[] = [
   },
   {
     id: "l_church",
+    name: "Church St house",
+    furnished: false,
     leaverId: "u_chris",
     address: "706 Church St",
     lat: 42.2745,
@@ -138,6 +148,8 @@ export const LISTINGS: SampleListing[] = [
   },
   {
     id: "l_geddes",
+    name: "Geddes Ave house",
+    furnished: true,
     leaverId: "u_dana",
     address: "1410 Geddes Ave",
     lat: 42.2778,
@@ -155,6 +167,8 @@ export const LISTINGS: SampleListing[] = [
   },
   {
     id: "l_division",
+    name: "Division St apartment",
+    furnished: true,
     leaverId: "u_eli",
     address: "330 N Division St",
     lat: 42.2832,
@@ -222,6 +236,8 @@ export async function seedDatabase(prisma: PrismaClient): Promise<void> {
     await prisma.listing.create({
       data: {
         id: l.id,
+        name: l.name,
+        furnished: l.furnished,
         leaverId: l.leaverId,
         address: l.address,
         lat: l.lat,

@@ -52,7 +52,7 @@ lib/use-api.ts          tiny data-loading hook                                  
 lib/server/*            db, session, gates (repo.ts), zod schemas, error handling             (h1)
 app/api/**              route handlers                                                         (h1)
 prisma/                 schema + sample data                                                   (h1)
-components/shared/*     DemoSwitcher, HabitForm, ListingMap, FitBadge, notices                (h1)
+components/shared/*     AppHeader (demo switcher), HabitForm, ListingMap, FitBadge, notices                (h1)
 app/incoming/**         incoming screens                                                       (h2)
 app/leaver/**           leaver screens                                                         (h3)
 app/stayer/**           stayer screens                                                         (h3)

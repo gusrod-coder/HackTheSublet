@@ -77,7 +77,7 @@ export default function ListingMap({ pins, highlightId, destination, onPinClick,
           </Marker>
         ))}
         {dest && (
-          <CircleMarker center={[dest.lat, dest.lng]} radius={9} pathOptions={{ color: "#2f5d50", fillOpacity: 0.6 }}>
+          <CircleMarker center={[dest.lat, dest.lng]} radius={9} pathOptions={{ color: "#1c7783", fillColor: "#4ab9b5", fillOpacity: 0.7 }}>
             <Popup>Your days: {dest.label}</Popup>
           </CircleMarker>
         )}

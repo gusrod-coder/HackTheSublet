@@ -30,6 +30,8 @@ const weight = z.union([z.literal(0), z.literal(1), z.literal(3)]);
 
 export const createListingSchema = z
   .object({
+    name: z.string().trim().max(60).default(""),
+    furnished: z.boolean().default(true),
     address: z.string().trim().min(3),
     lat: z.number().min(-90).max(90),
     lng: z.number().min(-180).max(180),
@@ -43,6 +45,8 @@ export const createListingSchema = z
   .refine((b) => b.startDate < b.endDate, { message: "startDate must be before endDate", path: ["endDate"] });
 
 export const updateListingSchema = z.object({
+  name: z.string().trim().max(60).optional(),
+  furnished: z.boolean().optional(),
   address: z.string().trim().min(3).optional(),
   lat: z.number().min(-90).max(90).optional(),
   lng: z.number().min(-180).max(180).optional(),
@@ -66,6 +70,7 @@ export const incomingProfileSchema = z.object({
   startDate: isoDate.optional(),
   endDate: isoDate.optional(),
   destination: z.enum(["medical", "central", "north", "downtown"]).optional(),
+  flexDays: z.union([z.literal(0), z.literal(3), z.literal(7), z.literal(14)]).optional(),
   answers: partialAnswersSchema.optional(),
   weights: z.array(weight).length(QUESTIONS.length).optional(),
   dealBreakers: z.array(z.enum(["smoke", "pets", "overnight", "shared"])).optional(),

@@ -34,6 +34,7 @@ model Listing {
   id          String       @id @default(cuid())
   leaverId    String
   leaver      User         @relation("Leaver", fields: [leaverId], references: [id])
+  name        String       @default("") // display name, e.g. "Packard St house"; "" → derive from address
   address     String
   lat         Float
   lng         Float
@@ -44,6 +45,7 @@ model Listing {
   houseRules  String       @default("")
   flagSmoking Boolean      @default(false)
   flagPets    Boolean      @default(false)
+  furnished   Boolean      @default(true)
   status      String       @default("draft") // 'draft' | 'awaiting_household' | 'live'
   isSample    Boolean      @default(false)
   createdAt   DateTime     @default(now())
@@ -85,6 +87,7 @@ model IncomingProfile {
   startDate    String?
   endDate      String?
   destination  String? // 'medical' | 'central' | 'north' | 'downtown'
+  flexDays     Int      @default(7) // 0 | 3 | 7 | 14 — date flexibility, display-only (never scored)
   answers      String? // JSON (int|null)[8]
   weights      String   @default("[1,1,1,1,1,1,1,1]") // JSON (0|1|3)[8]
   dealBreakers String   @default("[]") // JSON DealBreakerKey[]

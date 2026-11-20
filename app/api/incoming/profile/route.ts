@@ -27,6 +27,7 @@ export const PUT = handle(async (req) => {
     startDate: b.startDate,
     endDate: b.endDate,
     destination: b.destination,
+    flexDays: b.flexDays,
     answers: b.answers ? JSON.stringify(b.answers) : undefined,
     weights: b.weights ? JSON.stringify(b.weights) : undefined,
     dealBreakers: b.dealBreakers ? JSON.stringify([...new Set(b.dealBreakers)]) : undefined,

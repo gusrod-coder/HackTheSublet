@@ -3,6 +3,7 @@ import { handle, ok } from "@/lib/server/http";
 import { requireCompleteIncoming, requireLiveListing, toListingInput, toSummary } from "@/lib/server/repo";
 import { requireUser } from "@/lib/server/session";
 import { exclusionReasons, gap, scoreListing } from "@/lib/scoring";
+import { distanceTo } from "@/lib/geo";
 import { QUESTIONS, type HouseholdResponse, type RequestStatus } from "@/lib/types";
 
 /**
@@ -21,6 +22,7 @@ export const GET = handle<{ id: string }>(async (_req, { id }) => {
   return ok<HouseholdResponse>({
     listing: toSummary(l),
     fit,
+    distance: distanceTo(l, inc.destination),
     excludedReasons: exclusionReasons(inc, input),
     stayers: input.stayers.map((s) => ({ id: s.id, name: s.name, answers: s.answers, score: scoreOf.get(s.id)! })),
     you: { answers: inc.answers, weights: inc.weights },

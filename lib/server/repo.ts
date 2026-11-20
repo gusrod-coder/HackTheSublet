@@ -16,6 +16,7 @@ import {
   type HouseholdStatusResponse,
   type InviteStatus,
   type Destination,
+  type FlexDays,
   type IncomingProfileResponse,
   type ListingStatus,
   type ListingSummary,
@@ -31,9 +32,17 @@ import {
 
 export const pub = (u: Pick<User, "id" | "name">): PublicUser => ({ id: u.id, name: u.name });
 
+/** "512 S State St" → "State St house" */
+export function displayName(l: Pick<Listing, "name" | "address">): string {
+  if (l.name.trim()) return l.name.trim();
+  const street = l.address.replace(/^\s*\d+[A-Za-z]?\s+/, "").replace(/^[NSEW]\.?\s+/, "");
+  return `${street} house`;
+}
+
 export function toSummary(l: Listing & { leaver: User }): ListingSummary {
   return {
     id: l.id,
+    name: displayName(l),
     address: l.address,
     lat: l.lat,
     lng: l.lng,
@@ -43,6 +52,7 @@ export function toSummary(l: Listing & { leaver: User }): ListingSummary {
     endDate: l.endDate,
     houseRules: l.houseRules,
     flags: { smoking: l.flagSmoking, pets: l.flagPets },
+    furnished: l.furnished,
     status: l.status as ListingStatus,
     isSample: l.isSample,
     leader: pub(l.leaver),
@@ -147,6 +157,7 @@ export function incomingView(p: IncomingProfile | null): IncomingProfileResponse
     startDate: p?.startDate ?? null,
     endDate: p?.endDate ?? null,
     destination: (p?.destination as Destination) ?? null,
+    flexDays: ((p?.flexDays ?? 7) as FlexDays),
     answers,
     weights,
     dealBreakers,
@@ -156,7 +167,9 @@ export function incomingView(p: IncomingProfile | null): IncomingProfileResponse
 }
 
 /** Gate §2.2: 403 PROFILE_INCOMPLETE until dates, destination and all 8 answers are in. */
-export async function requireCompleteIncoming(userId: string): Promise<IncomingInput & { destination: Destination }> {
+export async function requireCompleteIncoming(
+  userId: string,
+): Promise<IncomingInput & { destination: Destination; flexDays: FlexDays }> {
   const p = await prisma.incomingProfile.findUnique({ where: { userId } });
   const v = incomingView(p);
   if (!v.complete)
@@ -168,6 +181,7 @@ export async function requireCompleteIncoming(userId: string): Promise<IncomingI
     startDate: v.startDate!,
     endDate: v.endDate!,
     destination: v.destination!,
+    flexDays: v.flexDays,
   };
 }
 

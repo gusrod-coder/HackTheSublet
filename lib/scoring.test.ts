@@ -156,3 +156,24 @@ describe("terms", () => {
     expect(terms.find((t) => t.key === "issues")!.text).toBe("Raise problems in person within a day or two");
   });
 });
+
+describe("date flexibility (display-only)", () => {
+  it("names a gap inside the flex window", async () => {
+    const { coverage } = await import("./scoring");
+    const c = coverage({ startDate: "2027-05-19", endDate: "2027-08-31" }, { startDate: "2027-05-15", endDate: "2027-08-15", flexDays: 7 });
+    expect(c).toEqual({ uncoveredNights: 4, withinFlex: true, coverage: "Starts 4 days after your move-in (inside your ±1 week)" });
+  });
+
+  it("flags a gap outside the flex window", async () => {
+    const { coverage } = await import("./scoring");
+    const c = coverage({ startDate: "2027-05-20", endDate: "2027-08-10" }, { startDate: "2027-05-15", endDate: "2027-08-15", flexDays: 3 });
+    expect(c.withinFlex).toBe(false);
+    expect(c.coverage).toBe("Leaves 10 nights uncovered (outside your ±3 days)");
+  });
+
+  it("never changes the score or order", () => {
+    const a = rankListings({ ...ALEX, flexDays: 0 }, LIVE).ranked.map((f) => [f.listingId, f.householdScore]);
+    const b = rankListings({ ...ALEX, flexDays: 14 }, LIVE).ranked.map((f) => [f.listingId, f.householdScore]);
+    expect(a).toEqual(b);
+  });
+});

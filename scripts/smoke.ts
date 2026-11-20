@@ -65,6 +65,8 @@ async function main() {
   const alex = await as("u_alex");
   let m = (await alex.get("/api/incoming/matches")).data;
   check(!order(m).includes("l_hill"), "Hill St not in matches");
+  check(m.unreleased.length === 1 && m.unreleased[0].listingId === "l_hill" && Object.keys(m.unreleased[0]).sort().join() === "address,listingId,name", "Hill St listed as unreleased (name + address only)");
+  check(m.ranked.every((r: any) => r.distance?.label?.includes("Medical Campus")), "distance labels present");
   check((await alex.get("/api/listings/l_hill/household")).status === 404, "Hill St household 404");
   check(m.excluded.some((e: any) => e.listingId === "l_church"), "Church St excluded (smoking)");
   const leo = await as("u_leo");
@@ -76,6 +78,11 @@ async function main() {
   check(op.data.listingStatus === "live", "Omar answers → Hill St live");
   m = (await alex.get("/api/incoming/matches")).data;
   check(order(m).includes("l_hill"), "Hill St now in matches");
+  check(m.unreleased.length === 0, "unreleased list now empty");
+  await alex.put("/api/incoming/profile", { flexDays: 3 });
+  const st = (await alex.get("/api/incoming/matches")).data.ranked.find((r: any) => r.listing.id === "l_state").fit;
+  check(st.coverage.includes("outside your ±3 days") && !st.withinFlex, `flex coverage: ${st.coverage}`);
+  await alex.put("/api/incoming/profile", { flexDays: 7 });
 
   const base = (await alex.get("/api/incoming/matches")).data;
 

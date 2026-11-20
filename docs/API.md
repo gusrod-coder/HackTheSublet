@@ -45,7 +45,7 @@ From the browser, call them through `api.*` in `lib/api-client.ts`. It throws `A
 |---|---|---|---|
 | GET | `/api/incoming/profile` | → `IncomingProfileResponse` | Defaults if never started |
 | PUT | `/api/incoming/profile` | `IncomingProfileBody` → `IncomingProfileResponse` | Partial updates. Server computes `complete` + `missing`. `400 INVALID_DATES` |
-| GET | `/api/incoming/matches` | → `MatchesResponse` | `403 PROFILE_INCOMPLETE`. Only `live` listings |
+| GET | `/api/incoming/matches` | → `MatchesResponse` | `403 PROFILE_INCOMPLETE`. Ranks only `live` listings. `unreleased` lists name + address of listings still waiting on stayers (nothing else) |
 | GET | `/api/listings/:id/household` | → `HouseholdResponse` | `403 PROFILE_INCOMPLETE`, `404` unless live |
 | POST | `/api/listings/:id/requests` | → `RequestRef` (201) | `403 PROFILE_INCOMPLETE`, `403 OWN_LISTING`, `404`, `409 ALREADY_REQUESTED` |
 | GET | `/api/incoming/requests` | → `IncomingRequestsResponse` | Vote counts, not who voted |
@@ -58,6 +58,12 @@ From the browser, call them through `api.*` in `lib/api-client.ts`. It throws `A
 | GET | `/api/requests/:id/terms` | → `TermsResponse` | `403 NOT_APPROVED` |
 | POST | `/api/requests/:id/terms/:key` | → `TermsResponse` | Agree to one term. `400 UNKNOWN_TERM` |
 | GET | `/api/requests/:id/contacts` | → `ContactsResponse` | `403 CONTACTS_LOCKED` until approved + all agreed + all have contact method |
+
+## Display-only fields (never scored)
+
+- `IncomingProfile.flexDays` (0 | 3 | 7 | 14, default 7) only changes `fit.coverage` wording and `fit.withinFlex`.
+- `distance` on matches and household is straight-line miles to the incoming's destination. We don't estimate commute times (spec §10).
+- `ListingSummary.name` is always set (derived as "<street> house" if the leaver leaves it blank). `furnished` defaults to true.
 
 ## Gate summary (spec §2): where each one lives
 

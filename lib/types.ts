@@ -18,6 +18,8 @@ export type ContactMethod = "email" | "phone" | "text" | "instagram";
 export type Destination = "medical" | "central" | "north" | "downtown";
 export type DealBreakerKey = "smoke" | "pets" | "overnight" | "shared";
 export type TermKey = "dates" | "quiet" | "guests" | "kitchen" | "issues";
+/** Date flexibility in days (±). Display-only: never affects the score or ranking. */
+export type FlexDays = 0 | 3 | 7 | 14;
 /** a lot = 3, some = 1, not at all = 0 */
 export type Weight = 0 | 1 | 3;
 export type FitLabel = "Strong fit" | "Okay fit" | "Weak fit";
@@ -164,6 +166,14 @@ export const DESTINATIONS: ReadonlyArray<{
   { key: "downtown", label: "Downtown", lat: 42.2808, lng: -83.7485 },
 ];
 
+export const FLEX_OPTIONS: ReadonlyArray<{ value: FlexDays; label: string }> = [
+  { value: 0, label: "Exact dates" },
+  { value: 3, label: "±3 days" },
+  { value: 7, label: "±1 week" },
+  { value: 14, label: "±2 weeks" },
+];
+export const DEFAULT_FLEX_DAYS: FlexDays = 7;
+
 export const CONTACT_METHODS: ReadonlyArray<{ key: ContactMethod; label: string }> = [
   { key: "email", label: "Email" },
   { key: "phone", label: "Phone call" },
@@ -227,6 +237,8 @@ export interface ListingFlags {
 
 export interface ListingSummary {
   id: string;
+  /** Display name, e.g. "Packard St house". Always non-empty (derived from address if unset). */
+  name: string;
   address: string;
   lat: number;
   lng: number;
@@ -236,6 +248,7 @@ export interface ListingSummary {
   endDate: ISODate;
   houseRules: string;
   flags: ListingFlags;
+  furnished: boolean;
   status: ListingStatus;
   isSample: boolean;
   leader: PublicUser;
@@ -243,6 +256,8 @@ export interface ListingSummary {
 
 /** POST /api/listings body. Creates a draft. */
 export interface CreateListingBody {
+  /** Optional display name; defaults to "<street> house". */
+  name?: string;
   address: string;
   lat: number;
   lng: number;
@@ -252,6 +267,7 @@ export interface CreateListingBody {
   endDate: ISODate;
   houseRules?: string;
   flags?: Partial<ListingFlags>;
+  furnished?: boolean;
 }
 
 /** GET /api/listings — listings the current user leads. */
@@ -323,8 +339,20 @@ export interface ListingFit {
   /** One line per top mismatch, e.g. "Ask Sam about sleep schedules". */
   talkAbout: string[];
   uncoveredNights: number;
-  /** "Covers your dates" | "Leaves N nights uncovered" */
+  /** True if every uncovered night falls inside the incoming's ±flexDays. Display-only. */
+  withinFlex: boolean;
+  /**
+   * "Covers your dates" · "Starts 4 days after your move-in (inside your ±1 week)" ·
+   * "Leaves 10 nights uncovered (outside your ±1 week)"
+   */
   coverage: string;
+}
+
+/** Straight-line distance from a listing to the incoming's destination. Display-only. */
+export interface DistanceInfo {
+  miles: number;
+  /** "1.2 mi to Medical Campus" */
+  label: string;
 }
 
 export interface ExcludedListing {
@@ -342,6 +370,7 @@ export interface IncomingProfileBody {
   startDate?: ISODate;
   endDate?: ISODate;
   destination?: Destination;
+  flexDays?: FlexDays;
   /** null entries = not answered yet. */
   answers?: Array<number | null>;
   weights?: Weights;
@@ -353,6 +382,7 @@ export interface IncomingProfileResponse {
   startDate: ISODate | null;
   endDate: ISODate | null;
   destination: Destination | null;
+  flexDays: FlexDays;
   answers: Array<number | null>;
   weights: Weights;
   dealBreakers: DealBreakerKey[];
@@ -363,8 +393,13 @@ export interface IncomingProfileResponse {
 
 /** GET /api/incoming/matches — 403 PROFILE_INCOMPLETE until complete. */
 export interface MatchesResponse {
-  ranked: Array<{ listing: ListingSummary; fit: ListingFit; request: RequestRef | null }>;
+  ranked: Array<{ listing: ListingSummary; fit: ListingFit; distance: DistanceInfo; request: RequestRef | null }>;
   excluded: ExcludedListing[];
+  /**
+   * Listings submitted but waiting on stayers (gate §2.1). Address only: no answers, no names,
+   * no scores, and their household/request endpoints still 404.
+   */
+  unreleased: Array<{ listingId: string; name: string; address: string }>;
 }
 
 export interface RequestRef {
@@ -376,6 +411,7 @@ export interface RequestRef {
 export interface HouseholdResponse {
   listing: ListingSummary;
   fit: ListingFit;
+  distance: DistanceInfo;
   /** Present even if the listing is excluded, so the page can explain why. */
   excludedReasons: string[];
   stayers: Array<PublicUser & { answers: Answers; score: number }>;

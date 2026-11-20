@@ -25,6 +25,8 @@ export const PATCH = handle<{ id: string }>(async (req, { id }) => {
   const l = await prisma.listing.update({
     where: { id },
     data: {
+      name: b.name,
+      furnished: b.furnished,
       address: b.address,
       lat: b.lat,
       lng: b.lng,

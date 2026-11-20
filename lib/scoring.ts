@@ -15,6 +15,7 @@ import {
   type DealBreakerKey,
   type ExcludedListing,
   type FitLabel,
+  type FlexDays,
   type ISODate,
   type ListingFit,
   type ListingFlags,
@@ -31,6 +32,8 @@ export interface IncomingInput {
   dealBreakers: DealBreakerKey[];
   startDate: ISODate;
   endDate: ISODate;
+  /** ± days of date flexibility; display-only. Defaults to 7. */
+  flexDays?: FlexDays;
 }
 
 export interface StayerInput extends PublicUser {
@@ -93,9 +96,40 @@ export function uncoveredNights(
   return before + after;
 }
 
+const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`;
+
+export function flexLabel(flex: FlexDays): string {
+  return flex === 7 ? "±1 week" : flex === 14 ? "±2 weeks" : `±${flex} days`;
+}
+
+/**
+ * Coverage line (display-only, never scored). A gap is "inside your flex" when the listing
+ * starts ≤ flex days after move-in AND ends ≤ flex days before move-out.
+ */
+export function coverage(
+  listing: { startDate: ISODate; endDate: ISODate },
+  inc: { startDate: ISODate; endDate: ISODate; flexDays?: FlexDays },
+): { uncoveredNights: number; withinFlex: boolean; coverage: string } {
+  const flex = inc.flexDays ?? 7;
+  const late = Math.max(0, toDay(listing.startDate) - toDay(inc.startDate));
+  const early = Math.max(0, toDay(inc.endDate) - toDay(listing.endDate));
+  const nights = late + early;
+  if (nights === 0) return { uncoveredNights: 0, withinFlex: true, coverage: "Covers your dates" };
+  const withinFlex = flex > 0 && late <= flex && early <= flex;
+  if (!withinFlex) {
+    const suffix = flex > 0 ? ` (outside your ${flexLabel(flex)})` : "";
+    return { uncoveredNights: nights, withinFlex, coverage: `Leaves ${plural(nights, "night")} uncovered${suffix}` };
+  }
+  const parts: string[] = [];
+  if (late > 0) parts.push(`Starts ${plural(late, "day")} after your move-in`);
+  if (early > 0) parts.push(`${late > 0 ? "ends" : "Ends"} ${plural(early, "day")} before your move-out`);
+  return { uncoveredNights: nights, withinFlex, coverage: `${parts.join(" and ")} (inside your ${flexLabel(flex)})` };
+}
+
+/** @deprecated use coverage(); kept for callers that only have a night count. */
 export function coverageText(nights: number): string {
   if (nights === 0) return "Covers your dates";
-  return `Leaves ${nights} night${nights === 1 ? "" : "s"} uncovered`;
+  return `Leaves ${plural(nights, "night")} uncovered`;
 }
 
 // ─── Deal-breakers ──────────────────────────────────────────────────────────
@@ -196,7 +230,7 @@ export function scoreListing(inc: IncomingInput, listing: ListingInput, opts: Sc
   }
 
   const mism = topMismatches(inc, listing.stayers);
-  const nights = uncoveredNights(listing, inc);
+  const cov = coverage(listing, inc);
 
   return {
     listingId: listing.id,
@@ -208,8 +242,9 @@ export function scoreListing(inc: IncomingInput, listing: ListingInput, opts: Sc
     matches: topMatches(inc, listing.stayers).map((i) => matchLine(i, inc)),
     mismatches: mism.map((m) => mismatchLine(m, inc, incomingName)),
     talkAbout: mism.map(talkLine),
-    uncoveredNights: nights,
-    coverage: coverageText(nights),
+    uncoveredNights: cov.uncoveredNights,
+    withinFlex: cov.withinFlex,
+    coverage: cov.coverage,
   };
 }
 
