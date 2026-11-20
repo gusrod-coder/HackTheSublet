@@ -47,6 +47,7 @@ export function AppHeader() {
             </option>
           ))}
         </select>
+        <Link href="/dev/outbox" className="btn ghost small" title="Notification emails">Outbox</Link>
         <button className="btn secondary small" type="button" onClick={onReset} title="Reseed sample data">
           Reset demo
         </button>

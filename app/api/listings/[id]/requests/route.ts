@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/server/db";
 import { conflict, forbidden, handle, ok } from "@/lib/server/http";
 import { requireCompleteIncoming, requireLiveListing } from "@/lib/server/repo";
+import { notifyRequestReceived } from "@/lib/server/notify";
 import { requireUser } from "@/lib/server/session";
 import type { RequestRef, RequestStatus } from "@/lib/types";
 
@@ -18,5 +19,6 @@ export const POST = handle<{ id: string }>(async (_req, { id }) => {
   const existing = await prisma.request.findUnique({ where: { listingId_incomingId: { listingId: id, incomingId: u.id } } });
   if (existing) throw conflict("ALREADY_REQUESTED", "You've already sent a request to this household.");
   const r = await prisma.request.create({ data: { listingId: id, incomingId: u.id, status: "sent" } });
+  await notifyRequestReceived(r.id);
   return ok<RequestRef>({ id: r.id, status: r.status as RequestStatus }, 201);
 });

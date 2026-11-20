@@ -522,3 +522,25 @@ export interface ContactsResponse {
     PublicUser & { role: "incoming" | "stayer"; method: ContactMethod; value: string }
   >;
 }
+
+// ─── Dev: email outbox ──────────────────────────────────────────────────────
+
+export type EmailStatus = "logged" | "sent" | "failed" | "skipped";
+
+/** GET /api/dev/outbox */
+export interface OutboxResponse {
+  /** "outbox" = logged only; "smtp" = also sent for real (to non-sample addresses). */
+  mode: "outbox" | "smtp";
+  emails: Array<{
+    id: string;
+    to: string;
+    toName: string | null;
+    kind: string;
+    subject: string;
+    text: string;
+    link: string | null;
+    status: EmailStatus;
+    error: string | null;
+    createdAt: string;
+  }>;
+}

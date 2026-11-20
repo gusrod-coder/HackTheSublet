@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/server/db";
 import { badRequest, forbidden, handle, ok } from "@/lib/server/http";
-import { loadRequest, partyRole, termsState } from "@/lib/server/repo";
+import { checkContactsUnlocked, loadRequest, partyRole, termsState } from "@/lib/server/repo";
 import { requireUser } from "@/lib/server/session";
 import { TERM_KEYS, type TermKey, type TermsResponse } from "@/lib/types";
 
@@ -16,5 +16,6 @@ export const POST = handle<{ id: string; key: string }>(async (_req, { id, key }
     create: { requestId: id, userId: u.id, termKey: key, agreed: true },
     update: { agreed: true },
   });
+  await checkContactsUnlocked(id);
   return ok<TermsResponse>(termsState(await loadRequest(id)));
 });

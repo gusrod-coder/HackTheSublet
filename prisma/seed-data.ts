@@ -209,6 +209,7 @@ export const REQUESTS = [{ id: "r_jamie_packard", listingId: "l_packard", incomi
 
 export async function seedDatabase(prisma: PrismaClient): Promise<void> {
   // Wipe in dependency order.
+  await prisma.emailOutbox.deleteMany();
   await prisma.termAgreement.deleteMany();
   await prisma.approval.deleteMany();
   await prisma.request.deleteMany();

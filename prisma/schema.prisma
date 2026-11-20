@@ -102,6 +102,7 @@ model Request {
   incomingId String
   incoming   User            @relation("IncomingRequests", fields: [incomingId], references: [id], onDelete: Cascade)
   status     String          @default("sent") // 'sent' | 'approved' | 'declined'
+  contactsNotifiedAt DateTime? // set once the "contacts unlocked" email went out
   createdAt  DateTime        @default(now())
   approvals  Approval[]
   terms      TermAgreement[]
@@ -146,4 +147,21 @@ model Mail {
   createdAt DateTime  @default(now())
 
   @@index([to, readAt])
+}
+
+// Notification emails (spec: notifications only — never in-app messaging, never contact details).
+// Every email is logged here; it is also sent over SMTP when SMTP_* env vars are set.
+model EmailOutbox {
+  id        String   @id @default(cuid())
+  to        String
+  toUserId  String?
+  kind      String // 'invite' | 'listing_live' | 'request_received' | 'request_approved' | 'request_declined' | 'contacts_unlocked'
+  subject   String
+  text      String
+  link      String?
+  status    String   @default("logged") // 'logged' (outbox only) | 'sent' | 'failed' | 'skipped'
+  error     String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }

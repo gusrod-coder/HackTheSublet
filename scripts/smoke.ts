@@ -41,6 +41,10 @@ class Client {
 }
 
 const as = (id: string) => new Client(id).as(id);
+const outbox = async (kind?: string) => {
+  const r = await new Client("anon").get("/api/dev/outbox?limit=200");
+  return (r.data.emails as any[]).filter((e) => !kind || e.kind === kind);
+};
 const order = (m: any) => m.ranked.map((r: any) => r.listing.id).join(",");
 const packardFit = (m: any) => m.ranked.find((r: any) => r.listing.id === "l_packard")?.fit;
 
@@ -76,6 +80,7 @@ async function main() {
   const omar = await as("u_omar");
   const op = await omar.post("/api/stayer/l_hill/profile", { answers: [0, 1, 1, 0, 0, 0, 1, 0] });
   check(op.data.listingStatus === "live", "Omar answers → Hill St live");
+  check((await outbox("listing_live")).some((e) => e.to === "leo@example.edu"), "email: Leo told Hill St is live");
   m = (await alex.get("/api/incoming/matches")).data;
   check(order(m).includes("l_hill"), "Hill St now in matches");
   check(m.unreleased.length === 0, "unreleased list now empty");
@@ -123,6 +128,8 @@ async function main() {
   console.log("\nDemo §8.6 — request → unanimous approval → terms → contacts");
   const rr = await alex.post("/api/listings/l_packard/requests");
   check(rr.status === 201, "Alex requests Packard St");
+  const recv = (await outbox("request_received")).map((e) => e.to).sort().join();
+  check(recv === "priya@example.edu,sam@example.edu", `email: both stayers told about the request (${recv})`);
   const rid = rr.data.id;
   check((await alex.post("/api/listings/l_packard/requests")).status === 409, "duplicate request 409");
   inbox = (await priya.get("/api/stayer/requests")).data;
@@ -140,6 +147,7 @@ async function main() {
   const sam = await as("u_sam");
   d = await sam.post(`/api/requests/${rid}/decision`, { decision: "approve" });
   check(d.data.status === "approved", "all stayers approve → approved");
+  check((await outbox("request_approved")).length === 3, "email: approval sent to Alex, Priya, Sam");
   check((await sam.post(`/api/requests/${rid}/decision`, { decision: "pass" })).status === 409, "closed request can't be re-voted");
 
   const terms = (await alex.get(`/api/requests/${rid}/terms`)).data;
@@ -153,6 +161,10 @@ async function main() {
   await alex.put("/api/me/contact", { method: "text", value: "(734) 555-0199" });
   ts = (await alex.get(`/api/requests/${rid}/terms`)).data;
   check(ts.contactsUnlocked, "contacts unlocked");
+  check((await outbox("contacts_unlocked")).length === 3, "email: contacts-unlocked sent once to each of 3 parties");
+  await alex.put("/api/me/contact", { method: "text", value: "(734) 555-0199" });
+  check((await outbox("contacts_unlocked")).length === 3, "email: contacts-unlocked not re-sent");
+  check((await outbox()).every((e) => !e.text.includes("555-0199") && !e.text.includes("555-0141")), "emails never contain contact details");
   const ca = (await alex.get(`/api/requests/${rid}/contacts`)).data;
   const cs = (await sam.get(`/api/requests/${rid}/contacts`)).data;
   check(ca.contacts.length === 3 && JSON.stringify(ca) === JSON.stringify(cs), "both sides see the same 3 contacts");
@@ -163,6 +175,7 @@ async function main() {
   const jamie = await as("u_jamie");
   const jr = (await jamie.get("/api/incoming/requests")).data.requests[0];
   check(jr.status === "declined", "any single pass → declined");
+  check((await outbox("request_declined")).some((e) => e.to === "jamie@example.edu"), "email: Jamie told it was declined");
 
   console.log("\nLeaver flow");
   const morgan = await as("u_morgan");
@@ -174,6 +187,8 @@ async function main() {
   const lid = created.data.listing.id;
   const inv = await morgan.post(`/api/listings/${lid}/invites`, { invites: [{ email: "newstayer@example.edu", name: "Quinn" }] });
   check(inv.data.waitingOn === 1, "invite → waiting on 1");
+  const invMail = (await outbox("invite")).find((e) => e.to === "newstayer@example.edu");
+  check(invMail && invMail.link.endsWith(`/stayer/${lid}/form`), "email: invite with link to the stayer form");
   check((await morgan.post(`/api/listings/${lid}/submit`)).data.listing.status === "awaiting_household", "submit → awaiting_household");
   m = (await alex.get("/api/incoming/matches")).data;
   check(!order(m).includes(lid), "unreleased listing not shown to incoming");

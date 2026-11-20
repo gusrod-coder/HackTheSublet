@@ -5,6 +5,7 @@
 import type { IncomingProfile, Listing, Request as DbRequest, User } from "@prisma/client";
 import { prisma } from "./db";
 import { forbidden, notFound } from "./http";
+import { notifyContactsUnlocked, notifyListingLive, notifyRequestDecided } from "./notify";
 import type { IncomingInput, ListingInput, StayerInput } from "../scoring";
 import { generateTerms } from "../terms";
 import {
@@ -125,7 +126,10 @@ export async function syncListingStatus(listingId: string): Promise<ListingStatu
   const stayers = l.memberships;
   const next: ListingStatus =
     stayers.length > 0 && stayers.every((m) => m.inviteStatus === "answered") ? "live" : "awaiting_household";
-  if (next !== l.status) await prisma.listing.update({ where: { id: listingId }, data: { status: next } });
+  if (next !== l.status) {
+    await prisma.listing.update({ where: { id: listingId }, data: { status: next } });
+    if (next === "live") await notifyListingLive(listingId);
+  }
   return next;
 }
 
@@ -214,7 +218,10 @@ export async function resolveRequestStatus(requestId: string) {
   if (votes.some((v) => v.decision === "pass")) status = "declined";
   else if (stayerIds.length > 0 && stayerIds.every((id) => votes.some((v) => v.stayerId === id && v.decision === "approve")))
     status = "approved";
-  if (status !== request.status) await prisma.request.update({ where: { id: requestId }, data: { status } });
+  if (status !== request.status) {
+    await prisma.request.update({ where: { id: requestId }, data: { status } });
+    if (status === "approved" || status === "declined") await notifyRequestDecided(requestId, status);
+  }
   return status;
 }
 
@@ -248,6 +255,13 @@ export function termsState(req: Awaited<ReturnType<typeof loadRequest>>): TermsR
   // Gate §2.5: approved + every party agreed to every term + every party has a contact method.
   const contactsUnlocked = request.status === "approved" && allAgreed && parties.every((p) => p.hasContactMethod);
   return { requestId: request.id, terms: termsFor(req), parties, allAgreed, contactsUnlocked };
+}
+
+/** Call after anything that can complete gate §2.5 (term agreed, contact set). Emails once. */
+export async function checkContactsUnlocked(requestId: string): Promise<boolean> {
+  const state = termsState(await loadRequest(requestId));
+  if (state.contactsUnlocked) await notifyContactsUnlocked(requestId);
+  return state.contactsUnlocked;
 }
 
 export function contactOf(u: User): { method: ContactMethod; value: string } | null {

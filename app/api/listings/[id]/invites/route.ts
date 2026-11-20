@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/server/db";
 import { badRequest, handle, ok, parseBody } from "@/lib/server/http";
 import { householdStatus, requireLeader, syncListingStatus } from "@/lib/server/repo";
+import { notifyInvited } from "@/lib/server/notify";
 import { inviteSchema } from "@/lib/server/schemas";
 import { requireUser } from "@/lib/server/session";
 
@@ -31,6 +32,7 @@ export const POST = handle<{ id: string }>(async (req, { id }) => {
       await prisma.membership.create({
         data: { listingId: id, userId: user.id, role: "stayer", inviteStatus: answered ? "answered" : "invited" },
       });
+      if (!answered) await notifyInvited(id, user.id);
     }
   }
   await syncListingStatus(id);

@@ -23,6 +23,7 @@ import type {
   MatchesResponse,
   MeResponse,
   MyListingsResponse,
+  OutboxResponse,
   RequestDetailResponse,
   RequestRef,
   StayerInboxResponse,
@@ -68,6 +69,9 @@ export const api = {
     switchTo: (userId: string) => call<{ user: { id: string; name: string } }>("POST", "/api/demo/switch", { userId }),
     signOut: () => call<{ ok: true }>("DELETE", "/api/demo/switch"),
     reset: () => call<{ ok: true }>("POST", "/api/demo/reset"),
+  },
+  dev: {
+    outbox: (to?: string) => call<OutboxResponse>("GET", `/api/dev/outbox${to ? `?to=${enc(to)}` : ""}`),
   },
   me: {
     get: () => call<MeResponse>("GET", "/api/me"),
