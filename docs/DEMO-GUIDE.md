@@ -1,6 +1,7 @@
 # burrow: demo-day guide (5 min demo + 5 min Q&A)
 
-The click-by-click reference is `docs/DEMO.md`. This file is the **talk track**: what to say, what to point at, who
+Main plan: **three of us live** (leaver, stayer, incoming), below. Backup: the one-laptop script further down.
+The click-by-click reference for the sample data is `docs/DEMO.md`. This file is the **talk track**: what to say, what to point at, who
 does what, and how to handle questions. Every number below comes from the sample data and is pinned by
 `lib/scoring.test.ts`, so it will be the same on stage as in rehearsal.
 
@@ -15,9 +16,102 @@ does what, and how to handle questions. Every number below comes from the sample
 If a judge remembers only one thing, it should be **"household fit, not listing fit, with every stayer's
 approval."** Say "household" a lot.
 
+## Main version: three of us, live (leaver, stayer, incoming)
+
+Each of us plays one role and does their own clicks. Nothing is pre-arranged except Alex's profile: the house is
+created, the stayer is invited **by real email**, answers, and the house goes live, gets requested, approved and
+unlocked in front of the judges. Dry-run on 2026-11-20: every step works end to end, and with the scripted answers
+below the new house lands **#1 for Alex at 96 (Strong fit)**, above Packard St (94).
+
+### Who plays what
+
+| Role | Teammate | Demo login | Says |
+|---|---|---|---|
+| **Leaver** | ______ | **Morgan** (leaver, no listing yet) | Opens with the problem; lists the room; "I don't get a vote." |
+| **Stayer** | ______ | **themselves**, created live when invited (real email) | "I get a say." Answers, approves, agrees to terms. |
+| **Incoming** | ______ | **Alex** (profile already filled in: medical campus, May 15 – Aug 15, no smoking) | Browses, shows the ranking reacting, requests, closes. |
+
+Pick the strongest speaker as **Incoming**: they hold the screen longest and do the close.
+
+### What the judges see
+
+They only see the projector. Use **one projected laptop with three browser windows side by side**:
+**Leaver | Stayer | Incoming**, each a separate login (Chrome normal, Chrome incognito, Firefox; the login is a
+cookie, so one browser = one person). Each of us stands at our own window and clicks our own part.
+
+- The projected laptop should be **yogamat** (the h1 machine): it holds the Gmail sending setup in `.env`.
+- Every window uses the **same address**: `http://100.95.56.19:3000` (don't mix with `localhost`: the email link
+  signs you in on the address it points at).
+- **Stayer window:** also open the stayer teammate's own webmail in a second tab of that same browser. When the
+  invite arrives, they click the link there and it opens the form **already signed in as them**. That's the moment.
+  (Alternative: they show the email on their phone, then pick their name in the role switcher.)
+
+### Setup (15 minutes before)
+
+1. **Allow real email to the stayer.** In `.env` on yogamat: `EMAIL_ALLOW="<your sending Gmail>,<stayer's email>"`,
+   then restart the server (h1 knows how; it's `npm run dev`). Everyone else stays blocked.
+2. **Send a test** at least once at the venue: Gmail usually delivers in under 10 seconds, sometimes slower.
+3. Gear (top right) → **Reset demo**. This removes any test houses and test roommates.
+4. Windows:
+   - **Leaver:** switch to **Morgan** → `/leaver` (shows "no listings yet" + "List your room").
+   - **Stayer:** signed out on the home page; webmail tab open.
+   - **Incoming:** switch to **Alex** → `/incoming/browse`. "Try a change" closed.
+5. Zoom each window to ~90% so three fit side by side, or 110% if you go two-and-one.
+6. Do Not Disturb on, notifications off, other tabs closed.
+
+### Scripted inputs (rehearse these exactly)
+
+**Leaver (Morgan) → List your room**
+- Shortcut: click **Fill demo listing** (top of the form) and everything below is filled in, pin included. Then **Next**.
+- Address: `1020 Oakland Ave, Ann Arbor` · Area: `Central Campus`
+- Available from **May 10, 2027** until **Aug 20, 2027** (covers Alex's May 15 – Aug 15)
+- Click the map near central campus to drop the pin
+- Room: **Private** · House facts: leave **No indoor smoking** and **No pets** on (Alex has smoking as a deal-breaker)
+- **Next: invite your roommates →** → Name: stayer's first name · Email: stayer's real address → **Send invite**
+- **Submit listing** → page says "Not visible to incoming students yet. Waiting on <name>."
+
+**Stayer → habit form** (from the email link)
+Before 11pm · Mixed · 2–3 · None · Steady low noise all week · Right away · Friendly but separate · In person
+→ **Save my answers →** → "…is now live for incoming students."
+
+These match Alex everywhere except people-over nights (2–3 vs 1), so the result is **Oakland Ave house: 96, Strong
+fit, #1**, with "where you match: Bedtime: everyone before 11pm · Time at home: everyone mixed" and
+"Covers your dates". (Any other answers also work; the rank will just differ.)
+
+### The script (5:00)
+
+| Time | Leaver | Stayer | Incoming |
+|---|---|---|---|
+| **0:00–0:40** | **Hook** (no clicking): "Every summer thousands of students sublet a room in Ann Arbor. Finding one is easy. But you're not renting a room, you're joining a household. I'm leaving for the summer; I list the room, but I won't live there. My roommate who stays never gets a say, and the new person can't see how we live until they move in. burrow fixes that. Three of us, three roles, all live." | | |
+| **0:40–1:20** | *List your room* → **Fill demo listing** (or type the scripted inputs) → *invite* the stayer → *Submit*. **"I list it and invite whoever's staying. But it doesn't go live yet."** → point at "Waiting on <name>". | | **"I'm Alex, coming for a summer at the medical campus. I answered the same eight habit questions everyone answers: bedtime, guests, dishes, how you raise problems. Habits only, never identity."** → point at Browse: Packard St #1 at 94; Church St excluded "because of smoking". **"No Oakland Ave. It isn't live."** |
+| **1:20–2:30** | | → **The invite email arrives** in their real inbox. *Hold up / click it.* **"I'm staying, so I get the email. The link signs me straight in."** *Answer the 8 scripted questions* → **Save my answers →**. **"Nobody sees our house until everyone who stays has answered."** | Meanwhile, *open "Try a change"*: guests 1 → **4+** ("Geddes overtakes Packard"; top mismatch becomes guests) → back to **1**. Bedtime **A lot** → order changes → back to **Some**. **Pets** on → Geddes Ave excluded "pets in the home" → **off**. **"Every number moves for a reason you can check by hand. No AI."** |
+| **2:30–2:50** | → page flips to **Live** by itself. **"Live the moment my roommate answered."** | → "…is now live." | *Reload Browse* → **Oakland Ave house #1, 96, Strong fit.** **"There it is, at the top. And the score is set by the roommate I fit worst, because I live with all of them."** |
+| **2:50–3:20** | | | *Open it* → point at where we match / differ, and covers my dates → **Request to join this household**. |
+| **3:20–3:50** | **"I don't get a vote. I won't live there."** | *Inbox* (email "Alex wants to join" also arrives) → shows Alex's answers → **"I only see Alex's answers once Alex asks. Blind until then, both ways."** → **Approve ✓** | Card flips to **Approved → Continue to terms →**. **"Every stayer has to say yes. One pass and it's declined."** |
+| **3:50–4:30** | | **Agree on house terms →** → pick **Email** pill, type address → **Agree to all and share my contact** | **Continue to terms →** → **"House terms are written from everyone's answers, each with a why."** → pick **Text** pill FIRST, type `734-555-0100` → **Agree to all and share my contact** |
+| **4:30** | | **Contacts appear** | **Contacts appear, same moment.** **"Contacts unlock only when everyone has said yes and agreed to every term, and then for everyone at once."** |
+| **4:30–5:00** | | | **Close:** "The house can't go live until the household describes itself. You can't see anyone until you've described yourself. You're ranked by your worst fit, not your average. And nobody moves in until every roommate says yes. Rent and the lease stay outside the app. All the other houses you saw are sample data; this one we made just now. Thank you." |
+
+Not shown live in this version: "a stayer changes an answer and the incoming's fit changes" (spec §8.5). If a
+judge asks, the stayer edits one answer from their form (**Save changes →**) and Alex reloads Browse.
+
+### Live-version recovery
+
+| Problem | Do this |
+|---|---|
+| Invite email hasn't arrived after ~20 s | Stayer picks their name in **Switch role** (it's listed as "Stayer · Oakland Ave (NOT answered)") → the form. Say "the email's on its way" and keep going. |
+| Request/approval doesn't show up | Reload that window. Pages poll every few seconds. |
+| Oakland Ave not #1 | Someone's answers differ, or a "Try a change" setting wasn't put back. It still appears, just ranked differently; say "and there it is". |
+| Contacts don't appear | Someone hasn't picked a contact pill + typed a value, or hasn't agreed to all. |
+| Network/Tailscale/Gmail down | Switch to the **one-laptop version** below. Reset first. |
+
 ---
 
-## Roles on stage
+## Backup: one-laptop version (if the network or email fails)
+
+Same story with sample households only, one driver, no email needed. Pinned numbers, fully offline except the map.
+
+### Roles on stage
 
 | Person | Job |
 |---|---|
@@ -30,7 +124,7 @@ for exploring.
 
 ---
 
-## Setup (do this 15 minutes before)
+### Setup (one laptop)
 
 1. **Run it on the presenting laptop, not over the tailnet.** Venue Wi-Fi + Tailscale is a risk you don't need.
    ```bash
@@ -55,11 +149,11 @@ for exploring.
 
 ---
 
-## The 5-minute script
+### The 5-minute script (one laptop)
 
 Timings are cumulative. **Bold** = say it. *Italics* = what the driver does. → = what to point at.
 
-### 0:00–0:35 · The problem (no clicking)
+#### 0:00–0:35 · The problem (no clicking)
 
 **"Every summer, thousands of students come to Ann Arbor for internships, research and classes, and they sublet a
 room. Finding a room is the easy part. The hard part is that you're not renting a room, you're joining a household.
@@ -70,7 +164,7 @@ a week when you need to be up at 6."**
 **"burrow has three users per listing: the leaver who lists it, the stayers who live there, and the incoming
 student. We built the whole loop."**
 
-### 0:35–1:35 · Gate: no listing goes live until every stayer has answered
+#### 0:35–1:35 · Gate: no listing goes live until every stayer has answered
 
 *Window A (Alex) on Browse.*
 
@@ -97,7 +191,7 @@ away · Friendly but separate · In person → **Save my answers →**.* (Practi
 you live with both. The household score is the *minimum*, and we show you who's limiting it. One bad match ruins
 the summer."**
 
-### 1:35–2:35 · Decision sensitivity: change the inputs, the answer changes
+#### 1:35–2:35 · Decision sensitivity: change the inputs, the answer changes
 
 *Open "Try a change" on Browse.*
 
@@ -113,7 +207,7 @@ the summer."**
 **"Every one of those numbers is a rule you can check by hand. No AI, no black box. We'll walk one in Q&A if you
 want."**
 
-### 2:35–3:05 · Stayers shape the match too
+#### 2:35–3:05 · Stayers shape the match too
 
 *Window B (Priya) → Packard St habit form → bedtime: After 1am → **Save changes →**.*
 
@@ -123,7 +217,7 @@ want."**
 
 **"Alex's ranking just changed because a roommate changed, not because Alex did."**
 
-### 3:05–4:20 · Unanimous approval → house terms → simultaneous contact reveal
+#### 3:05–4:20 · Unanimous approval → house terms → simultaneous contact reveal
 
 *Window A (Alex): open Packard St → "Request to join this household."*
 
@@ -155,7 +249,7 @@ enter it and you're done.)
 at once. No one shares more than anyone else. Rent, deposit and the lease happen outside the app. We don't take
 payments or host chat."**
 
-### 4:20–5:00 · Close
+#### 4:20–5:00 · Close
 
 **"So: the listing can't go live until the household describes itself. You can't see anyone until you've
 described yourself. Your ranking is by your worst fit, not your average. And nobody moves in until every roommate
@@ -291,8 +385,11 @@ hackathon choice; the Prisma schema moves to Postgres by changing one line.
 
 ## Rehearsal checklist
 
-- [ ] Two full timed run-throughs from **Reset**. Under 4:50 both times.
-- [ ] Driver can do Omar's 8 answers without looking.
+- [ ] Two full timed run-throughs of the **live three-person version** from **Reset**, with real email. Under 4:50 both times.
+- [ ] One run-through of the one-laptop backup.
+- [ ] Stayer's email added to `EMAIL_ALLOW`; test email received at the venue.
+- [ ] Leaver can type the scripted address/dates and drop the pin without looking.
+- [ ] Stayer can do the 8 scripted answers without looking (and the backup driver can do Omar's).
 - [ ] Narrator can say the one sentence and the close from memory.
 - [ ] Backup can walk Alex vs Sam = 94 out loud in 20 seconds.
 - [ ] Three windows set up, three separate logins, zoomed in.

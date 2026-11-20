@@ -36,7 +36,8 @@ export const pub = (u: Pick<User, "id" | "name">): PublicUser => ({ id: u.id, na
 /** "512 S State St" → "State St house" */
 export function displayName(l: Pick<Listing, "name" | "address">): string {
   if (l.name.trim()) return l.name.trim();
-  const street = l.address.replace(/^\s*\d+[A-Za-z]?\s+/, "").replace(/^[NSEW]\.?\s+/, "");
+  // "1020 Oakland Ave, Ann Arbor, MI" → "Oakland Ave": drop city/state, house number, compass prefix.
+  const street = l.address.split(",")[0].replace(/^\s*\d+[A-Za-z]?\s+/, "").replace(/^[NSEW]\.?\s+/, "").trim() || l.address.trim();
   return `${street} house`;
 }
 

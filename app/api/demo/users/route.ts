@@ -7,7 +7,7 @@ import type { DemoUsersResponse } from "@/lib/types";
 /** Fallback for sample users with no role in the DB yet (e.g. Morgan, a leaver who hasn't listed). */
 const SEED_HINT = new Map(USERS.map((u) => [u.id, u.hint]));
 
-const street = (address: string) => address.replace(/^\s*\d+[A-Za-z]?\s+/, "");
+const street = (address: string) => address.split(",")[0].replace(/^\s*\d+[A-Za-z]?\s+/, "");
 const STATUS: Record<string, string> = { draft: "draft", awaiting_household: "unreleased", live: "live" };
 
 /**
