@@ -255,7 +255,7 @@ payments or host chat."**
 described yourself. Your ranking is by your worst fit, not your average. And nobody moves in until every roommate
 says yes."**
 
-**"It's a real working app. Next.js, a real database, every rule enforced on the server, 34 automated tests plus an
+**"It's a real working app. Next.js, a real database, every rule enforced on the server, 40 automated tests plus an
 end-to-end test that walks this exact demo. Every listing and person you saw is sample data."**
 
 **"Leases already require roommates to consent to a sublet. burrow turns that signature into an actual
@@ -362,7 +362,7 @@ Out of scope on purpose: payments, deposits, lease documents, in-app chat, any i
 **"Is this real or a mockup?"**
 Real. Next.js 15 + React 19, Prisma with SQLite, a typed API. Every gate (release, profile-complete, blind
 reveal, unanimous approval, contact unlock) is enforced on the server, so you can't skip it by calling the API
-directly. 34 unit tests pin the scoring and the demo numbers; an end-to-end smoke test walks this whole demo over
+directly. 40 unit tests pin the scoring and the demo numbers; an end-to-end smoke test walks this whole demo over
 HTTP. Notification emails are real (see the Outbox page); we just don't send to the sample addresses.
 
 **"How did three people build this in a day?"**
