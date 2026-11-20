@@ -51,27 +51,41 @@ const SLIDES: ReactNode[] = [
 
   // 4. Evidence
   <div key="stats" className={s.center}>
-    <p className={s.eyebrow}>Habits are invisible in a listing</p>
+    <p className={s.eyebrow}>Habits are what break households</p>
     <div className={s.stats}>
-      <div className={s.stat}><span className={s.num}>60%</span><span>picked cleanliness as a tension point</span></div>
-      <div className={s.stat}><span className={s.num}>36%</span><span>picked noise</span></div>
+      <div className={s.stat}><span className={s.num}>60%</span><span>named cleanliness</span></div>
+      <div className={s.stat}><span className={s.num}>36%</span><span>named noise</span></div>
       <div className={s.stat}><span className={s.num}>8%</span><span>left a rental over a roommate dispute</span></div>
     </div>
-    <p className={s.source}>SpareRoom US roommate census, Aug 2025 (1,257 roommates). Separate findings; they don’t add up.</p>
+    <p className={s.kicker}>None of that shows up in a listing.</p>
+    <p className={s.source}>SpareRoom survey of 1,257 US roommates, Aug 2025. Likely tension points; separate findings.</p>
   </div>,
 
   // 5. burrow
   <div key="burrow" className={s.center}>
     <p className={s.eyebrow}>That’s why we built burrow</p>
     <h2 className={s.title}>The whole household in the <span className={s.today}>same room</span>, before anyone signs.</h2>
-    <div className={s.pair}>
-      <Persona kind="dino" tilt={-4} label="Leaver" />
-      <Persona kind="capybara" label="Stayer" />
-      <Persona kind="fox" tilt={4} label="Incoming" />
+    <div className={`${s.pair} ${s.trio}`}>
+      <figure className={s.who}><Persona kind="capybara" label="Stayers" /><figcaption>Stayers get a say</figcaption></figure>
+      <figure className={s.who}><Persona kind="fox" label="Newcomer" /><figcaption>Newcomer knows who they’re living with</figcaption></figure>
+      <figure className={s.who}><Persona kind="dino" label="Leaver" /><figcaption>Leaver fills the room faster</figcaption></figure>
     </div>
+    <p className={s.pill}>Setup takes about 3 minutes</p>
   </div>,
 
-  // 6. How it works (click → home)
+  // 6. How the platform works
+  <div key="tech" className={s.center}>
+    <p className={s.eyebrow}>How the platform works</p>
+    <h2 className={s.title}>A real app, <span className={s.today}>live</span> end to end.</h2>
+    <div className={s.chips}>
+      <span className={s.chip}>Next.js + TypeScript</span>
+      <span className={s.chip}>Node API</span>
+      <span className={s.chip}>Real database</span>
+    </div>
+    <p className={s.lead}>Scoring, the release gate and matching are all live.</p>
+  </div>,
+
+  // 7. How it works (click → home)
   <div key="how" className={s.center}>
     <p className={s.eyebrow}>How it works</p>
     <ol className={s.steps}>
