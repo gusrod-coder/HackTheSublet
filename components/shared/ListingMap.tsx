@@ -38,7 +38,7 @@ function rankIcon(rank: number, active: boolean) {
     iconSize: [32, 32],
     iconAnchor: [16, 16],
     popupAnchor: [0, -16],
-    html: `<span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:999px;border:2px solid #2b2420;box-shadow:0 3px 0 #2b2420;background:${active ? "#4ab9b5" : "#fffdf8"};color:#2b2420;font:700 14px/1 var(--font-body),sans-serif">${rank}</span>`,
+    html: `<span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:999px;border:2px solid #2b2420;box-shadow:0 3px 0 #2b2420;background:${active ? "#2f5c9a" : "#fffdf8"};color:${active ? "#fffdf8" : "#2b2420"};font:700 14px/1 var(--font-body),sans-serif">${rank}</span>`,
   });
 }
 
@@ -91,7 +91,7 @@ export default function ListingMap({ pins, highlightId, destination, onPinClick,
           </Marker>
         ))}
         {dest && (
-          <CircleMarker center={[dest.lat, dest.lng]} radius={9} pathOptions={{ color: "#1c7783", fillColor: "#4ab9b5", fillOpacity: 0.7 }}>
+          <CircleMarker center={[dest.lat, dest.lng]} radius={9} pathOptions={{ color: "#2f5c9a", fillColor: "#6f9bd8", fillOpacity: 0.7 }}>
             <Popup>Your days: {dest.label}</Popup>
           </CircleMarker>
         )}

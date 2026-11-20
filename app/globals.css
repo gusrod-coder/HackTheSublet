@@ -1,49 +1,58 @@
-/* Householdfit design tokens + primitives, from the Figma "Design system" (HackTheLease, node 4:30).
+/* burrow design tokens + primitives, from the Figma "Design system" (HackTheLease, node 4:30).
    OWNER: h1. Lanes: use these tokens/classes; put screen-specific CSS in *.module.css next to your page.
    Fonts come from next/font in app/layout.tsx as --font-display / --font-heading / --font-body. */
 :root {
-  /* palette */
+  /* palette (Figma variables, 2026-11-20 revision: fox-blue brand) */
   --cream: #fff6ea;
   --card: #fffdf8;
-  --mint: #d7f1ef;
-  --butter: #ffe9a8;
-  --peach: #ffe1cc;
-  --blush: #f8dcd8;
-  --teal: #4ab9b5;
-  --deep-teal: #1c7783;
   --ink: #2b2420;
   --line: #eadbc8;
-  --muted: #6b5e55;
   --line-soft: #eadbc8;
+  --muted: #6b5e55;
   --fox-blue: #6f9bd8;
   --fox-blue-deep: #2f5c9a;
+  --fox-blue-hover: #244a7e;
   --dino-red: #b5443e;
   --sky: #dde8f6;
   --leaf: #ddefd8;
   --leaf-ink: #2c6a3b;
+  --peach: #fbdcc4;
+  --butter: #fce4b6;
+  --blush: #f7dad5;
   --weak-ink: #8e2f2c;
   --okay-ink: #7a4a00;
   --map: #e3eddb;
+  --disabled-bg: #efe6da;
+  --disabled-ink: #a89a8e;
 
-  /* semantic (names kept stable for existing components) */
+  /* Legacy names from the teal revision, kept so existing CSS re-themes. Prefer the semantic names below. */
+  --teal: var(--fox-blue);
+  --deep-teal: var(--fox-blue-deep);
+  --mint: var(--leaf);
+
+  /* semantic */
   --bg: var(--cream);
   --surface: var(--card);
-  --brand: var(--deep-teal);
-  --brand-ink: #ffffff;
-  --accent: var(--teal);
-  --strong: var(--deep-teal);
-  --okay: #7a4a00;
-  --weak: #8e2f2c;
-  --strong-bg: var(--mint);
+  --brand: var(--fox-blue-deep);
+  --brand-hover: var(--fox-blue-hover);
+  --brand-ink: #fffdf8;
+  --accent: var(--fox-blue);
+  --selected-bg: var(--sky);
+  --strong: var(--leaf-ink);
+  --okay: var(--okay-ink);
+  --weak: var(--weak-ink);
+  --strong-bg: var(--leaf);
   --okay-bg: var(--butter);
   --weak-bg: var(--blush);
   --mismatch-bg: var(--blush);
-  --match-bg: var(--mint);
+  --match-bg: var(--leaf);
 
   /* shape */
   --border: 2px solid var(--ink);
   --border-soft: 2px solid var(--line-soft);
   --sticker: 0 4px 0 var(--ink);
+  --sticker-hover: 0 6px 0 var(--ink);
+  --sticker-pressed: 0 1px 0 var(--ink);
   --soft-lift: 0 6px 18px rgba(138, 90, 43, 0.12);
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -59,7 +68,7 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font); line-height: 1.5; }
-a { color: var(--deep-teal); }
+a { color: var(--brand); }
 h1, h2, h3 { line-height: 1.15; margin: 0 0 8px; font-weight: 400; }
 h1 { font-family: var(--font-display), var(--font); font-size: clamp(1.9rem, 4vw, 2.8rem); }
 h2, h3 { font-family: var(--font-heading), var(--font); }
@@ -81,22 +90,29 @@ h3 { font-size: 1.2rem; }
 .card.blush { background: var(--blush); }
 .card.soft { border: var(--border-soft); box-shadow: var(--soft-lift); }
 
+/* Buttons (Figma 4:37). Primary = brand fill + light text; secondary = card; ghost = text only. */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 10px 18px; border-radius: 999px; border: var(--border); box-shadow: var(--sticker);
-  background: var(--teal); color: var(--ink); font: inherit; font-weight: 700;
-  cursor: pointer; text-decoration: none; transition: transform 80ms, box-shadow 80ms;
+  padding: 12px 24px; border-radius: var(--radius-pill); border: var(--border); box-shadow: var(--sticker);
+  background: var(--brand); color: var(--brand-ink); font: inherit; font-size: 14px; line-height: 18px; font-weight: 700;
+  cursor: pointer; text-decoration: none; transition: transform 80ms, box-shadow 80ms, background 80ms;
 }
-.btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn.secondary { background: var(--card); }
-.btn.dark { background: var(--deep-teal); color: #fff; }
+.btn:hover:not(:disabled) { background: var(--brand-hover); box-shadow: var(--sticker-hover); transform: translateY(-2px); }
+.btn:active:not(:disabled) { background: var(--brand-hover); box-shadow: var(--sticker-pressed); transform: translateY(3px); }
+.btn.dark { background: var(--brand); color: var(--brand-ink); }
+.btn.secondary { background: var(--card); color: var(--ink); }
+.btn.secondary:hover:not(:disabled), .btn.secondary:active:not(:disabled) { background: var(--sky); }
 .btn.ghost { background: transparent; border-color: transparent; box-shadow: none; color: var(--brand); }
+.btn.ghost:hover:not(:disabled), .btn.ghost:active:not(:disabled) { background: var(--sky); box-shadow: none; transform: none; }
+.btn:disabled { background: var(--disabled-bg); color: var(--disabled-ink); border-color: transparent; box-shadow: none; cursor: not-allowed; }
+.btn.small { padding: 8px 16px; }
 
 .pill, .chip {
   display: inline-block; white-space: nowrap; flex-shrink: 0; padding: 2px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
   border: var(--border); background: var(--card);
 }
+/* Fit badge (Figma 4:51): no border. */
+.chip.strong, .chip.okay, .chip.weak { border: 0; padding: 6px 12px; font-size: 12px; line-height: 16px; }
 .chip.strong { background: var(--strong-bg); color: var(--strong); }
 .chip.okay { background: var(--okay-bg); color: var(--okay); }
 .chip.weak { background: var(--weak-bg); color: var(--weak); }
@@ -110,25 +126,55 @@ input[type="text"], input[type="email"], input[type="date"], input[type="tel"], 
 fieldset { border: var(--border); padding: 0; margin: 0; }
 
 .options { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Pills / answer options (Figma 4:42, 14:609): cream, no border; selected = sky + brand outline. */
 .option {
-  padding: 8px 14px; border-radius: 999px; border: var(--border); background: var(--card);
+  padding: 8px 16px; border-radius: var(--radius-pill); border: 2px solid transparent; background: var(--cream);
   color: var(--ink); font: inherit; cursor: pointer;
 }
-.option[aria-pressed="true"] { background: var(--teal); box-shadow: var(--sticker); font-weight: 700; }
+.option:hover { background: var(--sky); }
+.option[aria-pressed="true"] { background: var(--sky); border-color: var(--brand); color: var(--brand); font-weight: 700; }
 
-.notice { padding: 10px 14px; border-radius: 12px; border: var(--border); background: var(--mint); font-size: 0.9rem; }
+.notice { padding: 10px 14px; border-radius: 12px; border: var(--border); background: var(--sky); font-size: 0.9rem; }
 .notice.warn { background: var(--blush); }
 .notice.info { background: var(--butter); }
 
+/* Header (Figma 5:70) */
 .topbar {
-  display: flex; justify-content: space-between; align-items: center; gap: var(--gap);
-  padding: 12px var(--gap); border-bottom: var(--border); background: var(--card);
+  display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+  min-height: 76px; padding: 16px 40px; border-bottom: 2px solid var(--line-soft); background: var(--card);
 }
-.brand { font-family: var(--font-display), var(--font); font-size: 1.5rem; text-decoration: none; color: var(--ink); }
+.topbar-left, .topbar-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-tile {
+  display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; transform: rotate(6deg);
+  border-radius: var(--radius-md); border: var(--border); background: var(--accent);
+  font-family: var(--font-heading), var(--font); font-size: 19px; color: var(--card);
+}
+.brand-word { font-family: var(--font-display), var(--font); font-size: 32px; line-height: 40px; color: var(--accent); }
+.proto-pill { padding: 4px 12px; border-radius: var(--radius-pill); background: var(--butter); color: var(--okay); font-size: 12px; line-height: 16px; font-weight: 600; white-space: nowrap; }
+.you-chip { padding: 8px 16px; border-radius: var(--radius-pill); background: var(--sky); border: 2px solid var(--brand); color: var(--brand); font-size: 14px; font-weight: 700; white-space: nowrap; }
+.topbar-divider { width: 2px; height: 28px; background: var(--line-soft); }
+.account { display: inline-flex; align-items: center; gap: 8px; padding: 4px 14px 4px 6px; border-radius: var(--radius-pill); background: var(--cream); font-size: 14px; font-weight: 700; }
+.avatar { position: relative; width: 36px; height: 36px; border-radius: 50%; background: var(--sky); overflow: hidden; flex: none; }
+.avatar > * { position: absolute; left: 50%; top: 50%; margin: -60px 0 0 -44px; }
+.switch-select { padding: 6px 10px; border-radius: var(--radius-pill); border: 2px solid var(--line-soft); font-size: 13px; max-width: 220px; }
+
+/* Hand-drawn 2px outline (Figma sketch edge). The wobbly line is an overlay, so text is never distorted.
+   Applied to cards, buttons and selected options; add .sketch to anything else with a 2px ink border. */
+.card, .btn:not(.ghost):not(:disabled), .option[aria-pressed="true"], .sketch { position: relative; border-color: transparent; }
+.card::after, .btn:not(.ghost):not(:disabled)::after, .option[aria-pressed="true"]::after, .sketch::after {
+  content: ""; position: absolute; inset: -2px; border: 2px solid var(--sketch-color, var(--ink));
+  border-radius: inherit; filter: url(#hf-sketch); pointer-events: none;
+}
+.option[aria-pressed="true"] { --sketch-color: var(--brand); }
+.card.soft { --sketch-color: var(--line-soft); }
+@media (prefers-reduced-motion: reduce) { .btn, .btn:hover, .btn:active { transform: none; } }
 
 /* One column under 640px (spec §6). */
 @media (max-width: 640px) {
   .grid-2 { grid-template-columns: 1fr; }
   .container { padding: 16px var(--gap) 48px; }
-  .topbar { flex-direction: column; align-items: stretch; }
+  .topbar { padding: 12px var(--gap); }
+  .brand-word { font-size: 24px; line-height: 32px; }
+  .topbar-divider, .account { display: none; }
 }

@@ -19,7 +19,7 @@ export function SampleBadge({ show = true }: { show?: boolean }) {
 export function OutsideAppNotice() {
   return (
     <p className="notice small">
-      Rent, deposit and the sublease agreement happen outside Householdfit. There is no in-app messaging or payment.
+      Rent, deposit and the sublease agreement happen outside burrow. There is no in-app messaging or payment.
     </p>
   );
 }

@@ -19,6 +19,12 @@ the stayer inbox to `/requests/[id]`; don't build a second terms page.
 
 ## Frontend reference: Figma
 
+**Brand (decided 2026-11-20, follows Figma):** product name **burrow**, fox-blue palette. Use the semantic
+tokens in `app/globals.css` (`--brand`, `--brand-hover`, `--accent`, `--sky`, `--leaf`, `--leaf-ink`, `--butter`,
+`--blush`, `--disabled-bg`); `--teal`/`--deep-teal`/`--mint` are legacy aliases now pointing at blue/leaf.
+Hand-drawn outline: `.card`, `.btn`, selected `.option` get it automatically; add class `sketch` to any other
+element with a 2px ink border (the outline is an `::after` overlay, so that element can't use `::after` itself).
+
 **Figma owner: h2.** h2 has Figma access and is the source of truth for design questions; h1 does not.
 Shared-style changes (globals.css, components/shared) go to h1 as a `[REQ]` with exact values from the file.
 

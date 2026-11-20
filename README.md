@@ -1,4 +1,4 @@
-# Householdfit
+# burrow (codename Householdfit)
 
 Ann Arbor summer sublets matched to the **household you'll actually live with**. Stayers describe their
 household, incoming students describe themselves with the same 8 questions, listings are ranked by fit with

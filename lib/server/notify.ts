@@ -17,7 +17,7 @@ export async function notifyInvited(listingId: string, stayerId: string) {
   await sendEmail({
     to: { email: u.email, id: u.id, name: u.name },
     kind: "invite",
-    subject: `${l.leaver.name} listed your place on Householdfit. Describe your household`,
+    subject: `${l.leaver.name} listed your place on burrow. Describe your household`,
     body:
       `${l.leaver.name} is subletting their room at ${l.address} this summer. You're staying, so you get a say in who moves in.\n\n` +
       `Answer 8 quick habit questions (bedtime, guests, dishes…). The listing stays hidden from incoming students until every roommate who stays has answered, ` +
@@ -108,7 +108,7 @@ export async function notifyContactsUnlocked(requestId: string) {
       kind: "contacts_unlocked",
       subject: `Contacts unlocked for ${c.name}`,
       body:
-        `Everyone agreed to the house terms. You can now see each other's preferred contact in Householdfit. ` +
+        `Everyone agreed to the house terms. You can now see each other's preferred contact in burrow. ` +
         `Rent, deposit and the sublease agreement happen outside the app.`,
       path: `/requests/${c.r.id}`,
     });

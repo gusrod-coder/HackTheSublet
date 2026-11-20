@@ -10,7 +10,7 @@ const heading = Skranji({ weight: ["400", "700"], subsets: ["latin"], variable: 
 const body = Inclusive_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Householdfit",
+  title: "burrow",
   description: "Ann Arbor sublets matched to the household you'll actually live with.",
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
@@ -19,6 +19,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${display.variable} ${heading.variable} ${body.variable}`}>
       <body>
+        {/* Hand-drawn outline filter used by .card/.btn/.sketch in globals.css. */}
+        <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>
+          <filter id="hf-sketch">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" />
+            <feDisplacementMap in="SourceGraphic" scale="2.5" />
+          </filter>
+        </svg>
         <AppHeader />
         <main className="container">{children}</main>
       </body>

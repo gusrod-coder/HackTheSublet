@@ -61,7 +61,7 @@ export function skipReason(email: string): string | null {
 
 export async function sendEmail(e: EmailInput): Promise<void> {
   const link = e.path ? APP_URL + e.path : null;
-  const text = `Hi ${e.to.name ?? "there"},\n\n${e.body}${link ? `\n\n${link}` : ""}\n\n— Householdfit (sample prototype for Hack the Lease)`;
+  const text = `Hi ${e.to.name ?? "there"},\n\n${e.body}${link ? `\n\n${link}` : ""}\n\n— burrow (sample prototype for Hack the Lease)`;
   let row;
   try {
     row = await prisma.emailOutbox.create({

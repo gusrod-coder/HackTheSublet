@@ -41,7 +41,7 @@ export default function Outbox() {
         <div>
           <h1>Email outbox</h1>
           <p className="muted small" style={{ margin: 0 }}>
-            Every notification Householdfit sends: invites, new requests, approvals, contacts unlocked. Updates live.{" "}
+            Every notification burrow sends: invites, new requests, approvals, contacts unlocked. Updates live.{" "}
             {data?.mode === "smtp"
               ? "SMTP is on: real email goes out too (never to sample @example.edu addresses)."
               : "Outbox only: no SMTP configured, so nothing leaves this server."}
