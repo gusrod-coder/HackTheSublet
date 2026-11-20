@@ -4,13 +4,15 @@
  * "Switch role" is the demo user switcher. OWNER: h1.
  */
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { api } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 
 export function AppHeader() {
   const router = useRouter();
-  const { data, reload } = useApi(() => api.demo.users(), []);
+  const pathname = usePathname();
+  // Refetch on navigation so "You: Morgan · Leaver · …" reflects what just happened.
+  const { data, reload } = useApi(() => api.demo.users(), [pathname]);
   const me = data?.users.find((u) => u.id === data.currentUserId);
   const role = me?.hint.split("·")[0].trim();
 
