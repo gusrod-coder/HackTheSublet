@@ -25,3 +25,17 @@ export const POST = handle<{ id: string }>(async (req, { id }) => {
   const status = (await resolveRequestStatus(id)) as RequestStatus;
   return ok<RequestRef>({ id, status });
 });
+
+/**
+ * DELETE /api/requests/:id/decision — stayer retracts their own vote ("Undo"). Only while the
+ * request is still "sent" (409 REQUEST_CLOSED after). No-op if they hadn't voted.
+ */
+export const DELETE = handle<{ id: string }>(async (_req, { id }) => {
+  const u = await requireUser();
+  const { request, listing } = await loadRequest(id);
+  if (!listing.memberships.some((m) => m.userId === u.id))
+    throw forbidden("NOT_STAYER", "Only stayers on this listing can change their vote.");
+  if (request.status !== "sent") throw conflict("REQUEST_CLOSED", `This request is already ${request.status}.`);
+  await prisma.approval.deleteMany({ where: { requestId: id, stayerId: u.id } });
+  return ok<RequestRef>({ id, status: "sent" });
+});
