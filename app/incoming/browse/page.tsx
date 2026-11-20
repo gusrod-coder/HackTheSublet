@@ -50,8 +50,10 @@ export default function Page() {
             <h1 className={s.display}>Sublets ranked by household fit</h1>
             <p className={s.lead}>
               {prof?.startDate && prof.endDate ? `${dateRange(prof.startDate, prof.endDate)} · ` : ""}
-              {dest ? `${dest.label} · ` : ""}a house’s fit is set by its weakest match, since you live with everyone.
+              {dest ? `${dest.label} · ` : ""}fit is how closely each roommate’s habits match yours, weighted by what you said matters.
+              A house’s fit is its <strong>lowest</strong> roommate fit, since you live with everyone.
             </p>
+            <ScoreBlurb />
             <p className={`${s.caption} ${s.muted} ${p.tight}`}>Fits update automatically when household habits change.</p>
           </div>
           <label className={p.search}>
@@ -143,6 +145,26 @@ export default function Page() {
         )}
       </div>
     </>
+  );
+}
+
+/** Plain-words summary of lib/scoring.ts. Keep in sync with it and with ScoreBreakdown on the household page. */
+function ScoreBlurb() {
+  return (
+    <details className={p.blurb}>
+      <summary className={s.label}>How fit scores work</summary>
+      <ul>
+        <li>Each roommate who stays answers the same 8 habit questions you did.</li>
+        <li>
+          Per question you get full points for the same answer, half for one step apart, none for opposite ends. It counts 3× if it
+          matters a lot to you, 1× if some, and not at all if not.
+        </li>
+        <li>Your fit with a roommate is the share of possible points, 0–100.</li>
+        <li>A house’s fit is your <strong>lowest</strong> roommate fit, since you live with everyone.</li>
+        <li>Rent, distance and dates are shown but never change the score. Deal-breakers and your budget hide a house instead.</li>
+      </ul>
+      <p className={`${s.caption} ${s.muted}`}>Open any house and choose “How was this score calculated?” for the full table.</p>
+    </details>
   );
 }
 

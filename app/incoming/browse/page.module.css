@@ -76,3 +76,9 @@
 /* Excluded houses: a collapsible panel (closed by default) with links to each household. */
 .excluded summary { list-style: none; }
 .excluded summary::-webkit-details-marker { display: none; }
+/* "How fit scores work": short line in the intro + this fold-out. */
+.blurb { max-width: 640px; }
+.blurb summary { cursor: pointer; color: var(--brand); width: fit-content; }
+.blurb > * + * { margin-top: 8px !important; }
+.blurb ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 20px; }
+.blurb p { margin: 0; }
