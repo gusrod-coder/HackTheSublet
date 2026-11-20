@@ -10,6 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { api } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { Persona, PERSONA_FOR_ROLE } from "./Persona";
+import burrowIcon from "./assets/burrow-icon.png";
 import type { Role } from "@/lib/types";
 
 const ROLE_FROM_HINT: Record<string, Role> = { Leaver: "leaver", Stayer: "stayer", Incoming: "incoming" };
@@ -42,7 +43,11 @@ export function AppHeader() {
     <header className="topbar">
       <div className="topbar-left">
         <Link href="/" className="brand" aria-label="burrow home">
-          <span className="brand-tile" aria-hidden>b</span>
+          {/* Figma "Logo / Burrow icon" (55:2015): the fox peeking out of its burrow. */}
+          <span className="brand-tile" aria-hidden>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={burrowIcon.src} alt="" />
+          </span>
           <span className="brand-word">burrow</span>
         </Link>
         <span className="proto-pill">prototype · sample data</span>
@@ -62,8 +67,9 @@ export function AppHeader() {
           <>
             <span className="topbar-divider" aria-hidden />
             <span className="account" title={me.email}>
-              <span className="avatar" aria-hidden>
-                <Persona kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} scale={0.42} />
+              {/* Head-and-shoulders crop: each persona is shifted so its head sits in the middle of the circle. */}
+              <span className="avatar" data-kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} aria-hidden>
+                <Persona kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} scale={0.5} />
               </span>
               {me.name}
             </span>
