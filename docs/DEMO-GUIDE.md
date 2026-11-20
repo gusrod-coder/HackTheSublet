@@ -62,7 +62,8 @@ cookie, so one browser = one person). Each of us stands at our own window and cl
 ### Scripted inputs (rehearse these exactly)
 
 **Leaver (Morgan) → List your room**
-- Shortcut: click **Fill demo listing** (top of the form) and everything below is filled in, pin included. Then **Next**.
+- As **Morgan**, the form **fills itself in** (pin included); **Fill demo listing** re-fills it. Then **Next**.
+- The invite form opens pre-filled with the stayer from `.env` (`NEXT_PUBLIC_DEMO_STAYER_NAME` / `_EMAIL`, restart the server after changing). Just **Send invite**.
 - Address: `1020 Oakland Ave, Ann Arbor` · Area: `Central Campus`
 - Available from **May 10, 2027** until **Aug 20, 2027** (covers Alex's May 15 – Aug 15)
 - Click the map near central campus to drop the pin

@@ -4,7 +4,7 @@
  * Figma: HackTheLease 10:496 "08 Leaver · Invite roommates".
  * The leaver sees who answered, never what (server only returns inviteStatus).
  */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
@@ -16,6 +16,12 @@ import s from "./invite.module.css";
 
 const names = (n: string[]) => (n.length <= 1 ? n.join("") : `${n.slice(0, -1).join(", ")} and ${n[n.length - 1]}`);
 
+/** Live demo: the stayer to pre-fill in the invite form, from .env (never committed). */
+const DEMO_STAYER = {
+  name: process.env.NEXT_PUBLIC_DEMO_STAYER_NAME ?? "",
+  email: process.env.NEXT_PUBLIC_DEMO_STAYER_EMAIL ?? "",
+};
+
 export default function InvitePage() {
   const { id } = useParams<{ id: string }>();
   const { data, error, loading, setData, reload } = useApi(() => api.leaver.householdStatus(id), [id]);
@@ -25,6 +31,14 @@ export default function InvitePage() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   usePoll(reload, !!data && data.waitingOn > 0 && !busy);
+  const prefilled = useRef(false);
+  useEffect(() => {
+    if (prefilled.current || !data || data.stayers.length > 0 || !DEMO_STAYER.email) return;
+    prefilled.current = true;
+    setEmail(DEMO_STAYER.email);
+    setName(DEMO_STAYER.name);
+    setAdding(true);
+  }, [data]);
 
   async function run<T>(fn: () => Promise<T>, after: (r: T) => void) {
     if (busy) return;

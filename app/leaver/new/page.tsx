@@ -3,7 +3,7 @@
  * List your room. LANE: h3. Spec: §3 Leaver, §7.
  * Figma: HackTheLease 10:431 "07 Leaver · List your room".
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
@@ -25,6 +25,16 @@ const ListingMap = dynamic(() => import("@/components/shared/ListingMap"), { ssr
 export default function NewListingPage() {
   const router = useRouter();
   const [address, setAddress] = useState("");
+  // Live demo: Morgan (the scripted leaver) gets the demo house pre-filled. Everyone else starts blank.
+  useEffect(() => {
+    api.me
+      .get()
+      .then((m) => {
+        if (m.user?.id === "u_morgan") fillDemo();
+      })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [area, setArea] = useState("");
   const [pin, setPin] = useState<{ lat: number; lng: number } | null>(null);
   const [startDate, setStart] = useState("");
