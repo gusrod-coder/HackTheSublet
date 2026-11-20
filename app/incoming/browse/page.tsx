@@ -52,7 +52,6 @@ export default function Page() {
             </p>
           </div>
           <label className={p.search}>
-            <Icon name="search" size={18} style={{ color: "var(--muted)" }} />
             <input type="search" placeholder="Search a street or area" value={query} onChange={(e) => setQuery(e.target.value)} />
           </label>
         </div>
@@ -150,8 +149,8 @@ function ListingCard({ r, top, onHover }: { r: Ranked & { rank: number }; top: b
       </p>
       <p className={`${s.label} ${p.tight}`}>
         {single
-          ? `One roommate stays: ${fit.perStayer[0].stayer.name} (fit ${fit.householdScore})`
-          : `Limited by your fit with ${fit.limitingStayer?.name} (${fit.householdScore}, average ${fit.average})`}
+          ? `One roommate stays: ${fit.perStayer[0].stayer.name}`
+          : `Limited by your fit with ${fit.limitingStayer?.name} (average ${fit.average})`}
       </p>
       <div className={p.boxes}>
         <div className={p.match}>
