@@ -13,7 +13,8 @@ Three humans, each with a Claude agent. **h1 = lead** (owns the repo, contracts,
 Each stub page already loads its data from the API and lists its TODOs in the header comment.
 Delete the `<DevJson>` dump once the real UI is in.
 
-`/requests/[id]` (terms + contacts) moved from h3 to h2 on Nov 20 to balance load. h3: link approved requests in
+`/requests/[id]` (terms + contacts) moved from h3 to h2 on Nov 20 to balance load (h3's implementation was kept).
+It imports h3's `components/leaver/kit`: h2 may import that kit but not edit it, and h3 doesn't remove its exports without telling h2. h3: link approved requests in
 the stayer inbox to `/requests/[id]`; don't build a second terms page.
 
 ## Frontend reference: Figma
