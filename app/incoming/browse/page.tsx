@@ -146,7 +146,7 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
         <div className={p.cardTitle}>
           <span className={p.rank}>{r.rank}</span>
           <h2 className={s.headingM}>{l.name}</h2>
-          <FitPill label={fit.label} />
+          <FitPill label={fit.label} score={fit.householdScore} />
           {change && <span className={p.fitUpdate} aria-hidden="true">Fit updated: {change.from} → {change.to}</span>}
         </div>
         <Link href={`/incoming/listings/${l.id}`} className={`${s.btnSecondary} ${p.view}`}>View household</Link>
@@ -162,8 +162,8 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
       </p>
       <p className={`${s.label} ${p.tight}`}>
         {single
-          ? `One roommate stays: ${fit.perStayer[0].stayer.name}`
-          : `Limited by your fit with ${fit.limitingStayer?.name} (average ${fit.average})`}
+          ? `Your fit with ${fit.perStayer[0].stayer.name}: ${fit.householdScore} (the only roommate staying)`
+          : `Your fit with ${fit.limitingStayer?.name}: ${fit.householdScore} (lowest of ${fit.perStayer.length} roommates, average ${fit.average})`}
       </p>
       <div className={p.boxes}>
         <div className={p.match}>

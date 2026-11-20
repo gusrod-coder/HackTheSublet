@@ -51,9 +51,15 @@ export function StepDots({ step }: { step: 1 | 2 | 3 | 4 }) {
   );
 }
 
-export function FitPill({ label }: { label: FitLabel }) {
+/** "96 · Strong fit": the household score (your lowest match with any stayer) and its label, shown the same way everywhere. */
+export function FitPill({ label, score }: { label: FitLabel; score?: number }) {
   const cls = label === "Strong fit" ? s.fitStrong : label === "Okay fit" ? s.fitOkay : s.fitWeak;
-  return <span className={cls}>{label}</span>;
+  return (
+    <span className={cls}>
+      {score !== undefined && <><strong>{score}</strong>&nbsp;·&nbsp;</>}
+      {label}
+    </span>
+  );
 }
 
 // ─── Text helpers ───────────────────────────────────────────────────────────

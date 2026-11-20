@@ -55,8 +55,8 @@ export default function Home() {
       tone: s.blush,
       persona: "dino" as const,
       title: "The leaver lists",
-      body: "The listing stays hidden for now.",
-      gets: "You get: roommates who already signed off.",
+      body: "Hidden until your roommates answer.",
+      gets: "You get: a replacement your roommates approved.",
       status: me && me.leading.length > 0 ? me.leading.map((l) => `${l.address} (${l.status.replace("_", " ")})`).join(" · ") : null,
     },
     {
@@ -74,9 +74,9 @@ export default function Home() {
       cta: "I'm coming to Ann Arbor",
       tone: s.sky,
       persona: "fox" as const,
-      title: "The incoming matches",
-      body: "See homes ranked by household fit.",
-      gets: "You get: know how they live before you pay.",
+      title: "The incoming student matches",
+      body: "See homes ranked by fit, with rent and your budget.",
+      gets: "You get: how the house lives, before you pay.",
       status: me?.incoming ? (me.incoming.complete ? "Profile complete" : "Profile in progress") : null,
     },
   ];
@@ -90,7 +90,7 @@ export default function Home() {
         <div className={s.heroText}>
           <p className={s.eyebrow}>Summer sublets · Ann Arbor</p>
           <h1 className={s.heroTitle}>Meet the roommates before you take the room.</h1>
-          <p className={s.bodyL}>Burrow lets the people staying behind meet you before you sublet.</p>
+          <p className={s.bodyL}>The roommates who are staying say how the house lives. You see how well you fit, and they approve who moves in.</p>
           <div className={s.actions}>
             <a href="#roles" className="btn">Get started</a>
             <a href="#how" className="btn ghost">How it works</a>
@@ -132,7 +132,7 @@ export default function Home() {
           ))}
         </div>
         <p className={s.caption}>
-          Separate surveys with different populations; figures are not additive. Sources and limitations: <code>sources.md</code>.
+          Each figure links to its source. They come from separate surveys of different groups, so they don’t add up.
         </p>
       </section>
 
@@ -148,7 +148,7 @@ export default function Home() {
       <section className={s.section} id="how" aria-labelledby="how-title">
         <div className={s.head}>
           <p className={s.eyebrow}>How it works</p>
-          <h2 id="how-title" className={s.title}>Three people, one apartment. Everyone wins.</h2>
+          <h2 id="how-title" className={s.title}>Three roles, one household. Everyone gets a say.</h2>
         </div>
         <div className={s.three} id="roles">
           {roles.map((r) => (
@@ -174,7 +174,7 @@ export default function Home() {
           {[
             ["Blind answers", "Hidden until both sides answer."],
             ["Stayers decide", "Every stayer must approve."],
-            ["Contacts last", "Shared only after terms are agreed."],
+            ["Contacts last", "Contact details stay private until terms are agreed, unless you choose to share your number."],
           ].map(([t, b]) => (
             <div key={t} className={`card ${s.trust}`}>
               <h3 className={s.headingS}>{t}</h3>

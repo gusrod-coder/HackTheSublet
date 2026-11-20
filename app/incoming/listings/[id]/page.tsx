@@ -61,7 +61,7 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
     <>
       <div className={p.titleRow}>
         <h1 className={s.display}>{l.name}</h1>
-        <FitPill label={fit.label} />
+        <FitPill label={fit.label} score={fit.householdScore} />
         <SampleBadge show={l.isSample} />
       </div>
       <p className={`${s.body} ${s.muted} ${p.sub}`}>

@@ -60,7 +60,9 @@
 }
 @media (max-width: 640px) {
   .home { gap: 72px; padding: 40px 0 72px; }
-  .hero { flex-direction: column-reverse; align-items: flex-start; }
+  .hero { flex-direction: column; align-items: flex-start; }
+  /* Phones: lead with the message; the fox appears again in the "Why Burrow" card just below. */
+  .hero > .icon { display: none; }
   .heroTitle { font-size: 40px; line-height: 42px; }
   .stats { grid-template-columns: 1fr; gap: 32px; }
   .why { flex-direction: column; align-items: flex-start; padding: 28px; gap: 20px; }
