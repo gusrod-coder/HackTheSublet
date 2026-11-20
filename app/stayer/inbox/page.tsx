@@ -7,6 +7,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
+import { usePoll } from "@/components/leaver/use-poll";
 import { DESTINATIONS, QUESTIONS, type Decision, type FitLabel, type StayerInboxResponse } from "@/lib/types";
 import { SampleBadge, formatDate } from "@/components/shared/ui";
 import { Hero, Icon, Page, Status, cx, kit } from "@/components/leaver/kit";
@@ -19,6 +20,7 @@ const names = (n: string[]) => (n.length <= 1 ? n.join("") : `${n.slice(0, -1).j
 
 export default function StayerInboxPage() {
   const inbox = useApi(() => api.stayer.inbox(), []);
+  usePoll(inbox.reload, !!inbox.data?.requests.some((request) => request.status === "sent"));
   const me = useApi(() => api.me.get(), []);
   const myId = me.data?.user?.id;
   const requests = inbox.data?.requests ?? [];

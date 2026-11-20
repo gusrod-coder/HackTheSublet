@@ -6,6 +6,7 @@
 import Link from "next/link";
 import { api } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
+import { usePoll } from "@/components/leaver/use-poll";
 import { SampleBadge, formatDate } from "@/components/shared/ui";
 import { Hero, Page, Status, cx, kit } from "@/components/leaver/kit";
 import type { ListingStatus } from "@/lib/types";
@@ -17,7 +18,8 @@ const STATUS: Record<ListingStatus, { text: string; cls: string }> = {
 };
 
 export default function LeaverListingsPage() {
-  const { data, error, loading } = useApi(() => api.leaver.myListings(), []);
+  const { data, error, loading, reload } = useApi(() => api.leaver.myListings(), []);
+  usePoll(reload, !!data?.listings.some((listing) => listing.waitingOn > 0));
   const listings = data?.listings ?? [];
   return (
     <Page>
@@ -26,7 +28,7 @@ export default function LeaverListingsPage() {
         title="Your listings"
         lede="Your room goes live for incoming students once every roommate who's staying has answered the habit questions."
       />
-      <Status loading={loading} error={error?.code === "NO_SESSION" ? { code: "", message: "Pick a demo user in the top bar first." } : error} />
+      <Status loading={loading && !data} error={error?.code === "NO_SESSION" ? { code: "", message: "Pick a demo user in the top bar first." } : error} />
       {data && listings.length === 0 && (
         <div className={kit.soft}>
           <p className={kit.lede}>You haven't listed a room yet.</p>
