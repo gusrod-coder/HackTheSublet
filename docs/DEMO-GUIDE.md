@@ -55,7 +55,7 @@ cookie, so one browser = one person). Each of us stands at our own window and cl
 4. Windows:
    - **Leaver:** switch to **Morgan** → `/leaver` (shows "You haven't listed a room yet." + **+ List a room**).
    - **Stayer:** signed out on the home page; webmail tab open.
-   - **Incoming:** switch to **Alex** → `/incoming/browse`. "Try a change" closed.
+   - **Incoming:** switch to **Alex** → `/incoming/browse`. "Update your answers" closed.
 5. Zoom each window to ~90% so three fit side by side, or 110% if you go two-and-one.
 6. Do Not Disturb on, notifications off, other tabs closed.
 
@@ -86,7 +86,7 @@ fit, #1**, with "where you match: Bedtime: everyone before 11pm · Time at home:
 |---|---|---|---|
 | **0:00–0:40** | **Hook** (no clicking): "Every summer thousands of students sublet a room in Ann Arbor. Finding one is easy. But you're not renting a room, you're joining a household. I'm leaving for the summer; I list the room, but I won't live there. My roommate who stays never gets a say, and the new person can't see how we live until they move in. burrow fixes that. Three of us, three roles, all live." | | |
 | **0:40–1:20** | **+ List a room** (the form fills itself as Morgan, rent **$975/mo**) → **Next: invite your roommates →** → *invite* the stayer → *Submit*. **"I list it and invite whoever's staying. But it doesn't go live yet."** → point at "Waiting on <name>". | | **"I'm Alex, coming for a summer at the medical campus. I answered the same eight habit questions everyone answers: bedtime, guests, dishes, how you raise problems. Habits only, never identity."** → point at Browse: Packard St #1 at 94; Church St excluded "because of smoking". **"No Oakland Ave. It isn't live."** |
-| **1:20–2:30** | | → **The invite email arrives** in their real inbox. *Hold up / click it.* **"I'm staying, so I get the email. The link signs me straight in."** *Answer the 8 scripted questions* → **Save my answers →**. **"Nobody sees our house until everyone who stays has answered."** | Meanwhile, *open "Try a change"*: guests 1 → **4+** ("Geddes overtakes Packard"; top mismatch becomes guests) → back to **1**. Bedtime **A lot** → order changes → back to **Some**. **Pets** on → Geddes Ave excluded "pets in the home" → **off**. **"Every number moves for a reason you can check by hand. No AI."** |
+| **1:20–2:30** | | → **The invite email arrives** in their real inbox. *Hold up / click it.* **"I'm staying, so I get the email. The link signs me straight in."** *Answer the 8 scripted questions* → **Save my answers →**. **"Nobody sees our house until everyone who stays has answered."** | Meanwhile, *open "Update your answers"*: guests 1 → **4+** ("Geddes overtakes Packard"; top mismatch becomes guests) → back to **1**. Bedtime **A lot** → order changes → back to **Some**. **Pets** on → Geddes Ave excluded "pets in the home" → **off**. **"Every number moves for a reason you can check by hand. No AI."** |
 | **2:30–2:50** | → page flips to **Live** by itself. **"Live the moment my roommate answered."** | → "…is now live." | *Reload Browse* → **Oakland Ave house #1, 96, Strong fit.** **"There it is, at the top. And the score is set by the roommate I fit worst, because I live with all of them."** |
 | **2:50–3:20** | | | *Open it* → point at where we match / differ, and covers my dates → *(optional)* tick **Share my phone number** → **Request to join this household**. **"If I want, the roommates get my number with the request, so they can text me before they vote."** |
 | **3:20–3:50** | **"I don't get a vote. I won't live there."** | *Inbox* (email "Alex wants to join" also arrives) → shows Alex's answers → **"I only see Alex's answers once Alex asks. Blind until then, both ways."** → **Approve ✓** | Card flips to **Approved → Continue to terms →**. **"Every stayer has to say yes. One pass and it's declined."** |
@@ -103,7 +103,7 @@ judge asks, the stayer edits one answer from their form (**Save changes →**) a
 |---|---|
 | Invite email hasn't arrived after ~20 s | Stayer picks their name from **Viewing as** (top right) (it's listed as "Stayer · Oakland Ave (NOT answered)") → the form. Say "the email's on its way" and keep going. |
 | Request/approval doesn't show up | Reload that window. Pages poll every few seconds. |
-| Oakland Ave not #1 | Someone's answers differ, or a "Try a change" setting wasn't put back. It still appears, just ranked differently; say "and there it is". |
+| Oakland Ave not #1 | Someone's answers differ, or a "Update your answers" setting wasn't put back. It still appears, just ranked differently; say "and there it is". |
 | Contacts don't appear | Someone hasn't picked a contact pill + typed a value, or hasn't agreed to all. |
 | Network/Tailscale/Gmail down | Switch to the **one-laptop version** below. Reset first. |
 
@@ -142,7 +142,7 @@ for exploring.
    - Window C, Firefox (or a second Chrome profile): **Sam** (stayer)
    Arrange them so A is big and B + C are stacked on the right. Zoom to 110–125% so judges can read it.
 3. **Reset demo** (gear icon, top-right of the header → Reset demo) in any window. Then:
-   - Window A → switch to **Alex** → open `/incoming/browse`. Leave the "Try a change" panel closed.
+   - Window A → switch to **Alex** → open `/incoming/browse`. Leave the "Update your answers" panel closed.
    - Window B → **Priya** → `/stayer/inbox`.
    - Window C → **Sam** → `/stayer/inbox`.
    - Have a 4th tab in window A ready on the switcher for **Omar** (or just switch Alex → Omar → Alex; it's 2 clicks).
@@ -195,7 +195,7 @@ the summer."**
 
 #### 1:35–2:35 · Decision sensitivity: change the inputs, the answer changes
 
-*Open "Try a change" on Browse.*
+*Open "Update your answers" on Browse.*
 
 1. *Guests: 1 → 4+.*
    **"If Alex actually has people over most nights…"** → Geddes overtakes Packard; Packard's top mismatch becomes
@@ -343,8 +343,9 @@ channels. No harassment surface, no moderation burden.
 ### Product and market
 
 **"What about price?"**
-Every listing shows its monthly rent. An incoming student can set a budget (step 1, or *Try a change* on Browse):
-houses above it move to the excluded list with the reason ("Over your budget: $1,050/mo"). Rent never changes a fit
+Every listing shows its monthly rent. An incoming student can set a monthly price range (step 1), or a maximum
+under *Update your answers* on Browse. Houses outside it move to the hidden list with the reason ("Over your budget:
+$1,050/mo", "Below your price range: $750/mo") and can still be opened. Rent never changes a fit
 score; fit is only about living together. Payment itself happens outside burrow.
 
 **"Can they talk before deciding?"**

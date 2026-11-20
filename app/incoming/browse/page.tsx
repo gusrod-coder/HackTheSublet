@@ -107,14 +107,14 @@ export default function Page() {
                 <details className={p.excluded}>
                   <summary>
                     <span className={s.label}>
-                      {matches.data.excluded.length} {matches.data.excluded.length === 1 ? "house" : "houses"} hidden by your deal-breakers or budget
+                      {matches.data.excluded.length} {matches.data.excluded.length === 1 ? "house" : "houses"} hidden by your deal-breakers or price range
                     </span>
                     <svg className={p.exCaret} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                       <path d="m9 6 6 6-6 6" />
                     </svg>
                   </summary>
                   <p className={`${s.caption} ${s.muted}`}>
-                    These aren’t ranked, but you can still look. Change your deal-breakers or budget in <strong>Update your answers</strong> to bring them back.
+                    These aren’t ranked, but you can still look. Change your deal-breakers or price in <strong>Update your answers</strong> to bring them back.
                   </p>
                   <ul className={p.exList}>
                     {matches.data.excluded.map((x) => (
