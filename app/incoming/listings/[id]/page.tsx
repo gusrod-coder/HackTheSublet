@@ -11,12 +11,15 @@ import { useApi } from "@/lib/use-api";
 import { QUESTIONS, type HouseholdResponse } from "@/lib/types";
 import { OutsideAppNotice, SampleBadge } from "@/components/shared/ui";
 import { FitPill, Icon, Persona, dateRange, habitSummary, joinNames, personaFor, roomLabel, styles as s } from "@/components/incoming/ui";
+import { usePoll } from "@/components/incoming/usePoll";
 import p from "./page.module.css";
 
 export default function Page() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { data, error, loading, reload } = useApi(() => api.incoming.household(id), [id]);
+  // While a request is waiting on votes, pick up approve/decline without a manual reload.
+  usePoll(() => void reload(), 5000, data?.request?.status === "sent");
 
   useEffect(() => {
     if (error?.code === "PROFILE_INCOMPLETE") router.replace("/incoming?gate=profile");

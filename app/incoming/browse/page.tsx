@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { api } from "@/lib/api-client";
+import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { DESTINATIONS, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
 import { SampleBadge } from "@/components/shared/ui";
@@ -105,7 +105,7 @@ export default function Page() {
             <aside className={p.side}>
               <div className={`${s.cardInk} ${p.map}`}>
                 <ListingMap
-                  pins={ranked.map((r) => ({ id: r.listing.id, lat: r.listing.lat, lng: r.listing.lng, label: `${r.rank}. ${r.listing.name}` }))}
+                  pins={ranked.map((r) => ({ id: r.listing.id, lat: r.listing.lat, lng: r.listing.lng, label: `${r.rank}. ${r.listing.name}`, rank: r.rank }))}
                   highlightId={hover}
                   destination={prof?.destination ?? null}
                   onPinClick={(id) => router.push(`/incoming/listings/${id}`)}
@@ -168,13 +168,17 @@ function ListingCard({ r, top, onHover }: { r: Ranked & { rank: number }; top: b
 /** Demo quick-edit (spec §8.2–8.4): change one habit, one priority or one deal-breaker and watch the ranking move. */
 function TryAChange({ profile, onSaved }: { profile: IncomingProfileResponse; onSaved: () => void }) {
   const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<string | null>(null);
   const guests = QUESTIONS.find((q) => q.key === "guests")!;
   const bedtime = QUESTIONS.find((q) => q.key === "bedtime")!;
   const save = async (b: IncomingProfileBody) => {
     setBusy(true);
+    setProblem(null);
     try {
       await api.incoming.saveProfile(b);
       onSaved();
+    } catch (e) {
+      setProblem(e instanceof ApiClientError ? e.message : "Couldn’t save that change. Try again.");
     } finally {
       setBusy(false);
     }
@@ -211,7 +215,8 @@ function TryAChange({ profile, onSaved }: { profile: IncomingProfileResponse; on
           </button>
         </div>
       </div>
-      <Link href="/incoming/habits" className={`${s.caption}`}>Edit all answers →</Link>
+      {problem && <p className={s.noticeWarn} role="alert">{problem}</p>}
+      <Link href="/incoming/habits" className={s.caption}>Edit all answers →</Link>
     </details>
   );
 }

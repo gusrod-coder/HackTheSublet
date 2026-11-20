@@ -9,18 +9,30 @@ import { useApi } from "@/lib/use-api";
 import type { IncomingRequestsResponse } from "@/lib/types";
 import { OutsideAppNotice, SampleBadge } from "@/components/shared/ui";
 import { Icon, StepDots, dateRange, roomLabel, styles as s } from "@/components/incoming/ui";
+import { usePoll } from "@/components/incoming/usePoll";
 import p from "./page.module.css";
 
 type Req = IncomingRequestsResponse["requests"][number];
 
 export default function Page() {
-  const { data, error, loading } = useApi(() => api.incoming.myRequests(), []);
+  const { data, error, loading, reload } = useApi(() => api.incoming.myRequests(), []);
+  // Demo step 6: show sent → approved as stayers vote, without a manual reload.
+  const waiting = data?.requests.some((r) => r.status === "sent") ?? false;
+  usePoll(() => void reload(), 5000, waiting);
   return (
     <div className={s.page}>
       <StepDots step={4} />
       <div className={p.head}>
         <h1 className={s.display}>Your requests</h1>
         <p className={s.lead}>Everyone who stays has to say yes. You’ll see how many have, not who.</p>
+        {data && data.requests.length > 0 && (
+          <div className={p.refresh}>
+            <button type="button" className={s.btnText} disabled={loading} onClick={() => void reload()}>
+              {loading ? "Checking…" : "Refresh"}
+            </button>
+            {waiting && <span className={`${s.caption} ${s.muted}`}>Checking for new votes every few seconds.</span>}
+          </div>
+        )}
       </div>
       {loading && !data && <p className={s.muted}>Loading…</p>}
       {error && <p className={s.noticeWarn}>{error.message}</p>}
