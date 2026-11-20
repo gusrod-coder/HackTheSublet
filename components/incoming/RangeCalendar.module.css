@@ -4,26 +4,26 @@
 .monthName { font-family: var(--font-heading), cursive; font-weight: 700; font-size: 19px; line-height: 24px; }
 .chev {
   width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-  border: 2px solid var(--line); border-radius: 12px; background: none; color: var(--ink); cursor: pointer;
+  border: 2px solid var(--line); border-radius: var(--radius-md); background: none; color: var(--ink); cursor: pointer;
 }
 .chev:disabled { opacity: 0.35; cursor: not-allowed; }
 .grid { display: flex; flex-wrap: wrap; gap: 4px; }
 .dow { width: 44px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--muted); }
 .day {
   width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; padding: 0;
-  border: 0; border-radius: 12px; background: none; font: inherit; font-size: 14px; line-height: 18px; font-weight: 700;
+  border: 0; border-radius: var(--radius-md); background: none; font: inherit; font-size: 14px; line-height: 18px; font-weight: 700;
   color: var(--ink); cursor: pointer;
 }
 .default:hover { background: var(--cream); }
-.muted { color: #a89a8e; cursor: default; }
+.muted { color: var(--muted); opacity: 0.55; cursor: default; }
 .range { background: var(--mint); border-radius: 0; }
 .flex { background: var(--butter); border: 1.5px dashed var(--okay); color: var(--okay); }
-.selected { background: var(--deep-teal); border: 2px solid var(--ink); border-radius: 999px; box-shadow: var(--sticker); color: var(--brand-ink); }
+.selected { background: var(--deep-teal); border: 2px solid var(--ink); border-radius: var(--radius-pill); box-shadow: var(--sticker); color: var(--brand-ink); }
 .legend { display: flex; flex-direction: column; gap: 12px; padding-top: 44px; }
 .legendRow { display: flex; align-items: center; gap: 12px; font-size: 12px; line-height: 16px; font-weight: 600; }
 .mini { width: 31px; height: 31px; font-size: 10px; cursor: default; box-shadow: none; }
-.mini.selected { box-shadow: 0 2.8px 0 #2b2420; border-width: 1.4px; }
-.mini.flex { border-width: 1px; border-radius: 8px; }
+.mini.selected { box-shadow: 0 2.8px 0 var(--ink); border-width: 1.4px; }
+.mini.flex { border-width: 1px; border-radius: var(--radius-sm); }
 
 @media (max-width: 640px) {
   .months { gap: 24px; }

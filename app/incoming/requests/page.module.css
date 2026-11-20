@@ -9,7 +9,7 @@
 .votes { display: flex; gap: 6px; align-items: center; margin-top: 4px; }
 .vote {
   width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
-  border: 2px solid var(--ink); border-radius: 999px; background: var(--card);
+  border: 2px solid var(--ink); border-radius: var(--radius-pill); background: var(--card);
 }
 .voteYes { background: var(--deep-teal); color: var(--brand-ink); }
 .votes .vote:last-of-type { margin-right: 6px; }
