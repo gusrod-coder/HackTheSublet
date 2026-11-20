@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { api } from "@/lib/api-client";
+import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { Persona, PERSONA_FOR_ROLE } from "./Persona";
 import burrowIcon from "./assets/burrow-icon.png";
@@ -33,7 +33,19 @@ export function AppHeader() {
 
   async function onReset() {
     if (!confirm("Reset all sample data to the demo starting state?")) return;
-    await api.demo.reset();
+    try {
+      await api.demo.reset();
+    } catch (e) {
+      if (!(e instanceof ApiClientError && e.code === "RESET_CODE")) throw e;
+      const code = prompt("Demo passcode");
+      if (!code) return;
+      try {
+        await api.demo.reset(code);
+      } catch {
+        alert("Wrong passcode. Nothing was reset.");
+        return;
+      }
+    }
     window.location.href = "/";
   }
 

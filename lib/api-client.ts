@@ -68,7 +68,8 @@ export const api = {
     users: () => call<DemoUsersResponse>("GET", "/api/demo/users"),
     switchTo: (userId: string) => call<{ user: { id: string; name: string } }>("POST", "/api/demo/switch", { userId }),
     signOut: () => call<{ ok: true }>("DELETE", "/api/demo/switch"),
-    reset: () => call<{ ok: true }>("POST", "/api/demo/reset"),
+    /** On the public address the server may ask for the demo passcode (403 RESET_CODE). */
+    reset: (code?: string) => call<{ ok: true }>("POST", "/api/demo/reset", code ? { code } : {}),
   },
   dev: {
     outbox: (to?: string) => call<OutboxResponse>("GET", `/api/dev/outbox${to ? `?to=${enc(to)}` : ""}`),
