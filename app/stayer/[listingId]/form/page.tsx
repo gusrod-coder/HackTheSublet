@@ -1,7 +1,7 @@
 "use client";
 /**
  * Describe your household. LANE: h3. Spec: §4.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h3):
  *  - <HabitForm answers onAnswers /> (no weights for stayers).

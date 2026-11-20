@@ -1,7 +1,7 @@
 "use client";
 /**
  * You've been invited. LANE: h3. Spec: §3 Stayers, §7.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h3):
  *  - Explain why to answer and what is protected (blind reveal: incoming only sees answers after completing theirs).

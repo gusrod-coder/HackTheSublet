@@ -15,6 +15,14 @@ Delete the `<DevJson>` dump once the real UI is in.
 
 h2: when a request is approved, link the incoming to `/requests/[id]` (h3's screen). Don't build a second terms page.
 
+## Frontend reference: Figma
+
+h1, h2 and h3 should each **consult the Figma MCP for frontend reference** before and while building screens.
+Each human gets their own Figma link(s) in their chat; use the link you were given rather than guessing at
+layouts. Match its layout, hierarchy and copy, built with the primitives in `app/globals.css`. If the Figma
+design needs data the API doesn't return, send a `[REQ]` to h1; don't invent fields. The clickable prototype
+(https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt) is a secondary reference for flow.
+
 ## Rules
 
 1. **Stay in your lane.** Don't edit files outside it. Need something? Send a request (below).

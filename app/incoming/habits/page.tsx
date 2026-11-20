@@ -1,7 +1,7 @@
 "use client";
 /**
  * Your habits. LANE: h2. Spec: §4, §7.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h2):
  *  - <HabitForm answers weights onAnswers onWeights /> from components/shared/HabitForm.

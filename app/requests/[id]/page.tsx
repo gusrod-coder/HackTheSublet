@@ -1,7 +1,7 @@
 "use client";
 /**
  * Terms and contacts. LANE: h3. Spec: §5 Generated terms, gate §2.5.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h3):
  *  - Shared by incoming AND stayers (api.requests.get(id).viewerRole tells you which).

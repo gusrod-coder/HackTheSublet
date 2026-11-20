@@ -1,7 +1,7 @@
 "use client";
 /**
  * Your listings. LANE: h3. Spec: §3 Leaver.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h3):
  *  - List my listings with status; "Waiting on N roommates" until live.

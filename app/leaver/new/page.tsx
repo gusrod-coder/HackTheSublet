@@ -1,7 +1,7 @@
 "use client";
 /**
  * List your room. LANE: h3. Spec: §3 Leaver, §7.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h3):
  *  - Form: address, map pin (ListingMap with onMapClick), area, dates, room type, house rules, smoking/pets flags.

@@ -1,7 +1,7 @@
 "use client";
 /**
  * Household. LANE: h2. Spec: §3 Household page.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h2):
  *  - Profile card per stayer with their score; limiting stayer called out.

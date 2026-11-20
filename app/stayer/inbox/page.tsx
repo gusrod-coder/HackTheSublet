@@ -1,7 +1,7 @@
 "use client";
 /**
  * Requests to join. LANE: h3. Spec: §3 Stayers, gate §2.4.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h3):
  *  - Per request: incoming name/dates, household fit + per-stayer fit, matches/mismatches, their answers.

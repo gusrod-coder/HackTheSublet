@@ -1,7 +1,7 @@
 "use client";
 /**
  * Invite your roommates. LANE: h3. Spec: §3 Leaver, gate §2.1.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h3):
  *  - Invite by email: api.leaver.invite(id, { invites: [{ email, name }] }).

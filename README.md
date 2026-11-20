@@ -7,6 +7,9 @@ household, incoming students describe themselves with the same 8 questions, list
 Built for Hack the Lease (Nov 19–20, 2026). Full spec: [`HOUSEHOLDFIT_BUILD_SPEC.md`](HOUSEHOLDFIT_BUILD_SPEC.md) ·
 Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
 
+**Frontend reference:** each teammate's agent consults the **Figma MCP** using the Figma links shared in their
+own chat. See [`docs/LANES.md`](docs/LANES.md#frontend-reference-figma).
+
 ## Quick start
 
 Node 20+ required. No database server: SQLite is a file at `prisma/dev.db`.

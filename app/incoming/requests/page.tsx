@@ -1,7 +1,7 @@
 "use client";
 /**
  * Your requests. LANE: h2. Spec: §3 Request status.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h2):
  *  - sent → approved / declined, with approvals.approved / approvals.total.

@@ -2,6 +2,9 @@
 
 Read `docs/LANES.md` first. Ask your human which lane you are (h1 / h2 / h3) if it isn't clear.
 
+- **Frontend reference: consult the Figma MCP.** Your human will give you Figma link(s) in chat; read them with
+  the Figma MCP before building or changing a screen, and match that design. If no link has been given yet, ask
+  for it. Need data the design shows but the API lacks? `[REQ]` to h1.
 - Only edit files in your lane. Anything else, including `lib/types.ts`, `prisma/`, `app/api/`, and
   `components/shared/`, goes through a `[REQ]` to h1 using the format in `docs/LANES.md`.
 - Import types from `@/lib/types`. Call the backend via `api` in `@/lib/api-client` (typed). Don't hand-roll fetch.

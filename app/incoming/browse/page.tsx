@@ -1,7 +1,7 @@
 "use client";
 /**
  * Households for you. LANE: h2. Spec: §3 Browse, §5, §8.2–8.4.
- * Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
+ * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
  * TODO(h2):
  *  - Ranked list: FitBadge(householdScore, label), average, coverage line, top-2 matches/mismatches.
