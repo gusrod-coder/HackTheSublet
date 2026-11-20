@@ -20,3 +20,8 @@ export async function requireUser(): Promise<User> {
   if (!u) throw unauthorized();
   return u;
 }
+
+/** Only same-site paths for post-login redirects: "/stayer/inbox" yes, "//evil.com" or "https://…" no. */
+export function safeNext(next: string | null): string {
+  return next && next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/\\") ? next : "/";
+}

@@ -45,7 +45,7 @@ for exploring.
    - Window B, Chrome incognito: **Priya** (stayer)
    - Window C, Firefox (or a second Chrome profile): **Sam** (stayer)
    Arrange them so A is big and B + C are stacked on the right. Zoom to 110–125% so judges can read it.
-3. **Reset demo** (sun icon, top-right of the header → Reset demo) in any window. Then:
+3. **Reset demo** (gear icon, top-right of the header → Reset demo) in any window. Then:
    - Window A → switch to **Alex** → open `/incoming/browse`. Leave the "Try a change" panel closed.
    - Window B → **Priya** → `/stayer/inbox`.
    - Window C → **Sam** → `/stayer/inbox`.
@@ -173,7 +173,7 @@ decision. Thank you."**
 
 | Problem | Recovery (backup person handles it; narrator keeps talking) |
 |---|---|
-| Anything gets into a weird state | **Reset demo** (sun icon menu, top-right), re-switch to Alex. Skip to the next section; don't redo. |
+| Anything gets into a weird state | **Reset demo** (gear icon, top-right), re-switch to Alex. Skip to the next section; don't redo. |
 | Omar's answers differ from the script | Hill St still appears, just at a different rank. Say "and there it is" and keep going. |
 | Inbox doesn't update after the request | Reload the tab. It polls every few seconds. |
 | Contacts don't appear | Someone hasn't agreed to every term or set a contact. Check each window's terms page. |

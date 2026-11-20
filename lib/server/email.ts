@@ -61,6 +61,13 @@ export function skipReason(email: string): string | null {
   return null;
 }
 
+/** Email links sign the reader in as the recipient (demo auth), then open the page. */
+export function emailLink(path: string, userId?: string): string {
+  return userId
+    ? `${APP_URL}/api/demo/login?u=${encodeURIComponent(userId)}&next=${encodeURIComponent(path)}`
+    : APP_URL + path;
+}
+
 /** Where mail for a sample address goes when EMAIL_REDIRECT is set (Gmail-style plus addressing), else null. */
 export function redirectFor(email: string, name?: string): string | null {
   const target = process.env.EMAIL_REDIRECT?.trim();
@@ -72,7 +79,7 @@ export function redirectFor(email: string, name?: string): string | null {
 }
 
 export async function sendEmail(e: EmailInput): Promise<void> {
-  const link = e.path ? APP_URL + e.path : null;
+  const link = e.path ? emailLink(e.path, e.to.id) : null;
   const text = `Hi ${e.to.name ?? "there"},\n\n${e.body}${link ? `\n\n${link}` : ""}\n\n— burrow (sample prototype for Hack the Lease)`;
   let row;
   try {

@@ -5,6 +5,7 @@
  * Outbox + Reset demo are demo-only extras not in Figma. OWNER: h1.
  */
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { api } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
@@ -68,20 +69,54 @@ export function AppHeader() {
             </span>
           </>
         )}
-        {/* Figma's 40px settings circle. Demo-only tools live here so the header stays one row. */}
-        <details className="settings">
-          <summary className="settings-btn" aria-label="Demo settings" title="Demo settings">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-              <circle cx="12" cy="12" r="4" />
-              <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
-            </svg>
-          </summary>
-          <div className="settings-menu card">
-            <Link href="/dev/outbox" className="btn ghost small">Email outbox</Link>
-            <button className="btn ghost small" type="button" onClick={onReset}>Reset demo</button>
-          </div>
-        </details>
+        <SettingsToggle onReset={onReset} />
       </div>
     </header>
+  );
+}
+
+/** Gear button that opens a small floating panel of demo tools. Closes on outside click or Escape. */
+function SettingsToggle({ onReset }: { onReset: () => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+  return (
+    <div className="settings" ref={ref}>
+      <button
+        type="button"
+        className="settings-btn"
+        aria-label="Settings"
+        aria-expanded={open}
+        aria-controls="settings-panel"
+        title="Settings"
+        onClick={() => setOpen((o) => !o)}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+        </svg>
+      </button>
+      {open && (
+        <div id="settings-panel" className="settings-panel" role="menu">
+          <p className="settings-title">Demo settings</p>
+          <Link href="/dev/outbox" className="settings-item" role="menuitem">Email outbox</Link>
+          <button type="button" className="settings-item" role="menuitem" onClick={() => { setOpen(false); onReset(); }}>
+            Reset demo
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

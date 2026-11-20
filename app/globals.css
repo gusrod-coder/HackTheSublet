@@ -159,14 +159,23 @@ fieldset { border: var(--border); padding: 0; margin: 0; }
 .avatar > * { position: absolute; left: 50%; top: 50%; margin: -60px 0 0 -44px; }
 .switch-select { padding: 6px 10px; border-radius: var(--radius-pill); border: 2px solid var(--line-soft); font-size: 13px; max-width: 180px; }
 .topbar-right { flex-wrap: nowrap; }
-.settings { position: relative; }
+.settings { position: relative; flex: none; }
 .settings-btn {
-  list-style: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;
-  border-radius: 50%; background: var(--cream); color: var(--ink); cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0;
+  border: 0; border-radius: 50%; background: var(--cream); color: var(--ink); cursor: pointer;
 }
-.settings-btn::-webkit-details-marker { display: none; }
-.settings-btn:hover { background: var(--sky); }
-.settings-menu { position: absolute; right: 0; top: 48px; z-index: 1000; display: flex; flex-direction: column; align-items: stretch; gap: 4px; padding: 8px; min-width: 170px; }
+.settings-btn:hover, .settings-btn[aria-expanded="true"] { background: var(--sky); color: var(--brand); }
+.settings-panel {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 1000; width: 200px;
+  display: flex; flex-direction: column; gap: 2px; padding: 8px;
+  background: var(--card); border: var(--border); border-radius: var(--radius-lg); box-shadow: var(--sticker);
+}
+.settings-title { margin: 4px 8px 6px; font-size: 12px; font-weight: 600; color: var(--muted); }
+.settings-item {
+  display: block; width: 100%; padding: 8px 12px; border: 0; border-radius: var(--radius-md); background: transparent;
+  color: var(--ink); font: inherit; font-size: 14px; font-weight: 700; text-align: left; text-decoration: none; cursor: pointer;
+}
+.settings-item:hover { background: var(--sky); color: var(--brand); }
 
 /* Hand-drawn 2px outline (Figma sketch edge). The wobbly line is an overlay, so text is never distorted.
    Applied to cards, buttons and selected options; add .sketch to anything else with a 2px ink border. */

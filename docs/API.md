@@ -93,3 +93,8 @@ never contact details.
 | §2.5 Contact exchange | `termsState().contactsUnlocked` |
 
 `npm run smoke` exercises every row above.
+
+### Email sign-in links
+`GET /api/demo/login?u=<userId>&next=<path>`: every notification email links here. It sets the demo session cookie
+to the recipient (same as the switcher) and redirects to `next` (same-site paths only), so clicking Priya's
+email opens Priya's inbox as Priya.

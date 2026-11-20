@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { redirectFor, skipReason } from "./email";
+import { emailLink, redirectFor, skipReason } from "./email";
+import { safeNext } from "./session";
 
 // Prisma (imported by ./email) loads the developer's .env; tests must not depend on it.
 beforeEach(() => {
@@ -39,5 +40,17 @@ describe("EMAIL_REDIRECT for demo personas", () => {
   it("never redirects real addresses", () => {
     process.env.EMAIL_REDIRECT = "team@gmail.com";
     expect(redirectFor("someone@umich.edu", "Someone")).toBeNull();
+  });
+});
+
+describe("email links sign in as the recipient", () => {
+  it("routes through /api/demo/login with the user and page", () => {
+    expect(emailLink("/stayer/l_hill/form", "u_omar")).toMatch(/\/api\/demo\/login\?u=u_omar&next=%2Fstayer%2Fl_hill%2Fform$/);
+  });
+  it("only redirects to same-site paths", () => {
+    expect(safeNext("/stayer/inbox")).toBe("/stayer/inbox");
+    expect(safeNext("//evil.example")).toBe("/");
+    expect(safeNext("https://evil.example")).toBe("/");
+    expect(safeNext(null)).toBe("/");
   });
 });

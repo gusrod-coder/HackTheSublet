@@ -2,7 +2,7 @@
 
 Talk track, timings, roles and Q&A prep: **`docs/DEMO-GUIDE.md`**. This file is the click reference.
 
-Start from a clean state: **Reset demo** in the sun-icon menu (top right) (or `POST /api/demo/reset`). Demo users are in the switcher.
+Start from a clean state: **Reset demo** in the gear (settings) menu, top right (or `POST /api/demo/reset`). Demo users are in the switcher.
 Numbers below come from the sample data and are pinned by `lib/scoring.test.ts`.
 
 | # | Show | Do | Expect |
