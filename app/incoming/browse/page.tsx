@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
-import { DESTINATIONS, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
+import { DEAL_BREAKERS, DESTINATIONS, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
 import { BUDGET_OPTIONS, SampleBadge, formatRent } from "@/components/shared/ui";
 import { FitPill, Icon, StepDots, dateRange, roomLabel, styles as s } from "@/components/incoming/ui";
 import { BrowseHelp } from "@/components/incoming/BrowseHelp";
@@ -129,6 +129,7 @@ export default function Page() {
             </div>
 
             <aside className={p.side}>
+              {prof && <TryAChange profile={prof} onSaved={() => { void matches.reload(); void profile.reload(); }} />}
               <div className={`${s.cardInk} ${p.map}`}>
                 <ListingMap
                   pins={ranked.map((r) => ({ id: r.listing.id, lat: r.listing.lat, lng: r.listing.lng, label: `${r.rank}. ${r.listing.name}`, rank: r.rank }))}
@@ -139,7 +140,6 @@ export default function Page() {
                 />
                 <span className={p.mapCaption}>pins numbered by fit rank</span>
               </div>
-              {prof && <TryAChange profile={prof} onSaved={() => { void matches.reload(); void profile.reload(); }} />}
             </aside>
           </div>
         )}
@@ -232,7 +232,6 @@ function TryAChange({ profile, onSaved }: { profile: IncomingProfileResponse; on
       setBusy(false);
     }
   };
-  const pets = profile.dealBreakers.includes("pets");
   return (
     <details className={`${s.cardSoft} ${p.tryCard}`}>
       <summary className={s.headingS}>Try a change</summary>
@@ -256,12 +255,17 @@ function TryAChange({ profile, onSaved }: { profile: IncomingProfileResponse; on
         </div>
       </div>
       <div className={p.tryRow}>
-        <span className={s.caption}>Deal-breaker</span>
+        <span className={s.caption}>Deal-breakers (hide a house)</span>
         <div className={s.choices}>
-          <button type="button" className={s.choice} disabled={busy} aria-pressed={pets}
-            onClick={() => save({ dealBreakers: pets ? profile.dealBreakers.filter((d) => d !== "pets") : [...profile.dealBreakers, "pets"] })}>
-            Pets
-          </button>
+          {DEAL_BREAKERS.map((d) => {
+            const on = profile.dealBreakers.includes(d.key);
+            return (
+              <button key={d.key} type="button" className={s.choice} disabled={busy} aria-pressed={on}
+                onClick={() => save({ dealBreakers: on ? profile.dealBreakers.filter((x) => x !== d.key) : [...profile.dealBreakers, d.key] })}>
+                {d.label}
+              </button>
+            );
+          })}
         </div>
       </div>
       <div className={p.tryRow}>
