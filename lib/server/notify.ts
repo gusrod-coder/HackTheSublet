@@ -17,10 +17,10 @@ export async function notifyInvited(listingId: string, stayerId: string) {
   await sendEmail({
     to: { email: u.email, id: u.id, name: u.name },
     kind: "invite",
-    subject: `${l.leaver.name} listed your place on burrow. Describe your household`,
+    subject: `${l.leaver.name} listed your place on burrow. Describe your household (2 min)`,
     body:
       `${l.leaver.name} is subletting their room at ${l.address} this summer. You're staying, so you get a say in who moves in.\n\n` +
-      `Answer 8 quick habit questions (bedtime, guests, dishes…). The listing stays hidden from incoming students until every roommate who stays has answered, ` +
+      `Answer 8 quick habit questions (bedtime, guests, dishes…). It takes about 2 minutes. The listing stays hidden from incoming students until every roommate who stays has answered, ` +
       `and nobody moves in without your approval. Your answers are only shown to incoming students who've answered the same questions themselves.`,
     path: `/stayer/${l.id}/form`,
   });

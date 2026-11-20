@@ -8,6 +8,7 @@ import { api } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { Persona } from "@/components/shared/Persona";
 import burrowIcon from "@/components/shared/assets/burrow-icon.png";
+import tryQr from "@/components/shared/assets/try-burrow-qr.svg";
 import s from "./page.module.css";
 
 /** Figma "Logo / Burrow icon" (55:2015): the fox peeking out of its burrow, cropped in a sky tile. */
@@ -98,6 +99,15 @@ export default function Home() {
             {user ? <>Signed in as <strong>{user.name}</strong>. </> : <>Pick a demo person from <strong>Switch role</strong> at the top, or choose a role below. </>}
             All listings and people here are sample data.
           </p>
+          {/* For judges/audience: scan to open the public demo site. Hidden on phones (already there). */}
+          <div className={s.tryPhone}>
+            <img src={tryQr.src} alt="QR code to open burrow on your phone" width={112} height={112} className={s.tryQr} />
+            <p className={s.caption}>
+              <strong>Try it on your phone.</strong>
+              <br />
+              Scan, then pick anyone from <strong>Switch role</strong>.
+            </p>
+          </div>
         </div>
         <BurrowIcon size={264} />
       </section>

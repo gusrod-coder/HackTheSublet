@@ -16,6 +16,8 @@
 
 /* Hero */
 .hero { display: flex; align-items: center; gap: 64px; }
+.tryPhone { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+.tryQr { display: block; width: 112px; height: 112px; border-radius: 12px; border: 2px solid var(--line-soft); background: #fff; }
 .heroText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
 .actions { display: flex; gap: 16px; flex-wrap: wrap; padding: 8px 0; }
 
@@ -64,3 +66,5 @@
   .why { flex-direction: column; align-items: flex-start; padding: 28px; gap: 20px; }
   .cta { padding: 40px 20px; }
 }
+
+@media (max-width: 640px) { .tryPhone { display: none; } }
