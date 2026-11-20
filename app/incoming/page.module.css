@@ -4,10 +4,10 @@
 .summary { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .when {
   display: flex; flex-direction: column; gap: 4px; padding: 8px 16px; white-space: nowrap;
-  border: 2px solid var(--line); border-radius: 16px; background: var(--card);
+  border: 2px solid var(--line); border-radius: var(--radius-lg); background: var(--card);
 }
 .whenActive { background: var(--mint); border-color: var(--deep-teal); }
-.nights { padding: 8px 12px; border-radius: 999px; background: var(--butter); color: var(--okay); font-size: 14px; line-height: 18px; font-weight: 700; }
+.nights { padding: 8px 12px; border-radius: var(--radius-pill); background: var(--butter); color: var(--okay); font-size: 14px; line-height: 18px; font-weight: 700; }
 .flex { display: flex; flex-direction: column; gap: 12px; padding-top: 16px; border-top: 2px dashed var(--line); }
 .flexRow { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
 .where { display: flex; gap: 16px; align-items: center; padding: 24px; }
