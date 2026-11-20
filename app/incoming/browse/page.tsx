@@ -114,7 +114,7 @@ export default function Page() {
                     </svg>
                   </summary>
                   <p className={`${s.caption} ${s.muted}`}>
-                    These aren’t ranked, but you can still look. Change your deal-breakers or budget in <strong>Try a change</strong> to bring them back.
+                    These aren’t ranked, but you can still look. Change your deal-breakers or budget in <strong>Update your answers</strong> to bring them back.
                   </p>
                   <ul className={p.exList}>
                     {matches.data.excluded.map((x) => (
@@ -261,7 +261,7 @@ function TryAChange({ profile, onSaved }: { profile: IncomingProfileResponse; on
   };
   return (
     <details className={`${s.cardSoft} ${p.tryCard}`}>
-      <summary className={s.headingS}>Try a change</summary>
+      <summary className={s.headingS}>Update your answers</summary>
       <p className={`${s.caption} ${s.muted}`}>Saved to your profile. The ranking updates right away.</p>
       <div className={p.tryRow}>
         <span className={s.caption}>{guests.question}</span>

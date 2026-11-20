@@ -5,7 +5,7 @@
  *  - deal-breakers exclude everything -> turn one off (per active deal-breaker)
  *  - nothing released yet             -> say how many houses are waiting on roommates
  *  - nothing covers your dates (even with your flexibility) -> widen to ±2 weeks / change dates
- * Fixes save to the profile like "Try a change", then the ranking reloads.
+ * Fixes save to the profile like "Update your answers", then the ranking reloads.
  */
 import { useState } from "react";
 import Link from "next/link";
