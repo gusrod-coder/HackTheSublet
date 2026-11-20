@@ -60,10 +60,14 @@ function ClickHandler({ onMapClick }: { onMapClick?: (lat: number, lng: number) 
 
 function FitBounds({ pins }: { pins: MapPin[] }) {
   const map = useMap();
+  // Re-fit only when the set of pin positions changes, not on every re-render with a fresh array
+  // (Browse polls every few seconds; re-fitting would snap the map back while someone pans).
+  const key = pins.map((p) => `${p.lat},${p.lng}`).sort().join("|");
   useEffect(() => {
     if (pins.length > 1) map.fitBounds(L.latLngBounds(pins.map((p) => [p.lat, p.lng])), { padding: [32, 32] });
     else if (pins.length === 1) map.setView([pins[0].lat, pins[0].lng], 15);
-  }, [map, pins]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, key]);
   return null;
 }
 
