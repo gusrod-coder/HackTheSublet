@@ -1,0 +1,61 @@
+.head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.headText { display: flex; flex-direction: column; gap: 8px; }
+.search {
+  display: flex; align-items: center; gap: 8px; width: 256px; padding: 10px 16px;
+  border: 2px solid var(--line); border-radius: 999px; background: var(--card);
+}
+.search input { border: 0; padding: 0; background: none; outline: none; width: 100%; font: inherit; font-size: 14px; color: var(--ink); }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; align-items: start; }
+.list { display: flex; flex-direction: column; gap: 16px; }
+.side { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 16px; }
+
+.card { display: flex; flex-direction: column; gap: 8px; padding: 24px; }
+.cardHead { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.cardTitle { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1; min-width: 0; }
+.rank {
+  width: 22px; height: 22px; flex: none; display: flex; align-items: center; justify-content: center; border-radius: 999px;
+  background: var(--deep-teal); color: var(--brand-ink); font-size: 12px; font-weight: 700;
+}
+.view { margin-left: auto; }
+.tight { margin: 0; }
+.meta { font-size: 12px; line-height: 16px; font-weight: 600; }
+.covers { color: var(--deep-teal); }
+.uncovered { color: var(--okay); }
+.outside { color: var(--weak); }
+.reqTag { margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--mint); color: var(--deep-teal); }
+
+.boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.match, .differ { display: flex; flex-direction: column; gap: 6px; padding: 12px 16px; border-radius: 16px; font-size: 12px; line-height: 16px; font-weight: 600; }
+.match { background: var(--mint); }
+.differ { background: var(--blush); }
+.boxTitle { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 14px; line-height: 18px; font-weight: 700; }
+.match .boxTitle { color: var(--deep-teal); }
+.differ .boxTitle { color: var(--weak); }
+
+.empty { padding: 24px; margin: 0; }
+.excluded { padding: 16px 20px; border: 2px dashed var(--line); border-radius: 16px; }
+.excluded summary { cursor: pointer; }
+.excluded ul { margin: 8px 0 0; padding-left: 16px; }
+
+.map { position: relative; overflow: hidden; padding: 0; }
+.mapCaption {
+  position: absolute; left: 12px; bottom: 12px; z-index: 500; padding: 4px 10px; border-radius: 8px;
+  background: var(--card); font-size: 12px; line-height: 16px; font-weight: 600;
+}
+
+.tryCard { padding: 16px 20px; }
+.tryCard summary { cursor: pointer; }
+.tryCard[open] { display: flex; flex-direction: column; gap: 12px; }
+.tryRow { display: flex; flex-direction: column; gap: 6px; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .side { position: static; order: -1; }
+}
+@media (max-width: 640px) {
+  .boxes { grid-template-columns: 1fr; }
+  .search { width: 100%; }
+  .cardHead { flex-direction: column; align-items: flex-start; }
+  .view { margin-left: 0; }
+}

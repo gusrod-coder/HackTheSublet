@@ -1,0 +1,22 @@
+.intro { display: flex; gap: 20px; align-items: center; }
+.introText { display: flex; flex-direction: column; gap: 8px; }
+.dates { display: flex; flex-direction: column; gap: 20px; padding: 24px 28px; }
+.summary { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.when {
+  display: flex; flex-direction: column; gap: 4px; padding: 8px 16px; white-space: nowrap;
+  border: 2px solid var(--line); border-radius: 16px; background: var(--card);
+}
+.whenActive { background: var(--mint); border-color: var(--deep-teal); }
+.nights { padding: 8px 12px; border-radius: 999px; background: var(--butter); color: var(--okay); font-size: 14px; line-height: 18px; font-weight: 700; }
+.flex { display: flex; flex-direction: column; gap: 12px; padding-top: 16px; border-top: 2px dashed var(--line); }
+.flexRow { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.where { display: flex; gap: 16px; align-items: center; padding: 24px; }
+.whereTitle { width: 260px; flex: none; }
+.actions { display: flex; justify-content: flex-end; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 640px) {
+  .intro { align-items: flex-start; }
+  .dates { padding: 20px 16px; }
+  .where { flex-direction: column; align-items: flex-start; }
+  .whereTitle { width: auto; }
+}
