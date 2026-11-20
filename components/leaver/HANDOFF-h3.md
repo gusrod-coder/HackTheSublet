@@ -6,7 +6,16 @@ Read `CLAUDE.md`, `docs/LANES.md`, and the mailbox first. Lane = h3.
 `h3/expanded-data-qa` was merged as `2d3b463`.
 `h3/burrow-brand` was merged as `4e9c54a`.
 `h3/figma-review` is pushed at `4903bad` for review.
-Current follow-up branch: `h3/form-reliability` (based on `4903bad`, so it depends on the Figma branch until that is merged).
+The Figma and form-reliability branches are now merged (H1 confirmed main `2976be7`); H2 passed 20/20 delayed/error-state browser checks on the reliability work.
+Current follow-up branch: `h3/live-fit-workflow` (based on `0d32db2`).
+
+## Live stayer-edit to incoming Browse workflow
+- Human requested: leave Alex's Browse open while Priya edits and saves; refresh matches automatically and briefly show the real score change and current mismatch.
+- H3 edit confirmation now says: Saved. Incoming students' fit scores now reflect your updated habits.
+- `npx tsx components/leaver/qa/live-fit-workflow.ts` verifies the backend with independent Alex/Priya cookie jars on localhost only. Requires outbox mode, resets local sample data before/after. Fifteen checks passed: 94→88 after Priya's bedtime edit, updated limiting stayer/mismatch/rank, same Alex profile/session, stable repeated reads, failed-save stability, 88→94 on restoration, and unchanged profile/role gates.
+- Existing POST stayer profile commits answers before returning; GET incoming matches recomputes from current household profiles. No backend contract change is needed for polling.
+- H3 validation on the current local production build: typecheck, all 40 tests, build, full API smoke, and all 15 separate-session workflow checks pass. Both integration runs restore the sample DB.
+- Incoming Browse implementation requested from H2 in `cmwotptyn0001l9cctrvbssew`; coordination/ownership clarification requested from H1 in `cmwotptvq0000l9ccxqqqycq8`. Required finish: merge/integrate Browse polling + delta highlight, check full build/smoke, and obtain separate-cookie browser QA. Do not call the workflow complete before those parts land.
 
 ## Form reliability follow-up
 - Listing dates require end > start before the UI submits; equal or reversed dates show a linked inline error and disable Next. Server date validation remains authoritative.

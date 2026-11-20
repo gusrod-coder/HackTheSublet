@@ -99,7 +99,7 @@ export default function StayerFormPage() {
                 {saved.status === "live" && !saved.wasLive
                   ? `Saved, and that was the last answer: ${street} is now live for incoming students.`
                   : saved.status === "live"
-                    ? "Saved. Fit scores for incoming students update right away."
+                    ? "Saved. Incoming students' fit scores now reflect your updated habits."
                     : "Saved. The listing goes live once every roommate has answered."}
               </span>
             </div>
