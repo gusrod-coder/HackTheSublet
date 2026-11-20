@@ -63,24 +63,25 @@ export default function StayerInboxPage() {
         </>
       )}
       {requests.map((r) => (
-        <RequestCard key={r.id} r={r} myId={myId} single={!!single} onChange={() => void inbox.reload()} />
+        <RequestCard key={r.id} r={r} myId={myId} single={!!single} onChange={inbox.reload} />
       ))}
     </Page>
   );
 }
 
-function RequestCard({ r, myId, single, onChange }: { r: Req; myId?: string; single: boolean; onChange: () => void }) {
+function RequestCard({ r, myId, single, onChange }: { r: Req; myId?: string; single: boolean; onChange: () => Promise<void> }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   const act = async (fn: () => Promise<unknown>) => {
+    if (busy) return;
     setBusy(true);
     setErr(null);
     try {
       await fn();
-      onChange();
+      await onChange();
     } catch (e) {
-      if (e instanceof ApiClientError && e.code === "REQUEST_CLOSED") onChange();
+      if (e instanceof ApiClientError && e.code === "REQUEST_CLOSED") await onChange();
       setErr(e instanceof ApiClientError ? e.message : String(e));
     } finally {
       setBusy(false);

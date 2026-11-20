@@ -27,6 +27,7 @@ export default function InvitePage() {
   usePoll(reload, !!data && data.waitingOn > 0 && !busy);
 
   async function run<T>(fn: () => Promise<T>, after: (r: T) => void) {
+    if (busy) return;
     setBusy(true);
     setErr(null);
     try {
@@ -131,8 +132,8 @@ export default function InvitePage() {
 
           {adding && (
             <form className={s.inviteForm} onSubmit={invite}>
-              <input className={kit.input} type="text" placeholder="Name (optional)" value={name} onChange={(e) => setName(e.target.value)} aria-label="Roommate name" />
-              <input className={kit.input} type="email" required placeholder="roommate@umich.edu" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="Roommate email" />
+              <input className={kit.input} type="text" placeholder="Name (optional)" value={name} onChange={(e) => setName(e.target.value)} aria-label="Roommate name" disabled={busy} />
+              <input className={kit.input} type="email" required placeholder="roommate@umich.edu" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="Roommate email" disabled={busy} />
               <button type="submit" className={kit.btn} disabled={busy || !email.trim()}>Send invite</button>
             </form>
           )}
