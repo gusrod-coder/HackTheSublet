@@ -63,7 +63,7 @@ const SLIDES: ReactNode[] = [
   // 5. burrow
   <div key="burrow" className={s.center}>
     <p className={s.eyebrow}>That’s why we built burrow</p>
-    <h2 className={s.title}>The whole household in the same room, before anyone signs.</h2>
+    <h2 className={s.title}>The whole household in the <span className={s.today}>same room</span>, before anyone signs.</h2>
     <div className={s.pair}>
       <Persona kind="dino" tilt={-4} label="Leaver" />
       <Persona kind="capybara" label="Stayer" />
