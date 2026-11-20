@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
-import { PRACTICES, QUESTIONS, type HouseholdResponse } from "@/lib/types";
+import { QUESTIONS, type HouseholdResponse } from "@/lib/types";
 import { OutsideAppNotice, SampleBadge, formatRent } from "@/components/shared/ui";
 import { PERSONA_FOR_ROLE, Persona } from "@/components/shared/Persona";
 import { FitPill, Icon, dateRange, habitSummary, joinNames, roomLabel, styles as s } from "@/components/incoming/ui";
@@ -68,12 +68,6 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
         {l.rent != null && <><strong>{formatRent(l.rent)}</strong> · </>}<strong>{l.address}</strong> · {l.area} · {data.distance.label} · {roomLabel(l.roomType).toLowerCase()}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
         {fit.coverage.charAt(0).toLowerCase() + fit.coverage.slice(1)}
       </p>
-      {fit.practices.length > 0 && (
-        <p className={p.practices}>
-          <span className={s.caption}>Household practices:</span>
-          {fit.practices.map((k) => <span key={k} className={p.practice}>{PRACTICES.find((x) => x.key === k)?.label}</span>)}
-        </p>
-      )}
 
       {data.excludedReasons.length > 0 && (
         <div className={s.noticeWarn}>

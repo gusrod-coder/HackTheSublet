@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
-import { DEAL_BREAKERS, DEFAULT_WEIGHTS, PRACTICES, QUESTIONS, type DealBreakerKey, type PracticeKey, type Weight, type Weights } from "@/lib/types";
+import { DEAL_BREAKERS, DEFAULT_WEIGHTS, QUESTIONS, type DealBreakerKey, type Weight, type Weights } from "@/lib/types";
 import { Persona } from "@/components/shared/Persona";
 import { StepDots, styles as s } from "@/components/incoming/ui";
 import p from "./page.module.css";
@@ -48,7 +48,6 @@ export default function Page() {
   const [answers, setAnswers] = useState<Array<number | null>>(Array(QUESTIONS.length).fill(null));
   const [weights, setWeights] = useState<Weights>(DEFAULT_WEIGHTS);
   const [deal, setDeal] = useState<DealBreakerKey[]>([]);
-  const [must, setMust] = useState<PracticeKey[]>([]);
   const [saving, setSaving] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
   const [missing, setMissing] = useState<string[]>([]);
@@ -58,7 +57,6 @@ export default function Page() {
     setAnswers(data.answers);
     setWeights(data.weights);
     setDeal(data.dealBreakers);
-    setMust(data.mustHaves ?? []);
     const q = new URLSearchParams(window.location.search).get("q");
     if (q === "deal") setStep(DEAL);
     else if (q && Number(q) >= 1 && Number(q) <= QUESTIONS.length) setStep(Number(q) - 1);
@@ -70,7 +68,7 @@ export default function Page() {
 
   const set = <T,>(arr: T[], i: number, v: T) => arr.map((x, j) => (j === i ? v : x));
 
-  async function save(extra: { dealBreakers?: DealBreakerKey[]; mustHaves?: PracticeKey[] } = {}) {
+  async function save(extra: { dealBreakers?: DealBreakerKey[] } = {}) {
     setSaving(true);
     setProblem(null);
     try {
@@ -168,20 +166,6 @@ export default function Page() {
             </button>
           ))}
         </div>
-        <div className={p.mustBlock}>
-          <h2 className={p.mustTitle}>Must-haves <span className={p.optional}>optional</span></h2>
-          <p className={s.caption} style={{ margin: 0 }}>
-            Only show houses where everyone who stays has marked this. Households choose these themselves; nobody is asked who they are.
-          </p>
-          <div className={s.choices} role="group" aria-label="Must-haves">
-            {PRACTICES.map((x) => (
-              <button key={x.key} type="button" className={s.choice} aria-pressed={must.includes(x.key)} tabIndex={live ? undefined : -1}
-                onClick={() => live && setMust(must.includes(x.key) ? must.filter((k) => k !== x.key) : [...must, x.key])}>
-                {x.label}
-              </button>
-            ))}
-          </div>
-        </div>
         {live && problem && <p className={s.noticeWarn}>{problem}</p>}
         {live && missing.length > 0 && (
           <div className={s.noticeWarn}>
@@ -212,7 +196,7 @@ export default function Page() {
   }
 
   async function finish() {
-    const res = await save({ dealBreakers: deal, mustHaves: must });
+    const res = await save({ dealBreakers: deal });
     if (!res) return;
     if (res.complete) router.push("/incoming/browse");
     else setMissing(res.missing);

@@ -14,8 +14,6 @@ import {
   type Answers,
   type ContactMethod,
   type DealBreakerKey,
-  type PracticeKey,
-  PRACTICES,
   type HouseholdStatusResponse,
   type InviteStatus,
   type Destination,
@@ -83,14 +81,10 @@ export async function loadListing(id: string) {
 }
 
 /** Stayers (in invite order) with answers, or null if they haven't answered. */
-export function stayersOf(l: LoadedListing): Array<PublicUser & { answers: Answers | null; practices: PracticeKey[]; inviteStatus: string; email: string }> {
+export function stayersOf(l: LoadedListing): Array<PublicUser & { answers: Answers | null; inviteStatus: string; email: string }> {
   return l.memberships.map((m) => {
     const p = l.profiles.find((p) => p.userId === m.userId);
-    return {
-      ...pub(m.user), email: m.user.email, inviteStatus: m.inviteStatus,
-      answers: p ? parse<Answers>(p.answers, []) : null,
-      practices: p ? parse<PracticeKey[]>(p.practices, []) : [],
-    };
+    return { ...pub(m.user), email: m.user.email, inviteStatus: m.inviteStatus, answers: p ? parse<Answers>(p.answers, []) : null };
   });
 }
 
@@ -108,11 +102,6 @@ export function toListingInput(l: LoadedListing): ListingInput {
     startDate: l.startDate,
     endDate: l.endDate,
     rent: l.rent ?? null,
-    // A household practice counts only when every answered stayer marked it.
-    practices: PRACTICES.map((x) => x.key).filter((k) => {
-      const answered = stayersOf(l).filter((s) => s.answers !== null);
-      return answered.length > 0 && answered.every((s) => s.practices.includes(k));
-    }),
     stayers,
   };
 }
@@ -182,7 +171,6 @@ export function incomingView(p: IncomingProfile | null): IncomingProfileResponse
     dealBreakers,
     minRent: p?.minRent ?? null,
     maxRent: p?.maxRent ?? null,
-    mustHaves: parse<PracticeKey[]>(p?.mustHaves ?? "[]", []),
     complete: missing.length === 0,
     missing: [...new Set(missing)],
   };
@@ -191,7 +179,7 @@ export function incomingView(p: IncomingProfile | null): IncomingProfileResponse
 /** Gate §2.2: 403 PROFILE_INCOMPLETE until dates, destination and all 8 answers are in. */
 export async function requireCompleteIncoming(
   userId: string,
-): Promise<IncomingInput & { destination: Destination; flexDays: FlexDays; minRent: number | null; maxRent: number | null; mustHaves: PracticeKey[] }> {
+): Promise<IncomingInput & { destination: Destination; flexDays: FlexDays; minRent: number | null; maxRent: number | null }> {
   const p = await prisma.incomingProfile.findUnique({ where: { userId } });
   const v = incomingView(p);
   if (!v.complete)
@@ -206,7 +194,6 @@ export async function requireCompleteIncoming(
     flexDays: v.flexDays,
     minRent: v.minRent,
     maxRent: v.maxRent,
-    mustHaves: v.mustHaves,
   };
 }
 

@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
-import { DEAL_BREAKERS, DESTINATIONS, PRACTICES, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
+import { DEAL_BREAKERS, DESTINATIONS, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
 import { BUDGET_OPTIONS, SampleBadge, formatRent } from "@/components/shared/ui";
 import { FitPill, Icon, StepDots, dateRange, roomLabel, styles as s } from "@/components/incoming/ui";
 import { BrowseHelp } from "@/components/incoming/BrowseHelp";
@@ -217,11 +217,6 @@ function ListingCard({ r, selected, onHover, change }: { r: Ranked & { rank: num
         <span className={fit.uncoveredNights === 0 ? p.covers : fit.withinFlex ? p.uncovered : p.outside}>{fit.coverage}</span>
         {r.request && <span className={p.reqTag}>Request {r.request.status}</span>}
       </p>
-      {fit.practices.length > 0 && (
-        <p className={`${p.practices} ${p.tight}`} aria-label="Household practices">
-          {fit.practices.map((k) => <span key={k} className={p.practice}>{PRACTICES.find((x) => x.key === k)?.label}</span>)}
-        </p>
-      )}
       <p className={`${s.label} ${p.tight}`}>
         {single
           ? `Your fit with ${fit.perStayer[0].stayer.name}: ${fit.householdScore} (the only roommate staying)`

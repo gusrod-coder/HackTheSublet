@@ -51,7 +51,3 @@
 .phoneCheck input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--brand); flex: none; }
 .phoneInput { max-width: 260px; padding: 10px 14px; border-radius: 12px; border: 2px solid var(--line-soft); background: #fff; font: inherit; }
 .phoneInput[aria-invalid="true"] { border-color: var(--dino-red, #b8433a); }
-
-/* Household practices chips (optional, chosen by the household). */
-.practices { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.practice { padding: 3px 10px; border-radius: var(--radius-pill); background: var(--sky); color: var(--brand); font-size: 12px; font-weight: 700; }

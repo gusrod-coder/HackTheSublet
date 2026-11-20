@@ -130,7 +130,3 @@
 @media (max-width: 640px) {
   .cardSide { justify-content: space-between; }
 }
-
-/* Household practices chips (optional, chosen by the household). */
-.practices { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.practice { padding: 3px 10px; border-radius: var(--radius-pill); background: var(--sky); color: var(--brand); font-size: 12px; font-weight: 700; }
