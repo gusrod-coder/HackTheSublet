@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { HabitForm } from "@/components/shared/HabitForm";
 import { FitBadge, OutsideAppNotice, SampleBadge } from "@/components/shared/ui";
+import { Persona } from "@/components/shared/Persona";
 import { DEFAULT_WEIGHTS, type Weight } from "@/lib/types";
 import { LISTINGS } from "@/prisma/seed-data";
 
@@ -25,6 +26,11 @@ export default function Components() {
         <SampleBadge />
       </div>
       <OutsideAppNotice />
+      <div className="row">
+        <Persona kind="dino" label="Leaver" tilt={-4} />
+        <Persona kind="capybara" label="Stayer" />
+        <Persona kind="fox" label="Incoming" tilt={4} />
+      </div>
 
       <h2>ListingMap: browse</h2>
       <ListingMap

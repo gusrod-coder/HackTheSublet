@@ -1,33 +1,42 @@
 /**
- * Role mascots: leaver = dino, stayer = capybara, incoming = fox (Figma "Personas", frame 24:1975).
- * OWNER: h1. PLACEHOLDER ART (emoji) until the Figma SVGs are exported to public/personas/<kind>.svg;
- * once those files exist, set HAS_ART = true and every screen picks them up.
+ * Role mascots from the Figma "Personas" frame (24:1975): leaver = dino, stayer = capybara, incoming = fox.
+ * OWNER: h1. Art + sprite offsets ported from h2's components/incoming Persona, now the single source.
+ *
+ *   <Persona kind="fox" />                       88×120 sticker
+ *   <Persona kind={PERSONA_FOR_ROLE.stayer} tilt={-4} scale={0.6} />
  */
 import type { Role } from "@/lib/types";
+import personasPng from "./assets/personas.png";
+import s from "./Persona.module.css";
 
-export type PersonaKind = "dino" | "capybara" | "fox";
+const PERSONAS = {
+  dino: { bg: "var(--mint)", left: "-15.52%", width: "344.83%" },
+  capybara: { bg: "var(--peach)", left: "-123.21%", width: "357.14%" },
+  fox: { bg: "var(--butter)", left: "-217.24%", width: "344.83%" },
+} as const;
+
+export type PersonaKind = keyof typeof PERSONAS;
 export const PERSONA_FOR_ROLE: Record<Role, PersonaKind> = { leaver: "dino", stayer: "capybara", incoming: "fox" };
 
-const HAS_ART = false;
-const EMOJI: Record<PersonaKind, string> = { dino: "🦖", capybara: "🦫", fox: "🦊" };
-const BG: Record<PersonaKind, string> = { dino: "var(--blush)", capybara: "var(--leaf)", fox: "var(--sky)" };
-
-export function Persona({ kind, size = 48, label }: { kind: PersonaKind; size?: number; label?: string }) {
-  const style = {
-    width: size,
-    height: size,
-    borderRadius: "var(--radius-md)",
-    border: "var(--border)",
-    background: BG[kind],
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: size * 0.55,
-    flexShrink: 0,
-  } as const;
+export function Persona({
+  kind,
+  tilt = 0,
+  scale = 1,
+  label,
+}: {
+  kind: PersonaKind;
+  tilt?: number;
+  scale?: number;
+  label?: string;
+}) {
+  const p = PERSONAS[kind];
+  const transform = [tilt && `rotate(${tilt}deg)`, scale !== 1 && `scale(${scale})`].filter(Boolean).join(" ") || undefined;
   return (
-    <span style={style} role="img" aria-label={label ?? kind}>
-      {HAS_ART ? <img src={`/personas/${kind}.svg`} alt="" width={size * 0.8} height={size * 0.8} /> : EMOJI[kind]}
-    </span>
+    <div className={s.persona} style={{ background: p.bg, transform }} role="img" aria-label={label ?? kind}>
+      <div className={s.art}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img alt="" src={personasPng.src} style={{ left: p.left, width: p.width }} />
+      </div>
+    </div>
   );
 }
