@@ -72,6 +72,7 @@ cookie, so one browser = one person). Each of us stands at our own window and cl
 - **Submit listing** → page says "Not visible to incoming students yet. Waiting on <name>."
 
 **Stayer → habit form** (from the email link)
+The demo stayer (the `NEXT_PUBLIC_DEMO_STAYER_EMAIL` address) gets these **pre-selected** on first open: just scroll and **Save my answers →**.
 Before 11pm · Mixed · 2–3 · None · Steady low noise all week · Right away · Friendly but separate · In person
 → **Save my answers →** → "…is now live for incoming students."
 
