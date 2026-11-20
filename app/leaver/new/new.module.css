@@ -3,12 +3,14 @@
 .mapWrap {
   display: flex; flex-direction: column; gap: 8px;
 }
-.mapWrap > div:first-child {
-  border: 2px solid var(--hf-ink) !important;
-  border-radius: 32px !important;
+.mapFrame {
+  composes: sketch from global;
+  border: 2px solid transparent;
+  border-radius: 32px;
   box-shadow: var(--hf-sticker);
   background: var(--hf-map);
 }
+.mapFrame > div { border: 0 !important; border-radius: inherit !important; }
 .mapHint { margin: 0; padding-left: 12px; }
 .formCard { gap: 16px; }
 .twoUp { display: flex; gap: 12px; }

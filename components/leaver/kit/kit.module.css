@@ -1,7 +1,7 @@
 /* h3 lane kit: Figma "HackTheLease" layout for leaver + stayer + terms screens.
    Colours come from app/globals.css. Brand-coloured things (primary buttons, selected pills,
    headings, scores) follow --brand / --accent, so one token flip in globals re-themes them.
-   (Figma frames 06-11b show fox-blue; the humans picked teal. --hf-fox* are named after the Figma role.) */
+   --hf-fox* remain compatibility aliases for the shared fox-blue brand tokens. */
 .page {
   --hf-cream: var(--cream, #fff6ea);
   --hf-card: var(--card, #fffdf8);
@@ -11,7 +11,7 @@
   --hf-fox: var(--accent, #6f9bd8);
   --hf-fox-deep: var(--brand, #2f5c9a);
   --hf-dino: var(--dino-red, #b5443e);
-  --hf-sky: var(--mint, #dde8f6);
+  --hf-sky: var(--sky, #dde8f6);
   --hf-leaf: var(--leaf, #ddefd8);
   --hf-leaf-ink: var(--leaf-ink, #2c6a3b);
   --hf-blush: var(--blush, #f7dad5);
@@ -71,36 +71,26 @@
 .dotCurrent { width: 28px; background: var(--hf-fox); }
 
 /* ── surfaces ── */
-.sticker { background: var(--hf-card); border: 2px solid var(--hf-ink); border-radius: 24px; box-shadow: var(--hf-sticker); padding: 24px; }
+.sticker { composes: sketch from global; background: var(--hf-card); border: 2px solid transparent; border-radius: 24px; box-shadow: var(--hf-sticker); padding: 24px; }
 .soft { background: var(--hf-card); border: 2px solid var(--hf-line-soft); border-radius: 24px; box-shadow: var(--hf-lift); padding: 24px; }
 .tintSky { background: var(--hf-sky); }
 .tintCream { background: var(--hf-cream); }
 
 /* ── buttons ── */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 12px 24px; border-radius: 999px; border: 2px solid var(--hf-ink);
-  background: var(--hf-fox); color: var(--hf-ink); box-shadow: var(--hf-sticker);
-  font: inherit; font-weight: 700; font-size: 14px; line-height: 18px;
-  cursor: pointer; text-decoration: none; transition: transform 0.08s, box-shadow 0.08s;
+  composes: btn from global;
+  gap: 8px;
   align-self: flex-start;
 }
-.btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 5px 0 var(--hf-ink); }
-.btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--hf-ink); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.btnSecondary { background: var(--hf-card); color: var(--hf-ink); }
-.btnGhost { background: transparent; border-color: transparent; box-shadow: none; color: var(--hf-fox-deep); }
-.btnGhost:hover:not(:disabled), .btnGhost:active:not(:disabled) { box-shadow: none; text-decoration: underline; }
+.btnSecondary { composes: secondary from global; }
+.btnGhost { composes: ghost from global; }
 
 /* ── pills (single/multi select) ── */
 .pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .pill {
-  padding: 12px 16px; border-radius: 999px; border: 2px solid var(--hf-line-soft);
-  background: var(--hf-card); color: var(--hf-ink); font: inherit; font-weight: 700;
-  font-size: 14px; line-height: 18px; cursor: pointer;
+  composes: option from global;
+  padding: 12px 16px; font-weight: 700; font-size: 14px; line-height: 18px;
 }
-/* Selected = same look as the global .option[aria-pressed]. */
-.pill[aria-pressed="true"] { background: var(--hf-fox); border-color: var(--hf-ink); color: var(--hf-ink); box-shadow: var(--hf-sticker); }
 .pill:disabled { cursor: not-allowed; opacity: 0.6; }
 
 /* ── chips / badges ── */
@@ -109,7 +99,7 @@
 .chipButter { background: var(--hf-butter); color: var(--hf-okay-ink); }
 .chipLeaf { background: var(--hf-leaf); color: var(--hf-leaf-ink); }
 .chipBlush { background: var(--hf-blush); color: var(--hf-weak-ink); }
-.fit { border: 1.5px solid currentColor; }
+.fit { border: 0; }
 
 /* ── notices ── */
 .notice { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border-radius: 16px; }

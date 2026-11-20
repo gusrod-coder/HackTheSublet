@@ -74,11 +74,13 @@ export default function NewListingPage() {
       />
       <form className={s.layout} onSubmit={submit}>
         <div className={s.mapWrap}>
-          <ListingMap
-            pins={pin ? [{ id: "new", lat: pin.lat, lng: pin.lng, label: short || "Your room" }] : []}
-            onMapClick={(lat, lng) => setPin({ lat, lng })}
-            height={420}
-          />
+          <div className={s.mapFrame}>
+            <ListingMap
+              pins={pin ? [{ id: "new", lat: pin.lat, lng: pin.lng, label: short || "Your room" }] : []}
+              onMapClick={(lat, lng) => setPin({ lat, lng })}
+              height={420}
+            />
+          </div>
           <p className={cx(kit.caption, kit.muted, s.mapHint)}>{pin ? "Click again to move the pin." : "Click the map to drop a pin on your place."}</p>
         </div>
 
