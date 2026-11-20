@@ -49,13 +49,28 @@ describe("stayer inbox rendering", () => {
     const approved = { ...request(), id: "r_other", status: "approved" as const, incoming: { ...pending.incoming, name: "Jamie" } };
     const html = render([pending, approved]);
     expect(html.match(/<h1\b/g)).toHaveLength(1);
-    expect(html.match(/Viewing as Lena/g)).toHaveLength(1);
+    expect(html.match(/viewing as Lena/g)).toHaveLength(1);
     expect(html).toContain("Noor wants to join");
     expect(html).toContain("Jamie&#x27;s request is approved");
     expect(html).toContain('href="/requests/r_other"');
     expect(html).toContain("Waiting on Tariq and Wei");
     expect(html.match(/Fit with /g)).toHaveLength(6);
     expect(html.match(/Sample data/g)).toHaveLength(2);
+  });
+
+  it("uses one incoming fox hero for a single pending request, including the approved vote state", () => {
+    const html = render([request()]);
+    expect(html.match(/<h1\b/g)).toHaveLength(1);
+    expect(html).toContain("Someone wants to join your household");
+    expect(html).toContain('aria-label="fox"');
+    expect(html).not.toContain('aria-label="capybara"');
+    expect(html).not.toContain("Noor wants to join");
+    expect(html.indexOf("viewing as Lena")).toBeLessThan(html.indexOf("Someone wants to join"));
+    expect(html).toContain("days at Medical Campus");
+    expect(html).toContain("You approved");
+    expect(html).toContain("Waiting on Tariq and Wei");
+    expect(html).toContain("Undo");
+    expect(html).not.toContain("Agree on house terms");
   });
 
   it("keeps the empty inbox actionable", () => {

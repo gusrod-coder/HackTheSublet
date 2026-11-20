@@ -70,6 +70,7 @@ export default function StayerFormPage() {
         <>
           <div className={s.grid}>
             <HabitForm
+              compactTitles
               answers={answers}
               onAnswers={(a) => {
                 setAnswers(a);

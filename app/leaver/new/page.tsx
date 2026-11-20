@@ -87,28 +87,28 @@ export default function NewListingPage() {
         <div className={cx(kit.sticker, kit.col, s.formCard)}>
           <div className={kit.field}>
             <label htmlFor="address" className={kit.label}>Address</label>
-            <input id="address" className={kit.input} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="1100 Packard St, Ann Arbor" />
+            <input id="address" className={cx(kit.input, s.input)} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="1100 Packard St, Ann Arbor" />
           </div>
           <div className={kit.field}>
             <label htmlFor="area" className={kit.label}>Area</label>
-            <input id="area" className={kit.input} value={area} onChange={(e) => setArea(e.target.value)} placeholder="Near Central Campus" />
+            <input id="area" className={cx(kit.input, s.input)} value={area} onChange={(e) => setArea(e.target.value)} placeholder="Near Central Campus" />
           </div>
           <div className={s.twoUp}>
             <div className={kit.field}>
               <label htmlFor="start" className={kit.label}>Available from</label>
-              <input id="start" type="date" className={kit.input} value={startDate} onChange={(e) => setStart(e.target.value)} />
+              <input id="start" type="date" className={cx(kit.input, s.input)} value={startDate} onChange={(e) => setStart(e.target.value)} />
             </div>
             <div className={kit.field}>
               <label htmlFor="end" className={kit.label}>Available until</label>
-              <input id="end" type="date" className={kit.input} value={endDate} min={startDate || undefined} onChange={(e) => setEnd(e.target.value)} />
+              <input id="end" type="date" className={cx(kit.input, s.input)} value={endDate} min={startDate || undefined} onChange={(e) => setEnd(e.target.value)} />
             </div>
           </div>
           <fieldset className={kit.field}>
             <legend className={kit.label} style={{ marginBottom: 8 }}>Room</legend>
             <div className={kit.pills}>
-              <button type="button" className={kit.pill} aria-pressed={roomType === "private"} onClick={() => setRoomType("private")}>Private room</button>
-              <button type="button" className={kit.pill} aria-pressed={roomType === "shared"} onClick={() => setRoomType("shared")}>Shared bedroom</button>
-              <button type="button" className={kit.pill} aria-pressed={furnished} onClick={() => setFurnished((v) => !v)}>Furnished</button>
+              <button type="button" className={cx(kit.pill, s.roomOption)} aria-pressed={roomType === "private"} onClick={() => setRoomType("private")}>Private room</button>
+              <button type="button" className={cx(kit.pill, s.roomOption)} aria-pressed={roomType === "shared"} onClick={() => setRoomType("shared")}>Shared bedroom</button>
+              <button type="button" className={cx(kit.pill, s.roomOption)} aria-pressed={furnished} onClick={() => setFurnished((v) => !v)}>Furnished</button>
             </div>
           </fieldset>
           <fieldset className={kit.field}>
@@ -118,10 +118,13 @@ export default function NewListingPage() {
               <button type="button" className={kit.pill} aria-pressed={noPets} onClick={() => setNoPets((v) => !v)}>No pets</button>
             </div>
           </fieldset>
-          <div className={kit.field}>
-            <label htmlFor="rules" className={kit.label}>House rules <span className={cx(kit.caption, kit.muted)}>(optional)</span></label>
-            <textarea id="rules" className={kit.input} value={houseRules} onChange={(e) => setHouseRules(e.target.value)} placeholder="Shared fridge shelves, bikes in the back…" />
-          </div>
+          <details className={s.optional}>
+            <summary className={kit.label}>Add house rules (optional)</summary>
+            <div className={kit.field}>
+              <label htmlFor="rules" className={kit.label}>House rules</label>
+              <textarea id="rules" className={cx(kit.input, s.input)} value={houseRules} onChange={(e) => setHouseRules(e.target.value)} placeholder="Shared fridge shelves, bikes in the back…" />
+            </div>
+          </details>
           {err && <p className={cx(kit.notice, kit.noticeBlush)} role="alert">{err}</p>}
           {missing.length > 0 && <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>Still needed: {missing.join(", ")}.</p>}
           <button type="submit" className={kit.btn} disabled={saving || missing.length > 0}>

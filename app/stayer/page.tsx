@@ -44,19 +44,6 @@ export default function StayerInvitesPage() {
               incoming students see your household as it really is. Nobody sees your answers until they've shared theirs, and nobody moves in
               without your yes.
             </p>
-            <div className={kit.row} style={{ justifyContent: "center" }}>
-              <SampleBadge show={listing.isSample} />
-              <span className={cx(kit.caption, kit.muted)}>{listing.name}</span>
-            </div>
-            {otherStayers.length > 0 && (
-              <ul className={s.others}>
-                {otherStayers.map((o) => (
-                  <li key={o.id} className={cx(kit.chip, o.inviteStatus === "answered" ? kit.chipSky : kit.chipButter)}>
-                    {o.name} · {o.inviteStatus === "answered" ? "answered ✓" : "hasn't answered yet"}
-                  </li>
-                ))}
-              </ul>
-            )}
             {answered ? (
               <div className={kit.col} style={{ alignItems: "center" }}>
                 <span className={cx(kit.chip, kit.chipSky)}>You've answered ✓</span>
@@ -73,6 +60,15 @@ export default function StayerInvitesPage() {
               <Link href={`/stayer/${listing.id}/form`} className={kit.btn} style={{ alignSelf: "center" }}>
                 Answer now · 2 min
               </Link>
+            )}
+            <div className={kit.row} style={{ justifyContent: "center" }}>
+              <SampleBadge show={listing.isSample} />
+              <span className={cx(kit.caption, kit.muted)}>{listing.name}</span>
+            </div>
+            {otherStayers.length > 0 && (
+              <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>
+                {otherStayers.map((o) => `${o.name} · ${o.inviteStatus === "answered" ? "answered ✓" : "hasn't answered yet"}`).join(" / ")}
+              </p>
             )}
           </section>
         );

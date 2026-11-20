@@ -80,8 +80,7 @@ export default function InvitePage() {
       <div className={kit.heroText}>
         <h1 className={kit.display}>Invite the roommates who are staying</h1>
         <p className={kit.lede}>
-          Your listing goes live once every roommate has answered. You can't answer for them or edit what they say. That's the whole point. You
-          also don't get a vote on who moves in: only the roommates who stay do.
+          Your listing goes live once every roommate has answered. You can't answer for them or edit what they say. That's the whole point.
         </p>
       </div>
       <Status loading={loading && !data} error={error} />
@@ -101,7 +100,6 @@ export default function InvitePage() {
               <Persona kind="capybara" size="sm" />
               <div className={s.who}>
                 <span className={kit.headingS}>{st.name}</span>
-                <span className={cx(kit.caption, kit.muted)}>{st.email}</span>
               </div>
               {st.inviteStatus === "answered" ? (
                 <span className={cx(kit.chip, kit.chipSky)}>Answered ✓</span>

@@ -2,14 +2,14 @@
 .fitCard { gap: 16px; }
 .scoreRow {
   display: flex; justify-content: space-between; align-items: baseline;
-  padding: 8px 0; border-bottom: 2px solid var(--hf-line-soft);
+  padding: 8px 0;
 }
 .score { color: var(--hf-fox-deep); }
 .lines { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .lineBox { display: flex; flex-direction: column; gap: 8px; padding: 12px 16px; border-radius: 16px; }
 .lineBox p { margin: 0; }
 .match { background: var(--match-bg); }
-.match .lineHead { color: var(--brand); }
+.match .lineHead { color: var(--leaf-ink); }
 .differ { background: var(--hf-blush); }
 .differ .lineHead { color: var(--hf-weak-ink); }
 .lineHead { display: inline-flex; align-items: center; gap: 8px; }
