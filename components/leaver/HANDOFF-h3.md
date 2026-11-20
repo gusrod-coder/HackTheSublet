@@ -3,14 +3,23 @@
 Read `CLAUDE.md`, `docs/LANES.md`, and the mailbox first. Lane = h3.
 `h3/screens` was merged into main as `680f9c2`; new follow-ups start from current main.
 `h3/live-status` was merged as `fa85094`.
-Current follow-up branch: `h3/expanded-data-qa` (based on `2a6c174`).
+`h3/expanded-data-qa` was merged as `2d3b463`.
+Current follow-up branch: `h3/burrow-brand` (based on `2d3b463`).
+
+## Current brand follow-up
+- Humans now chose **burrow**, fox-blue, and the shared sketch outline (H1 mail `cmwop9lcj008gl9smo94a6rdn`). This supersedes the earlier teal decision.
+- `--hf-sky` maps to `--sky`; match panels use `--match-bg`. No runtime H3 styles use the legacy teal/mint aliases.
+- Lane buttons and pills compose global `btn` / `option` classes, with global secondary/ghost modifiers, so the shared Figma fills, selected/disabled states, reduced-motion behavior, and sketch outlines apply. All `kit` exports are retained for H2's terms page.
+- Sticker surfaces and the new map frame compose `sketch`; the map's inner straight border is removed to avoid double outlines. Stayer options no longer override the shared selected state; soft question-card sketches use `--line-soft`.
+- Persona code/layout inspection: shared artwork still occupies 88×120; the lane's half-size row wrapper stays 44×60, scale .5, top-left origin. Hero and invite placements keep those boxes, with no new persona background cards. H2 screenshot review requested in mail `cmwopd25m008jl9smprbgahlk`; local browser URL safeguard remains in place.
+- Validation: typecheck, all 34 tests, optimized production build (including H2 terms consumers), and the full API smoke against the production server pass. Production listing HTML includes the composed `btn`, `option`, and `sketch` classes.
 
 ## Expanded-data QA and visual fixes
 - H1 assigned V1–V4 from H2's browser QA and explicitly approved using H2's report plus existing incoming/terms styles. H2 now owns Figma fidelity and screenshot review.
 - V1: one inbox page heading and viewer label; each request has its own incoming name, listing, sample label, dates, and decision controls.
 - V2: lane form fieldsets reset the inherited border and padding.
 - V3: Page uses the app's existing content edge with no extra horizontal/top padding or clipped background blobs. `.page`, `.warmTop`, all kit exports and `--hf-*` aliases remain available to H2's terms page.
-- V4: match panels use the shared mint/brand colors.
+- V4: match panels use shared match-background/brand colors (originally the mint alias, now semantic `--match-bg`).
 - `npx tsx components/leaver/qa/expanded-states.ts` runs 30 checks against **localhost:3000 only**, using the typed API client. It resets the local sample DB before and after. Covers Taylor's draft/submission/invite, listing-specific answers, Mei's release gate, three-person approvals/undo, and Grace's partially agreed terms/contact lock.
 - Validation: 30 expanded-state checks, typecheck, all 34 unit/render tests, and full local smoke pass. Two render tests cover multiple-request heading/action separation and the empty inbox.
 - Local browser QA was blocked by the Chrome URL-identification safeguard. No browser workaround used. H2 screenshot review is requested with this branch; do not claim local visual verification.
@@ -34,7 +43,7 @@ Figma: HackTheLease `SbkaZ7f3ONHAKmdC3yLt7e`, frames 07 `10:431`, 08 `10:496`, 0
 
 ## Original screens (merged; H1 verified typecheck, 22 tests, build, smoke, and seven pages)
 - `components/leaver/kit/`: lane kit (Page, Hero, StepDots, Icon via CSS mask, Status, cx, `kit` CSS module).
-  Wraps the shared `components/shared/Persona`. Colours map to globals (`--brand`/`--accent` = teal, as the humans decided).
+  Wraps the shared `components/shared/Persona`. Colours map to the current global `--brand`/`--accent` tokens.
 - `app/leaver/page.tsx`: my listings · `app/leaver/new`: create listing (map pin, furnished, flags) ·
   `app/leaver/listings/[id]`: invite + submit + status (the "nudge" was declined by h1, so it's left out).
 - `app/stayer/page.tsx`: invite notification · `app/stayer/[listingId]/form`: shared HabitForm restyled to 2 columns ·
@@ -46,7 +55,7 @@ Figma: HackTheLease `SbkaZ7f3ONHAKmdC3yLt7e`, frames 07 `10:431`, 08 `10:496`, 0
 - `npm ci` and `npm run setup` completed. Existing `.env` preserved. `npm run dev` generates ignored `next-env.d.ts`.
 - Follow-up typecheck passes; all 28 tests pass (22 existing + 6 polling tests); full local API smoke passes, including demo steps 1, 5, and 6.
 - The managed Windows sandbox blocks npm network access, Vitest's parent-directory reads, and tsx's OS user-info lookup. Use approved elevated commands for dependency setup, tests, and smoke.
-- H1 explicitly waived Figma for these behavior-only fixes. A new visual review still needs Figma connected. Brand remains teal.
+- H1 explicitly waived Figma for the polling fixes, then assigned bounded visual fixes from H2's report. H2 owns Figma fidelity and visual review. Current brand is burrow/fox-blue.
 
 ## Coordination
 Check `curl.exe -s "http://100.95.56.19:3000/api/mail?to=h3"` at task start and about every 15 minutes.
