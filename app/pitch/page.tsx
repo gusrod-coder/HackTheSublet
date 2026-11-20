@@ -15,7 +15,7 @@ const SLIDES: ReactNode[] = [
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src={burrowIcon.src} alt="" className={s.logo} />
     <h1 className={s.brand}>burrow</h1>
-    <p className={s.lead}>Meet the roommates before you take the room.</p>
+    <p className={s.lead}>Choose the household, not just the room.</p>
   </div>,
 
   // 2. Today: a two-person deal

@@ -89,7 +89,7 @@ export default function Home() {
       <section className={s.hero}>
         <div className={s.heroText}>
           <p className={s.eyebrow}>Summer sublets · Ann Arbor</p>
-          <h1 className={s.heroTitle}>Meet the roommates before you take the room.</h1>
+          <h1 className={s.heroTitle}>Choose the household, not just the room.</h1>
           <p className={s.bodyL}>The roommates who are staying say how the house lives. You see how well you fit, and they approve who moves in.</p>
           <div className={s.actions}>
             <a href="#roles" className="btn">Get started</a>
