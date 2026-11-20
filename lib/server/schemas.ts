@@ -86,6 +86,7 @@ export const incomingProfileSchema = z.object({
   answers: partialAnswersSchema.optional(),
   weights: z.array(weight).length(QUESTIONS.length).optional(),
   dealBreakers: z.array(z.enum(["smoke", "pets", "overnight", "shared"])).optional(),
+  minRent: dollars.nullable().optional(),
   maxRent: dollars.nullable().optional(),
 });
 

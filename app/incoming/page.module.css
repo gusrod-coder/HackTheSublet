@@ -21,3 +21,4 @@
   .where { flex-direction: column; align-items: flex-start; }
   .whereTitle { width: auto; }
 }
+.budget { display: flex; flex-direction: column; gap: 12px; padding-top: 16px; border-top: 2px dashed var(--line-soft); }

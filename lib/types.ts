@@ -390,6 +390,8 @@ export interface IncomingProfileBody {
   answers?: Array<number | null>;
   weights?: Weights;
   dealBreakers?: DealBreakerKey[];
+  /** Min monthly rent in USD (lower end of the price range); null clears it. Listings below it are excluded (with a reason). */
+  minRent?: number | null;
   /** Max monthly rent in USD; null clears it. Listings above it are excluded (with a reason), never re-scored. */
   maxRent?: number | null;
 }
@@ -403,6 +405,7 @@ export interface IncomingProfileResponse {
   answers: Array<number | null>;
   weights: Weights;
   dealBreakers: DealBreakerKey[];
+  minRent: number | null;
   maxRent: number | null;
   complete: boolean;
   /** What's still missing, e.g. ["startDate", "answers.3"]. Empty when complete. */

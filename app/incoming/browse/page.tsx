@@ -13,6 +13,7 @@ import { DEAL_BREAKERS, DESTINATIONS, QUESTIONS, type IncomingProfileBody, type 
 import { BUDGET_OPTIONS, SampleBadge, formatRent } from "@/components/shared/ui";
 import { FitPill, Icon, StepDots, dateRange, roomLabel, styles as s } from "@/components/incoming/ui";
 import { BrowseHelp } from "@/components/incoming/BrowseHelp";
+import { priceRangeLabel } from "@/components/incoming/PriceRange";
 import { useLiveFit } from "@/components/leaver/use-live-fit";
 import p from "./page.module.css";
 
@@ -184,14 +185,24 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
           <FitPill label={fit.label} score={fit.householdScore} />
           {change && <span className={p.fitUpdate} aria-hidden="true">Fit updated: {change.from} → {change.to}</span>}
         </div>
-        <Link href={`/incoming/listings/${l.id}`} className={`${s.btnSecondary} ${p.view}`}>View household</Link>
+        <div className={p.cardSide}>
+          {l.rent != null ? (
+            <p className={p.price} aria-label={`${formatRent(l.rent)} rent`}>
+              <span className={p.priceNum}>${l.rent.toLocaleString("en-US")}</span>
+              <span className={p.priceUnit}>/ month</span>
+            </p>
+          ) : (
+            <p className={p.priceNone}>Rent not listed</p>
+          )}
+          <Link href={`/incoming/listings/${l.id}`} className={`${s.btnSecondary} ${p.view}`}>View household</Link>
+        </div>
       </div>
       <p className={`${s.body} ${s.muted} ${p.tight} ${p.areaRow}`}>
         <span>{l.area} · {r.distance.label}</span>
         <SampleBadge show={l.isSample} />
       </p>
       <p className={`${p.meta} ${p.tight}`}>
-        {l.rent != null && <><strong>{formatRent(l.rent)}</strong> · </>}{roomLabel(l.roomType)}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
+        {roomLabel(l.roomType)}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
         <span className={fit.uncoveredNights === 0 ? p.covers : fit.withinFlex ? p.uncovered : p.outside}>{fit.coverage}</span>
         {r.request && <span className={p.reqTag}>Request {r.request.status}</span>}
       </p>
@@ -269,11 +280,17 @@ function TryAChange({ profile, onSaved }: { profile: IncomingProfileResponse; on
         </div>
       </div>
       <div className={p.tryRow}>
-        <span className={s.caption}>Monthly budget</span>
+        <span className={s.caption}>
+          Highest monthly rent{profile.minRent != null && <> · range now {priceRangeLabel(profile.minRent, profile.maxRent)}</>}
+        </span>
         <div className={s.choices}>
           {BUDGET_OPTIONS.map((b) => (
             <button key={b.label} type="button" className={s.choice} disabled={busy} aria-pressed={profile.maxRent === b.value}
-              onClick={() => save({ maxRent: b.value })}>{b.label}</button>
+              onClick={() => save({
+                maxRent: b.value,
+                // A max below the saved min would be rejected; drop the min so the range stays valid.
+                ...(b.value != null && profile.minRent != null && b.value < profile.minRent ? { minRent: null } : {}),
+              })}>{b.label}</button>
           ))}
         </div>
       </div>

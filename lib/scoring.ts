@@ -37,6 +37,8 @@ export interface IncomingInput {
   endDate: ISODate;
   /** ± days of date flexibility; display-only. Defaults to 7. */
   flexDays?: FlexDays;
+  /** Optional lower end of the price range (USD). Listings with a lower rent are excluded, never re-scored. */
+  minRent?: number | null;
   /** Optional monthly budget (USD). Listings with a higher rent are excluded, never re-scored. */
   maxRent?: number | null;
 }
@@ -152,7 +154,7 @@ const OVERNIGHT_WEEKLY = 2;
 
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
-export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers" | "maxRent">, listing: ListingInput): string[] {
+export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers" | "maxRent" | "minRent">, listing: ListingInput): string[] {
   const reasons: string[] = [];
   const db = new Set(inc.dealBreakers);
   if (db.has("smoke") && listing.flags.smoking) reasons.push("Indoor smoking or vaping allowed");
@@ -165,6 +167,8 @@ export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers" | "maxR
   if (db.has("shared") && listing.roomType === "shared") reasons.push("Shared bedroom");
   if (inc.maxRent != null && listing.rent != null && listing.rent > inc.maxRent)
     reasons.push(`Over your budget: ${usd(listing.rent)}/mo (you set up to ${usd(inc.maxRent)})`);
+  if (inc.minRent != null && listing.rent != null && listing.rent < inc.minRent)
+    reasons.push(`Below your price range: ${usd(listing.rent)}/mo (you set from ${usd(inc.minRent)})`);
   return reasons;
 }
 

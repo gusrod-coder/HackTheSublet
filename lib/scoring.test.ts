@@ -221,6 +221,11 @@ describe("budget (display + exclusion only)", () => {
     expect(exclusionReasons({ dealBreakers: [], maxRent: 500 }, { ...packard, rent: null })).toEqual([]);
     expect(exclusionReasons({ dealBreakers: [], maxRent: null }, packard)).toEqual([]);
   });
+  it("excludes a listing below the price range with a reason; keeps it inside the range", () => {
+    expect(exclusionReasons({ dealBreakers: [], minRent: 1000 }, packard)).toEqual(["Below your price range: $950/mo (you set from $1,000)"]);
+    expect(exclusionReasons({ dealBreakers: [], minRent: 950, maxRent: 950 }, packard)).toEqual([]);
+    expect(exclusionReasons({ dealBreakers: [], minRent: 2000 }, { ...packard, rent: null })).toEqual([]);
+  });
   it("never changes scores", () => {
     const a = rankListings(ALEX, LIVE).ranked.map((f) => [f.listingId, f.householdScore]);
     const b = rankListings({ ...ALEX, maxRent: 100000 }, LIVE.map((l) => ({ ...l, rent: 950 }))).ranked.map((f) => [f.listingId, f.householdScore]);

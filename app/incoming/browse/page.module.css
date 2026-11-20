@@ -83,3 +83,16 @@
 .blurb > * + * { margin-top: 8px !important; }
 .blurb ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 20px; }
 .blurb p { margin: 0; }
+
+/* Monthly rent, top-right of each card above "View household" (prominent, but rent never changes the fit). */
+.cardHead { align-items: flex-start; }
+.cardSide { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; flex: none; }
+.price { margin: 0; display: flex; align-items: baseline; gap: 6px; line-height: 1; }
+.priceNum { font-family: var(--font-display), var(--font); font-weight: 400; font-size: 30px; line-height: 34px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.priceUnit { font-size: 13px; font-weight: 700; color: var(--muted); }
+.priceNone { margin: 0; font-size: 13px; font-weight: 600; color: var(--muted); }
+.cardSide .view { margin-left: 0; }
+@media (max-width: 640px) {
+  .cardHead { flex-direction: column; }
+  .cardSide { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
+}

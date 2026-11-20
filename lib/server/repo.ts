@@ -169,6 +169,7 @@ export function incomingView(p: IncomingProfile | null): IncomingProfileResponse
     answers,
     weights,
     dealBreakers,
+    minRent: p?.minRent ?? null,
     maxRent: p?.maxRent ?? null,
     complete: missing.length === 0,
     missing: [...new Set(missing)],
@@ -178,7 +179,7 @@ export function incomingView(p: IncomingProfile | null): IncomingProfileResponse
 /** Gate §2.2: 403 PROFILE_INCOMPLETE until dates, destination and all 8 answers are in. */
 export async function requireCompleteIncoming(
   userId: string,
-): Promise<IncomingInput & { destination: Destination; flexDays: FlexDays; maxRent: number | null }> {
+): Promise<IncomingInput & { destination: Destination; flexDays: FlexDays; minRent: number | null; maxRent: number | null }> {
   const p = await prisma.incomingProfile.findUnique({ where: { userId } });
   const v = incomingView(p);
   if (!v.complete)
@@ -191,6 +192,7 @@ export async function requireCompleteIncoming(
     endDate: v.endDate!,
     destination: v.destination!,
     flexDays: v.flexDays,
+    minRent: v.minRent,
     maxRent: v.maxRent,
   };
 }

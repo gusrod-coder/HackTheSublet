@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
-import { BUDGET_OPTIONS } from "@/components/shared/ui";
+import { PriceRange } from "@/components/incoming/PriceRange";
 import { DEFAULT_FLEX_DAYS, DESTINATIONS, FLEX_OPTIONS, type Destination, type FlexDays } from "@/lib/types";
 import { RangeCalendar } from "@/components/incoming/RangeCalendar";
 import { Persona } from "@/components/shared/Persona";
@@ -22,6 +22,7 @@ export default function Page() {
   const [end, setEnd] = useState<string | null>(null);
   const [flex, setFlex] = useState<FlexDays>(DEFAULT_FLEX_DAYS);
   const [dest, setDest] = useState<Destination | null>(null);
+  const [minRent, setMinRent] = useState<number | null>(null);
   const [maxRent, setMaxRent] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -35,6 +36,7 @@ export default function Page() {
     setEnd(data.endDate);
     setDest(data.destination);
     setFlex(data.flexDays);
+    setMinRent(data.minRent);
     setMaxRent(data.maxRent);
   }, [data]);
 
@@ -45,7 +47,7 @@ export default function Page() {
     setSaving(true);
     setSaveError(null);
     try {
-      await api.incoming.saveProfile({ startDate: start, endDate: end, destination: dest, flexDays: flex, maxRent });
+      await api.incoming.saveProfile({ startDate: start, endDate: end, destination: dest, flexDays: flex, minRent, maxRent });
       router.push("/incoming/habits");
     } catch (e) {
       setSaveError(e instanceof ApiClientError ? e.message : String(e));
@@ -128,18 +130,13 @@ export default function Page() {
               Not every sublet starts on your exact day. We’ll still match places that start or end inside your window and tell
               you how many days off they are.
             </p>
-            <div className={p.flexRow}>
-              <h2 className={s.headingS}>Monthly budget</h2>
-              <div className={s.choices} role="group" aria-label="Monthly budget">
-                {BUDGET_OPTIONS.map((b) => (
-                  <button key={b.label} type="button" className={s.choice} aria-pressed={maxRent === b.value} onClick={() => setMaxRent(b.value)}>
-                    {b.label}
-                  </button>
-                ))}
-              </div>
+            <div className={p.budget}>
+              <h2 className={s.headingS} id="price-h">Monthly price range</h2>
+              <PriceRange min={minRent} max={maxRent} onChange={(lo, hi) => { setMinRent(lo); setMaxRent(hi); }} />
             </div>
             <p className={`${s.body} ${s.muted}`} style={{ margin: 0 }}>
-              Places above your budget are set aside with the reason shown. Rent never changes a fit score.
+              Drag both ends. Places outside your range are set aside with the reason shown, and you can still look at them.
+              Rent never changes a fit score.
             </p>
           </div>
         </section>

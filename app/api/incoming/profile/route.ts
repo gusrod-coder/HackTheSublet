@@ -23,6 +23,9 @@ export const PUT = handle(async (req) => {
   const start = b.startDate ?? cur?.startDate;
   const end = b.endDate ?? cur?.endDate;
   if (start && end && start >= end) throw badRequest("INVALID_DATES", "Move-in must be before move-out.");
+  const lo = b.minRent !== undefined ? b.minRent : cur?.minRent ?? null;
+  const hi = b.maxRent !== undefined ? b.maxRent : cur?.maxRent ?? null;
+  if (lo != null && hi != null && lo > hi) throw badRequest("INVALID_BUDGET", "The lowest price must be at or below the highest.");
   const data = {
     startDate: b.startDate,
     endDate: b.endDate,
@@ -31,6 +34,7 @@ export const PUT = handle(async (req) => {
     answers: b.answers ? JSON.stringify(b.answers) : undefined,
     weights: b.weights ? JSON.stringify(b.weights) : undefined,
     dealBreakers: b.dealBreakers ? JSON.stringify([...new Set(b.dealBreakers)]) : undefined,
+    minRent: b.minRent,
     maxRent: b.maxRent,
   };
   const saved = await prisma.incomingProfile.upsert({ where: { userId: u.id }, create: { userId: u.id, ...data }, update: data });
