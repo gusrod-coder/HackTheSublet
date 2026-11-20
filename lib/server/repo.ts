@@ -92,6 +92,7 @@ export function toListingInput(l: LoadedListing): ListingInput {
     .map((s) => ({ id: s.id, name: s.name, answers: s.answers! }));
   return {
     id: l.id,
+    name: displayName(l),
     address: l.address,
     roomType: l.roomType as RoomType,
     flags: { smoking: l.flagSmoking, pets: l.flagPets },

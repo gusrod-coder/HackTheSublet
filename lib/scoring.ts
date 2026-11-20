@@ -42,6 +42,8 @@ export interface StayerInput extends PublicUser {
 
 export interface ListingInput {
   id: string;
+  /** Display name; falls back to address. */
+  name?: string;
   address: string;
   roomType: RoomType;
   flags: ListingFlags;
@@ -258,7 +260,7 @@ export function rankListings(
   const excluded: ExcludedListing[] = [];
   for (const l of listings) {
     const reasons = exclusionReasons(inc, l);
-    if (reasons.length > 0) excluded.push({ listingId: l.id, name: l.address, reasons });
+    if (reasons.length > 0) excluded.push({ listingId: l.id, name: l.name ?? l.address, address: l.address, reasons });
     else ranked.push(scoreListing(inc, l, opts));
   }
   ranked.sort((a, b) => b.householdScore - a.householdScore || b.average - a.average);

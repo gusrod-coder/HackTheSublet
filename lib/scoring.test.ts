@@ -177,3 +177,30 @@ describe("date flexibility (display-only)", () => {
     expect(a).toEqual(b);
   });
 });
+
+describe("demo §8.1 follow-through: Omar's scripted answers keep the script's order", () => {
+  // DEMO.md tells the presenter to enter exactly these for Omar.
+  const OMAR = [2, 1, 2, 1, 1, 0, 1, 0];
+  const hillSeed = LISTINGS.find((l) => l.id === "l_hill")!;
+  const HILL: ListingInput = {
+    ...hillSeed,
+    stayers: [
+      { id: "u_nina", name: "Nina", answers: hillSeed.stayers[0].answers! },
+      { id: "u_omar", name: "Omar", answers: OMAR },
+    ],
+  };
+  const WITH_HILL = [...LIVE, HILL];
+  const rank = (inc: IncomingInput) => rankListings(inc, WITH_HILL).ranked.map((f) => f.listingId);
+
+  it("Hill St lands as an Okay fit limited by Omar, below Packard and Geddes", () => {
+    const hill = scoreListing(ALEX, HILL);
+    expect(hill.label).toBe("Okay fit");
+    expect(hill.limitingStayer?.name).toBe("Omar");
+    expect(rank(ALEX).slice(0, 3)).toEqual(["l_packard", "l_geddes", "l_hill"]);
+  });
+
+  it("Hill St never takes the top two in steps 2, 3 and 5", () => {
+    expect(rank(setAnswer(ALEX, 2, 3)).slice(0, 2)).toEqual(["l_geddes", "l_packard"]);
+    expect(rank(setWeight(ALEX, 0, 3)).slice(0, 2)).toEqual(["l_geddes", "l_packard"]);
+  });
+});

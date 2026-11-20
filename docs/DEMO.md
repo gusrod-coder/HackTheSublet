@@ -8,13 +8,16 @@ Numbers below come from the sample data and are pinned by `lib/scoring.test.ts`.
 | 0 | Gate §2.2 | Switch to **Riley** → Browse | Sent to finish the profile; no scores visible |
 | 1 | Release gate | **Alex** → Browse | Hill St absent. Church St under *Excluded* (smoking). Packard St first (94, avg 97) |
 |   |   | **Leo** (leaver) → Hill St | "Waiting on 1 roommate"; leaver sees status, not answers |
-|   |   | **Omar** → Hill St form → submit | Listing goes live |
-|   |   | **Alex** → Browse | Hill St appears |
+|   |   | **Omar** → Hill St form → answer exactly: *After 1am · Mixed · 2–3 · 1–2 nights · Quiet weeknights · Right away · Friendly but separate · In person* → submit | Listing goes live |
+|   |   | **Alex** → Browse | Hill St appears 3rd: **71, Okay fit, limited by Omar**. Shows the min-not-average rule: Nina is a 94 |
 | 2 | Habit sensitivity | Alex: guests per week 1 → 4+ | Geddes overtakes Packard; Packard's top mismatch becomes "Guests: you 4+ nights, Priya 1 night" |
 | 3 | Priority sensitivity | Alex: bedtime → *matters a lot* | Order changes (Packard drops: Sam is 11pm–1am) |
 | 4 | Deal-breaker | Alex: turn on *Pets* | Geddes Ave → Excluded: "Pets in the home" |
 | 5 | Stayer side | **Priya**: bedtime → *After 1am* | Alex's Packard fit 94 → 88; Geddes moves ahead |
 | 6 | Approval → terms → contacts | Alex requests Packard → **Priya** approves → **Sam** approves → each party agrees to all 5 terms + sets a contact | Contacts appear for everyone at the same moment |
+
+Hill St stays 3rd through steps 2–5 with those answers (pinned in `lib/scoring.test.ts`). If Omar answers
+differently, the order on screen can differ from this table.
 
 Undo steps 2–5 between runs, or just hit Reset.
 

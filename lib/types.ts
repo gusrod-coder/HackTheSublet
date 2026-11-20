@@ -357,8 +357,9 @@ export interface DistanceInfo {
 
 export interface ExcludedListing {
   listingId: string;
-  /** Address. */
+  /** Display name, same as ListingSummary.name ("Geddes Ave house"). */
   name: string;
+  address: string;
   /** Human reasons, e.g. ["Pets in the home"]. */
   reasons: string[];
 }
