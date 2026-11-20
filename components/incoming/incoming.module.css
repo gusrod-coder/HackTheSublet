@@ -1,6 +1,6 @@
 /* Incoming lane primitives, matching the Figma "Design system" section (node 4:30). LANE: h2.
    Colors, fonts and shadows come from app/globals.css (h1); this file only composes them. */
-.screen { position: relative; overflow: clip; font-size: 15px; line-height: 22px; font-weight: 500; }
+.screen { position: relative; overflow: clip; padding-bottom: 16px; font-size: 15px; line-height: 22px; font-weight: 500; } /* bottom room so the last button's sticker shadow isn't clipped */
 
 /* Type */
 .display { font-family: var(--font-display), cursive; font-weight: 400; font-size: 32px; line-height: 40px; color: var(--brand); margin: 0; }

@@ -8,8 +8,8 @@
 .count { margin-left: 6px; font-size: 14px; line-height: 18px; font-weight: 700; color: var(--brand); white-space: nowrap; }
 
 .stage { display: grid; grid-template-columns: 1fr 676px 1fr; align-items: start; gap: 40px; padding: 32px 0 40px; }
-.mascot { justify-self: end; display: flex; flex-direction: column; align-items: center; gap: 20px; padding-top: 160px; }
-.mascotArt { width: 132px; height: 180px; display: flex; align-items: center; justify-content: center; }
+.mascot { justify-self: end; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 120px; }
+.mascotArt { width: 132px; height: 170px; display: flex; align-items: flex-start; justify-content: center; }
 .bubble {
   width: 168px; padding: 10px 16px; text-align: center; border: 2px solid var(--ink); border-radius: var(--radius-lg);
   background: var(--card); font-size: 14px; line-height: 18px; font-weight: 700;
@@ -70,7 +70,7 @@
 /* Shared Persona is art-only now; the deck screens put it on a sky card, tilted (Figma 03.1 / 03.9). */
 .foxCard {
   /* Plain fox, no card behind it (requested). */
-  position: relative; display: flex; align-items: flex-end; justify-content: center; width: 104px; height: 136px;
+  position: relative; display: flex; align-items: flex-start; justify-content: center; width: 104px; height: 136px;
   transform: rotate(-4deg) scale(1.3); transform-origin: top center;
 }
 
@@ -92,3 +92,7 @@
   @keyframes slideOutLeft { 0% { transform: none; opacity: 1; } 55% { opacity: .1; } 100% { transform: translateX(-24%) rotate(-4deg); opacity: 0; } }
   @keyframes slideInLeft { from { transform: translateX(-24%) rotate(-4deg); opacity: 0; } to { transform: none; opacity: 1; } }
 }
+/* Must-haves (optional household practices) under the deal-breakers. */
+.mustBlock { display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 2px dashed rgba(142, 47, 44, 0.25); }
+.mustTitle { margin: 0; font-family: var(--font-heading), var(--font); font-weight: 700; font-size: 19px; line-height: 24px; color: var(--ink); }
+.optional { margin-left: 6px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--card); color: var(--muted); font-family: var(--font-body), var(--font); font-size: 11px; font-weight: 700; vertical-align: middle; }

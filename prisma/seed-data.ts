@@ -4,7 +4,7 @@
  * Everything here is SAMPLE DATA and is flagged isSample in the DB.
  */
 import type { PrismaClient } from "@prisma/client";
-import type { Answers, DealBreakerKey, Destination, RoomType, Weights } from "../lib/types";
+import type { Answers, DealBreakerKey, Destination, PracticeKey, RoomType, Weights } from "../lib/types";
 
 export interface SampleUser {
   id: string;
@@ -32,7 +32,7 @@ export interface SampleListing {
   /** Monthly rent, USD (sample data). */
   rent: number;
   /** Stayers; answers null = invited but hasn't answered. */
-  stayers: Array<{ userId: string; answers: Answers | null }>;
+  stayers: Array<{ userId: string; answers: Answers | null; practices?: PracticeKey[] }>;
 }
 
 export interface SampleIncoming {
@@ -114,8 +114,8 @@ export const LISTINGS: SampleListing[] = [
     flags: { smoking: false, pets: false },
     rent: 950,
     stayers: [
-      { userId: "u_priya", answers: [0, 1, 1, 0, 0, 0, 1, 0] },
-      { userId: "u_sam", answers: [1, 1, 1, 0, 0, 0, 1, 0] },
+      { userId: "u_priya", answers: [0, 1, 1, 0, 0, 0, 1, 0], practices: ["affirming"] },
+      { userId: "u_sam", answers: [1, 1, 1, 0, 0, 0, 1, 0], practices: ["affirming"] },
     ],
   },
   {
@@ -191,8 +191,8 @@ export const LISTINGS: SampleListing[] = [
     flags: { smoking: false, pets: true },
     rent: 1050,
     stayers: [
-      { userId: "u_hana", answers: [0, 1, 2, 0, 0, 0, 1, 0] },
-      { userId: "u_rosa", answers: [0, 1, 2, 0, 0, 1, 1, 0] },
+      { userId: "u_hana", answers: [0, 1, 2, 0, 0, 0, 1, 0], practices: ["affirming", "vegan"] },
+      { userId: "u_rosa", answers: [0, 1, 2, 0, 0, 1, 1, 0], practices: ["affirming", "vegan"] },
     ],
   },
   {
@@ -229,9 +229,9 @@ export const LISTINGS: SampleListing[] = [
     flags: { smoking: false, pets: false },
     rent: 750,
     stayers: [
-      { userId: "u_lena", answers: [0, 1, 2, 0, 1, 0, 2, 0] },
-      { userId: "u_tariq", answers: [1, 0, 1, 0, 1, 1, 1, 1] },
-      { userId: "u_wei", answers: [0, 2, 1, 1, 0, 0, 1, 0] },
+      { userId: "u_lena", answers: [0, 1, 2, 0, 1, 0, 2, 0], practices: ["halal", "alcoholFree"] },
+      { userId: "u_tariq", answers: [1, 0, 1, 0, 1, 1, 1, 1], practices: ["halal", "alcoholFree"] },
+      { userId: "u_wei", answers: [0, 2, 1, 1, 0, 0, 1, 0], practices: ["halal"] },
     ],
   },
   {
@@ -324,7 +324,7 @@ export const LISTINGS: SampleListing[] = [
     houseRules: "Unfurnished room, five minutes' walk to the Medical Campus. Very quiet building.",
     flags: { smoking: false, pets: false },
     rent: 925,
-    stayers: [{ userId: "u_grace", answers: [0, 0, 0, 0, 0, 1, 0, 2] }],
+    stayers: [{ userId: "u_grace", answers: [0, 0, 0, 0, 0, 1, 0, 2], practices: ["kosher", "alcoholFree"] }],
   },
   {
     id: "l_fuller",
@@ -486,7 +486,7 @@ export async function seedDatabase(prisma: PrismaClient): Promise<void> {
         profiles: {
           create: l.stayers
             .filter((s) => s.answers !== null)
-            .map((s) => ({ userId: s.userId, answers: JSON.stringify(s.answers) })),
+            .map((s) => ({ userId: s.userId, answers: JSON.stringify(s.answers), practices: JSON.stringify(s.practices ?? []) })),
         },
       },
     });

@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
-import { DEAL_BREAKERS, DESTINATIONS, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
+import { DEAL_BREAKERS, DESTINATIONS, PRACTICES, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
 import { BUDGET_OPTIONS, SampleBadge, formatRent } from "@/components/shared/ui";
 import { FitPill, Icon, StepDots, dateRange, roomLabel, styles as s } from "@/components/incoming/ui";
 import { BrowseHelp } from "@/components/incoming/BrowseHelp";
@@ -27,6 +27,8 @@ export default function Page() {
   const profile = useApi(() => api.incoming.profile(), []);
   const [query, setQuery] = useState("");
   const [hover, setHover] = useState<string | null>(null);
+  // Map pin click selects a card (scrolls to it + outline) instead of opening the household.
+  const [selected, setSelected] = useState<string | null>(null);
 
   useEffect(() => {
     if (matches.error?.code === "PROFILE_INCOMPLETE") router.replace("/incoming?gate=profile");
@@ -86,7 +88,8 @@ export default function Page() {
                 onSaved={() => { void matches.reload(); void profile.reload(); }}
               />
               {ranked.map((r) => (
-                <ListingCard key={r.listing.id} r={r} top={r.rank === 1} onHover={setHover} change={matches.changes.get(r.listing.id)} />
+                <ListingCard key={r.listing.id} r={r} selected={selected === r.listing.id}
+                  onHover={(id) => { setHover(id); if (id && id !== selected) setSelected(null); }} change={matches.changes.get(r.listing.id)} />
               ))}
 
               {matches.data.unreleased.length > 0 && (
@@ -134,9 +137,13 @@ export default function Page() {
               <div className={`${s.cardInk} ${p.map}`}>
                 <ListingMap
                   pins={ranked.map((r) => ({ id: r.listing.id, lat: r.listing.lat, lng: r.listing.lng, label: `${r.rank}. ${r.listing.name}`, rank: r.rank }))}
-                  highlightId={hover}
+                  highlightId={hover ?? selected}
                   destination={prof?.destination ?? null}
-                  onPinClick={(id) => router.push(`/incoming/listings/${id}`)}
+                  onPinClick={(id) => {
+                    setSelected(id);
+                    const el = document.getElementById(`card-${id}`);
+                    el?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+                  }}
                   height={500}
                 />
                 <span className={p.mapCaption}>pins numbered by fit rank</span>
@@ -169,12 +176,13 @@ function ScoreBlurb() {
   );
 }
 
-function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }; top: boolean; onHover: (id: string | null) => void; change?: { from: number; to: number } }) {
+function ListingCard({ r, selected, onHover, change }: { r: Ranked & { rank: number }; selected: boolean; onHover: (id: string | null) => void; change?: { from: number; to: number } }) {
   const { listing: l, fit } = r;
   const single = fit.perStayer.length === 1;
   return (
     <article
-      className={`${top ? s.cardInk : s.cardSoft} ${p.card} ${change ? p.changed : ""}`}
+      id={`card-${l.id}`}
+      className={`${s.cardSoft} ${p.card} ${selected ? p.selected : ""} ${change ? p.changed : ""}`}
       onMouseEnter={() => onHover(l.id)}
       onMouseLeave={() => onHover(null)}
     >
@@ -197,7 +205,7 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
           ) : (
             <p className={p.priceNone}>Rent not listed</p>
           )}
-          <span className={p.openHint} aria-hidden>Open household →</span>
+          <span className={p.go} aria-hidden><Icon name="arrow-right" size={20} /></span>
         </div>
       </div>
       <p className={`${s.body} ${s.muted} ${p.tight} ${p.areaRow}`}>
@@ -209,6 +217,11 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
         <span className={fit.uncoveredNights === 0 ? p.covers : fit.withinFlex ? p.uncovered : p.outside}>{fit.coverage}</span>
         {r.request && <span className={p.reqTag}>Request {r.request.status}</span>}
       </p>
+      {fit.practices.length > 0 && (
+        <p className={`${p.practices} ${p.tight}`} aria-label="Household practices">
+          {fit.practices.map((k) => <span key={k} className={p.practice}>{PRACTICES.find((x) => x.key === k)?.label}</span>)}
+        </p>
+      )}
       <p className={`${s.label} ${p.tight}`}>
         {single
           ? `Your fit with ${fit.perStayer[0].stayer.name}: ${fit.householdScore} (the only roommate staying)`

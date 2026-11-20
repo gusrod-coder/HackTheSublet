@@ -221,6 +221,12 @@ describe("budget (display + exclusion only)", () => {
     expect(exclusionReasons({ dealBreakers: [], maxRent: 500 }, { ...packard, rent: null })).toEqual([]);
     expect(exclusionReasons({ dealBreakers: [], maxRent: null }, packard)).toEqual([]);
   });
+  it("must-haves: excludes a house missing a required household practice, keeps one that has it", () => {
+    const withPractice = { ...packard, practices: ["affirming" as const] };
+    expect(exclusionReasons({ dealBreakers: [], mustHaves: ["affirming"] }, withPractice)).toEqual([]);
+    expect(exclusionReasons({ dealBreakers: [], mustHaves: ["affirming", "vegan"] }, withPractice)).toEqual(["Not marked by everyone who stays: Vegan kitchen"]);
+    expect(exclusionReasons({ dealBreakers: [], mustHaves: [] }, { ...packard, practices: [] })).toEqual([]);
+  });
   it("excludes a listing below the price range with a reason; keeps it inside the range", () => {
     expect(exclusionReasons({ dealBreakers: [], minRent: 1000 }, packard)).toEqual(["Below your price range: $950/mo (you set from $1,000)"]);
     expect(exclusionReasons({ dealBreakers: [], minRent: 950, maxRent: 950 }, packard)).toEqual([]);

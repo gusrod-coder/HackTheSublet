@@ -76,7 +76,8 @@ export const inviteSchema = z.object({
     .min(1),
 });
 
-export const stayerProfileSchema = z.object({ answers: answersSchema });
+const practiceKey = z.enum(["affirming", "alcoholFree", "kosher", "halal", "vegan"]);
+export const stayerProfileSchema = z.object({ answers: answersSchema, practices: z.array(practiceKey).optional() });
 
 export const incomingProfileSchema = z.object({
   startDate: isoDate.optional(),
@@ -88,6 +89,7 @@ export const incomingProfileSchema = z.object({
   dealBreakers: z.array(z.enum(["smoke", "pets", "overnight", "shared"])).optional(),
   minRent: dollars.nullable().optional(),
   maxRent: dollars.nullable().optional(),
+  mustHaves: z.array(z.enum(["affirming", "alcoholFree", "kosher", "halal", "vegan"])).optional(),
 });
 
 export const requestToJoinSchema = z.object({ sharePhone: phoneSchema.optional() });

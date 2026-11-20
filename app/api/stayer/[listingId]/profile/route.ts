@@ -3,7 +3,7 @@ import { handle, ok, parseBody } from "@/lib/server/http";
 import { requireStayer, syncListingStatus } from "@/lib/server/repo";
 import { stayerProfileSchema } from "@/lib/server/schemas";
 import { requireUser } from "@/lib/server/session";
-import type { Answers, InviteStatus, ListingStatus, StayerProfileResponse } from "@/lib/types";
+import type { Answers, InviteStatus, ListingStatus, PracticeKey, StayerProfileResponse } from "@/lib/types";
 
 async function view(userId: string, listingId: string): Promise<StayerProfileResponse> {
   const [p, m, l] = await Promise.all([
@@ -14,6 +14,7 @@ async function view(userId: string, listingId: string): Promise<StayerProfileRes
   return {
     listingId,
     answers: p ? (JSON.parse(p.answers) as Answers) : null,
+    practices: p ? (JSON.parse(p.practices) as PracticeKey[]) : [],
     inviteStatus: m.inviteStatus as InviteStatus,
     listingStatus: l.status as ListingStatus,
   };
@@ -34,12 +35,13 @@ export const GET = handle<{ listingId: string }>(async (_req, { listingId }) => 
 export const POST = handle<{ listingId: string }>(async (req, { listingId }) => {
   const u = await requireUser();
   await requireStayer(u.id, listingId);
-  const { answers } = await parseBody(req, stayerProfileSchema);
+  const { answers, practices } = await parseBody(req, stayerProfileSchema);
   const json = JSON.stringify(answers);
+  const prac = practices ? JSON.stringify([...new Set(practices)]) : undefined;
   await prisma.habitProfile.upsert({
     where: { userId_listingId: { userId: u.id, listingId } },
-    create: { userId: u.id, listingId, answers: json },
-    update: { answers: json },
+    create: { userId: u.id, listingId, answers: json, practices: prac ?? "[]" },
+    update: { answers: json, ...(prac !== undefined ? { practices: prac } : {}) },
   });
   await prisma.membership.update({
     where: { listingId_userId: { listingId, userId: u.id } },

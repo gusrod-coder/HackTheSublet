@@ -109,3 +109,26 @@
 /* Street address in small text so the incoming always knows exactly where the house is. */
 .address { font-weight: 700; color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .card, .card:hover { transition: none; transform: none; } }
+
+/* Cards: same resting look for every rank; hover / keyboard focus lifts the card with the ink border +
+   sticker shadow; a map-pin click selects the card (blue outline). */
+.card { border: 2px solid transparent; }
+.card:hover, .card:has(.cardLink:focus-visible) { border-color: var(--ink); box-shadow: var(--sticker); transform: translateY(-2px); }
+.selected { border-color: var(--brand); box-shadow: 0 0 0 3px var(--sky), var(--sticker); }
+.selected:hover { border-color: var(--brand); }
+/* Round arrow right of the price; turns blue when the card is hovered or focused. */
+.cardSide { flex-direction: row; align-items: center; gap: 12px; }
+.go {
+  display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex: none;
+  border-radius: 50%; border: 2px solid var(--ink); background: var(--card); color: var(--ink);
+  box-shadow: 0 2px 0 var(--ink); transition: background 120ms, color 120ms;
+}
+.card:hover .go, .card:has(.cardLink:focus-visible) .go, .selected .go { background: var(--brand); color: var(--brand-ink); }
+@media (prefers-reduced-motion: reduce) { .go { transition: none; } .card:hover { transform: none; } }
+@media (max-width: 640px) {
+  .cardSide { justify-content: space-between; }
+}
+
+/* Household practices chips (optional, chosen by the household). */
+.practices { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.practice { padding: 3px 10px; border-radius: var(--radius-pill); background: var(--sky); color: var(--brand); font-size: 12px; font-weight: 700; }

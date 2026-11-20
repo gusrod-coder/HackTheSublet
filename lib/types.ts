@@ -17,6 +17,8 @@ export type Decision = "approve" | "pass";
 export type ContactMethod = "email" | "phone" | "text" | "instagram";
 export type Destination = "medical" | "central" | "north" | "downtown";
 export type DealBreakerKey = "smoke" | "pets" | "overnight" | "shared";
+/** Optional household practices (not identity): a household has one when every stayer marks it. */
+export type PracticeKey = "affirming" | "alcoholFree" | "kosher" | "halal" | "vegan";
 export type TermKey = "dates" | "quiet" | "guests" | "kitchen" | "issues";
 /** Date flexibility in days (±). Display-only: never affects the score or ranking. */
 export type FlexDays = 0 | 3 | 7 | 14;
@@ -162,6 +164,15 @@ export const DEAL_BREAKERS: ReadonlyArray<{ key: DealBreakerKey; label: string }
   { key: "pets", label: "Pets" },
   { key: "overnight", label: "Overnight guests weekly or more" },
   { key: "shared", label: "Shared bedroom" },
+];
+
+/** Optional household practices. Stayers mark the ones their household commits to; incoming can require them. */
+export const PRACTICES: ReadonlyArray<{ key: PracticeKey; label: string }> = [
+  { key: "affirming", label: "LGBTQ+ affirming household" },
+  { key: "alcoholFree", label: "Alcohol-free home" },
+  { key: "kosher", label: "Kosher kitchen" },
+  { key: "halal", label: "Halal kitchen" },
+  { key: "vegan", label: "Vegan kitchen" },
 ];
 
 export const DESTINATIONS: ReadonlyArray<{
@@ -325,11 +336,15 @@ export interface StayerInvitesResponse {
 export interface StayerProfileResponse {
   listingId: string;
   answers: Answers | null;
+  /** Optional household practices this stayer marked. */
+  practices: PracticeKey[];
   inviteStatus: InviteStatus;
   listingStatus: ListingStatus;
 }
 export interface StayerProfileBody {
   answers: Answers;
+  /** Optional; omitted = keep what's saved. */
+  practices?: PracticeKey[];
 }
 
 // ─── API: scoring results (shared by browse, household and stayer inbox) ───
@@ -360,6 +375,8 @@ export interface ListingFit {
    * "Leaves 10 nights uncovered (outside your ±1 week)"
    */
   coverage: string;
+  /** Household practices every stayer marked (shown on cards; required ones can exclude a house). */
+  practices: PracticeKey[];
 }
 
 /** Straight-line distance from a listing to the incoming's destination. Display-only. */
@@ -394,6 +411,8 @@ export interface IncomingProfileBody {
   minRent?: number | null;
   /** Max monthly rent in USD; null clears it. Listings above it are excluded (with a reason), never re-scored. */
   maxRent?: number | null;
+  /** Household practices the incoming requires. Houses missing one are excluded with a reason, never scored. */
+  mustHaves?: PracticeKey[];
 }
 
 /** GET/PUT /api/incoming/profile */
@@ -407,6 +426,7 @@ export interface IncomingProfileResponse {
   dealBreakers: DealBreakerKey[];
   minRent: number | null;
   maxRent: number | null;
+  mustHaves: PracticeKey[];
   complete: boolean;
   /** What's still missing, e.g. ["startDate", "answers.3"]. Empty when complete. */
   missing: string[];

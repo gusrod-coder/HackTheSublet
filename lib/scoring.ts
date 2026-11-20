@@ -22,6 +22,8 @@ import {
   type ISODate,
   type ListingFit,
   type ListingFlags,
+  type PracticeKey,
+  PRACTICES,
   type PublicUser,
   type RoomType,
   type Weights,
@@ -37,6 +39,8 @@ export interface IncomingInput {
   endDate: ISODate;
   /** ± days of date flexibility; display-only. Defaults to 7. */
   flexDays?: FlexDays;
+  /** Household practices the incoming requires; houses missing one are excluded, never re-scored. */
+  mustHaves?: PracticeKey[];
   /** Optional lower end of the price range (USD). Listings with a lower rent are excluded, never re-scored. */
   minRent?: number | null;
   /** Optional monthly budget (USD). Listings with a higher rent are excluded, never re-scored. */
@@ -58,6 +62,8 @@ export interface ListingInput {
   endDate: ISODate;
   /** Monthly rent (USD) or null/undefined if not given. */
   rent?: number | null;
+  /** Household practices every stayer marked. */
+  practices?: PracticeKey[];
   stayers: StayerInput[];
 }
 
@@ -154,7 +160,7 @@ const OVERNIGHT_WEEKLY = 2;
 
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 
-export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers" | "maxRent" | "minRent">, listing: ListingInput): string[] {
+export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers" | "maxRent" | "minRent" | "mustHaves">, listing: ListingInput): string[] {
   const reasons: string[] = [];
   const db = new Set(inc.dealBreakers);
   if (db.has("smoke") && listing.flags.smoking) reasons.push("Indoor smoking or vaping allowed");
@@ -169,6 +175,9 @@ export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers" | "maxR
     reasons.push(`Over your budget: ${usd(listing.rent)}/mo (you set up to ${usd(inc.maxRent)})`);
   if (inc.minRent != null && listing.rent != null && listing.rent < inc.minRent)
     reasons.push(`Below your price range: ${usd(listing.rent)}/mo (you set from ${usd(inc.minRent)})`);
+  const has = new Set(listing.practices ?? []);
+  for (const k of inc.mustHaves ?? [])
+    if (!has.has(k)) reasons.push(`Not marked by everyone who stays: ${PRACTICES.find((p) => p.key === k)?.label ?? k}`);
   return reasons;
 }
 
@@ -267,6 +276,7 @@ export function scoreListing(inc: IncomingInput, listing: ListingInput, opts: Sc
     uncoveredNights: cov.uncoveredNights,
     withinFlex: cov.withinFlex,
     coverage: cov.coverage,
+    practices: listing.practices ?? [],
   };
 }
 

@@ -76,6 +76,7 @@ model HabitProfile {
   listingId String
   listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
   answers   String // JSON int[8]
+  practices String   @default("[]") // JSON PracticeKey[]: optional household practices this stayer commits to
   updatedAt DateTime @updatedAt
 
   @@unique([userId, listingId])
@@ -92,6 +93,7 @@ model IncomingProfile {
   answers      String? // JSON (int|null)[8]
   weights      String   @default("[1,1,1,1,1,1,1,1]") // JSON (0|1|3)[8]
   dealBreakers String   @default("[]") // JSON DealBreakerKey[]
+  mustHaves    String   @default("[]") // JSON PracticeKey[]: household practices the incoming requires
   minRent      Int? // optional lower end of the price range in USD; listings below it are excluded with a reason
   maxRent      Int? // optional monthly budget in USD; listings above it are excluded with a reason
   complete     Boolean  @default(false)

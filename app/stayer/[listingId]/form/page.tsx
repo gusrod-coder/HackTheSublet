@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
-import { QUESTION_COUNT, type ListingStatus } from "@/lib/types";
+import { PRACTICES, QUESTION_COUNT, type ListingStatus, type PracticeKey } from "@/lib/types";
 import { HabitForm } from "@/components/shared/HabitForm";
 import { Hero, Icon, Page, Status, cx, kit } from "@/components/leaver/kit";
 import s from "./form.module.css";
@@ -23,12 +23,14 @@ export default function StayerFormPage() {
   const listing = useApi(() => api.listing(listingId), [listingId]);
 
   const [answers, setAnswers] = useState<Array<number | null>>(() => Array(QUESTION_COUNT).fill(null));
+  const [practices, setPractices] = useState<PracticeKey[]>([]);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState<{ status: ListingStatus; wasLive: boolean } | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
     if (profile.data?.answers) setAnswers(profile.data.answers);
+    if (profile.data) setPractices(profile.data.practices ?? []);
   }, [profile.data]);
 
   // Live demo: the scripted stayer (NEXT_PUBLIC_DEMO_STAYER_EMAIL) opens the form with the scripted answers
@@ -49,7 +51,7 @@ export default function StayerFormPage() {
     setErr(null);
     const wasLive = profile.data?.listingStatus === "live";
     try {
-      const r = await api.stayer.saveProfile(listingId, { answers: answers as number[] });
+      const r = await api.stayer.saveProfile(listingId, { answers: answers as number[], practices });
       profile.setData(r);
       setSaved({ status: r.listingStatus, wasLive });
     } catch (e) {
@@ -91,6 +93,23 @@ export default function StayerFormPage() {
               disabled={saving}
             />
           </div>
+
+          {/* Optional household practices (h2, per human request): a commitment the household makes, never identity. */}
+          <section className={cx(kit.soft, kit.col)} aria-labelledby="practices-h">
+            <h2 id="practices-h" className={kit.headingS}>Household practices <span className={cx(kit.caption, kit.muted)}>(optional)</span></h2>
+            <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>
+              Mark anything your household commits to. A practice shows on your listing only when everyone who stays marks it,
+              and incoming students can choose to see only households with it.
+            </p>
+            <div className={kit.pills} role="group" aria-label="Household practices">
+              {PRACTICES.map((x) => (
+                <button key={x.key} type="button" className={kit.pill} aria-pressed={practices.includes(x.key)} disabled={saving}
+                  onClick={() => { setPractices(practices.includes(x.key) ? practices.filter((k) => k !== x.key) : [...practices, x.key]); setSaved(null); }}>
+                  {x.label}
+                </button>
+              ))}
+            </div>
+          </section>
 
           {saved && (
             <div className={cx(kit.notice, kit.noticeSky)} role="status">
