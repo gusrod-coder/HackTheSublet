@@ -1,7 +1,7 @@
 "use client";
 /**
- * Figma header (5:70): logo tile + "burrow" + "prototype · sample data" pill | "You: <role>" chip,
- * Switch role, divider, account (persona avatar + name). "Switch role" is the demo user switcher;
+ * Figma header (5:70): logo tile + "burrow" + "prototype · sample data" pill | account chip (persona avatar,
+ * "Viewing as <name> · <role>"), which is also the demo user switcher (an invisible native <select> over it);
  * Outbox + Reset demo are demo-only extras not in Figma. OWNER: h1.
  */
 import Link from "next/link";
@@ -65,28 +65,37 @@ export function AppHeader() {
         <span className="proto-pill">prototype · sample data</span>
       </div>
       <div className="topbar-right">
-        <span className="you-chip">You: {role ?? "signed out"}</span>
-        <label htmlFor="switch-role" className="btn ghost small">Switch role</label>
-        <select id="switch-role" className="switch-select" value={data?.currentUserId ?? ""} onChange={(e) => onChange(e.target.value)}>
-          <option value="">— signed out —</option>
-          {data?.users.map((u) => (
-            <option key={u.id} value={u.id}>
-              {u.name} · {u.hint}
-            </option>
-          ))}
-        </select>
-        {me && (
-          <>
-            <span className="topbar-divider" aria-hidden />
-            <span className="account" title={me.email}>
+        {/* One control: who you are in the demo. A native <select> sits invisibly over the chip,
+            so it opens the normal picker (keyboard + screen readers) without looking like a form field. */}
+        <span className={`who${me ? "" : " who-out"}`} title="Switch demo person">
+          {me ? (
+            <span className="avatar" data-kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} aria-hidden>
               {/* Head-and-shoulders crop: each persona is shifted so its head sits in the middle of the circle. */}
-              <span className="avatar" data-kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} aria-hidden>
-                <Persona kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} scale={0.5} />
-              </span>
-              {me.name}
+              <Persona kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} scale={0.5} />
             </span>
-          </>
-        )}
+          ) : null}
+          <span className="who-text">
+            <span className="who-label">Viewing as</span>
+            <span className="who-name">{me ? <>{me.name}{role && <span className="who-role"> · {role}</span>}</> : "Pick a person"}</span>
+          </span>
+          <svg className="who-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+          <select
+            id="switch-role"
+            className="who-select"
+            aria-label="Viewing as (demo person)"
+            value={data?.currentUserId ?? ""}
+            onChange={(e) => onChange(e.target.value)}
+          >
+            <option value="">Signed out</option>
+            {data?.users.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.name} · {u.hint}
+              </option>
+            ))}
+          </select>
+        </span>
         <SettingsToggle onReset={onReset} />
       </div>
     </header>

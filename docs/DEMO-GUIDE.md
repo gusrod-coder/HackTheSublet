@@ -101,7 +101,7 @@ judge asks, the stayer edits one answer from their form (**Save changes →**) a
 
 | Problem | Do this |
 |---|---|
-| Invite email hasn't arrived after ~20 s | Stayer picks their name in **Switch role** (it's listed as "Stayer · Oakland Ave (NOT answered)") → the form. Say "the email's on its way" and keep going. |
+| Invite email hasn't arrived after ~20 s | Stayer picks their name from **Viewing as** (top right) (it's listed as "Stayer · Oakland Ave (NOT answered)") → the form. Say "the email's on its way" and keep going. |
 | Request/approval doesn't show up | Reload that window. Pages poll every few seconds. |
 | Oakland Ave not #1 | Someone's answers differ, or a "Try a change" setting wasn't put back. It still appears, just ranked differently; say "and there it is". |
 | Contacts don't appear | Someone hasn't picked a contact pill + typed a value, or hasn't agreed to all. |

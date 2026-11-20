@@ -96,7 +96,7 @@ export default function Home() {
             <a href="#how" className="btn ghost">How it works</a>
           </div>
           <p className={s.caption}>
-            {user ? <>Signed in as <strong>{user.name}</strong>. </> : <>Pick a demo person from <strong>Switch role</strong> at the top, or choose a role below. </>}
+            {user ? <>Signed in as <strong>{user.name}</strong>. </> : <>Pick a demo person from <strong>Viewing as</strong> at the top right, or choose a role below. </>}
             All listings and people here are sample data.
           </p>
           {/* For judges/audience: scan to open the public demo site. Hidden on phones (already there). */}
@@ -105,7 +105,7 @@ export default function Home() {
             <p className={s.caption}>
               <strong>Try it on your phone.</strong>
               <br />
-              Scan, then pick anyone from <strong>Switch role</strong>.
+              Scan, then pick anyone from <strong>Viewing as</strong>.
             </p>
           </div>
         </div>

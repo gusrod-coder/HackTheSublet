@@ -53,7 +53,7 @@ export default function AccountPage() {
     return (
       <div className={st.page}>
         <h1 className={st.title}>Your account</h1>
-        <p className={st.note}>You’re signed out. Pick a demo person from <strong>Switch role</strong> at the top.</p>
+        <p className={st.note}>You’re signed out. Pick a demo person from <strong>Viewing as</strong> at the top right.</p>
       </div>
     );
   }

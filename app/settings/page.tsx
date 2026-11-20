@@ -59,7 +59,7 @@ export default function SettingsPage() {
         <div className={st.col}>
           <section className={st.panel} aria-labelledby="role-h">
             <h2 id="role-h" className={st.headingM}>Your role</h2>
-            <p className={st.caption}>Jump to each role’s screens. To act as someone else in the demo, use Switch role at the top.</p>
+            <p className={st.caption}>Jump to each role’s screens. To act as someone else in the demo, use Viewing as at the top right.</p>
             <div className={st.pills}>
               {(["incoming", "leaver", "stayer"] as Role[]).map((r) => (
                 <Link key={r} href={ROLE_HREF[r]} className={st.pill} aria-pressed={r === role} style={{ textDecoration: "none" }}>
