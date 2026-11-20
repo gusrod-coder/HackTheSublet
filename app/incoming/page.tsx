@@ -130,18 +130,21 @@ export default function Page() {
               Not every sublet starts on your exact day. We’ll still match places that start or end inside your window and tell
               you how many days off they are.
             </p>
-            <div className={p.budget}>
-              <h2 className={s.headingS} id="price-h">Monthly price range</h2>
-              <PriceRange min={minRent} max={maxRent} onChange={(lo, hi) => { setMinRent(lo); setMaxRent(hi); }} />
-            </div>
-            <p className={`${s.body} ${s.muted}`} style={{ margin: 0 }}>
+          </div>
+        </section>
+
+        <section className={`${s.cardInk} ${p.where}`} aria-labelledby="price-h">
+          <h2 className={`${s.headingS} ${p.whereTitle}`} id="price-h">Monthly price range</h2>
+          <div className={p.budget}>
+            <PriceRange min={minRent} max={maxRent} onChange={(lo, hi) => { setMinRent(lo); setMaxRent(hi); }} />
+            <p className={`${s.caption} ${s.muted}`} style={{ margin: 0 }}>
               Drag both ends. Places outside your range are set aside with the reason shown, and you can still look at them.
               Rent never changes a fit score.
             </p>
           </div>
         </section>
 
-        <section className={`${s.cardSoft} ${p.where}`}>
+        <section className={`${s.cardInk} ${p.where}`}>
           <h2 className={`${s.headingS} ${p.whereTitle}`}>Where you’ll spend your days</h2>
           <div className={s.choices} role="group" aria-label="Where you’ll spend your days">
             {DESTINATIONS.map((d) => (
