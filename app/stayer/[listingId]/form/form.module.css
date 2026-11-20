@@ -28,7 +28,7 @@
   background: var(--hf-card); color: var(--hf-ink); font-weight: 700; font-size: 14px; line-height: 18px;
 }
 .grid :global(.option[aria-pressed="true"]) {
-  background: var(--hf-sky); border-color: var(--hf-fox-deep); color: var(--hf-fox-deep);
+  background: var(--hf-fox); border-color: var(--hf-ink); box-shadow: var(--hf-sticker);
 }
 .actions { display: flex; gap: 12px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
 

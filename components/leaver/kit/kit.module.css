@@ -1,16 +1,17 @@
-/* h3 lane kit: Figma "HackTheLease" theme for leaver + stayer + terms screens.
-   Every token falls back to the Figma value until h1 lands the shared theme
-   (REQ "Port Figma theme"), then picks up the global variable automatically. */
+/* h3 lane kit: Figma "HackTheLease" layout for leaver + stayer + terms screens.
+   Colours come from app/globals.css. Brand-coloured things (primary buttons, selected pills,
+   headings, scores) follow --brand / --accent, so one token flip in globals re-themes them.
+   (Figma frames 06-11b show fox-blue; the humans picked teal. --hf-fox* are named after the Figma role.) */
 .page {
   --hf-cream: var(--cream, #fff6ea);
   --hf-card: var(--card, #fffdf8);
-  --hf-ink: var(--ink-figma, #2b2420);
-  --hf-muted: var(--muted-figma, #6b5e55);
+  --hf-ink: var(--ink, #2b2420);
+  --hf-muted: var(--muted, #6b5e55);
   --hf-line-soft: var(--line-soft, #eadbc8);
-  --hf-fox: var(--fox-blue, #6f9bd8);
-  --hf-fox-deep: var(--fox-blue-deep, #2f5c9a);
+  --hf-fox: var(--accent, #6f9bd8);
+  --hf-fox-deep: var(--brand, #2f5c9a);
   --hf-dino: var(--dino-red, #b5443e);
-  --hf-sky: var(--sky, #dde8f6);
+  --hf-sky: var(--mint, #dde8f6);
   --hf-leaf: var(--leaf, #ddefd8);
   --hf-leaf-ink: var(--leaf-ink, #2c6a3b);
   --hf-blush: var(--blush, #f7dad5);
@@ -84,7 +85,7 @@
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 12px 24px; border-radius: 999px; border: 2px solid var(--hf-ink);
-  background: var(--hf-fox-deep); color: #fffdf8; box-shadow: var(--hf-sticker);
+  background: var(--hf-fox); color: var(--hf-ink); box-shadow: var(--hf-sticker);
   font: inherit; font-weight: 700; font-size: 14px; line-height: 18px;
   cursor: pointer; text-decoration: none; transition: transform 0.08s, box-shadow 0.08s;
   align-self: flex-start;
@@ -103,7 +104,8 @@
   background: var(--hf-card); color: var(--hf-ink); font: inherit; font-weight: 700;
   font-size: 14px; line-height: 18px; cursor: pointer;
 }
-.pill[aria-pressed="true"] { background: var(--hf-sky); border-color: var(--hf-fox-deep); color: var(--hf-fox-deep); }
+/* Selected = same look as the global .option[aria-pressed]. */
+.pill[aria-pressed="true"] { background: var(--hf-fox); border-color: var(--hf-ink); color: var(--hf-ink); box-shadow: var(--hf-sticker); }
 .pill:disabled { cursor: not-allowed; opacity: 0.6; }
 
 /* ── chips / badges ── */
@@ -129,14 +131,16 @@
 .input:focus { outline: none; border-color: var(--hf-fox-deep); }
 textarea.input { resize: vertical; min-height: 72px; }
 
-/* ── persona ── */
-.persona { position: relative; flex-shrink: 0; overflow: hidden; border: 2px solid var(--hf-ink); border-radius: 24px; }
-.personaSm { border-width: 1px; border-radius: 12px; }
-.personaArt { position: absolute; mix-blend-mode: multiply; overflow: hidden; }
-.personaArt img { display: block; width: 100%; height: 100%; }
+/* ── persona (shared component; this only shrinks its layout box for the small size) ── */
+.personaSm { width: 44px; height: 60px; flex-shrink: 0; }
+.personaSm > div { transform-origin: top left; }
 
 /* ── icon ── */
 .icon { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.iconGlyph {
+  display: block; background: currentColor;
+  mask-repeat: no-repeat; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; -webkit-mask-size: 100% 100%;
+}
 
 /* ── one column under 640px (spec §6) ── */
 @media (max-width: 860px) {

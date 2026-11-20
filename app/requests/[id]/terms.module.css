@@ -11,7 +11,7 @@
   flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px; border: 2px solid var(--hf-ink);
   background: var(--hf-card); display: inline-flex; align-items: center; justify-content: center;
 }
-.boxOn { background: var(--hf-fox-deep); border-color: var(--hf-fox-deep); }
+.boxOn { background: var(--hf-fox-deep); border-color: var(--hf-fox-deep); color: #fffdf8; }
 .termText { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .contactForm { display: flex; gap: 8px; }
 .allSet { display: inline-flex; align-items: center; gap: 8px; color: var(--hf-fox-deep); }

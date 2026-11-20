@@ -33,7 +33,7 @@ export default function StayerInvitesPage() {
           <section key={listing.id} className={cx(kit.sticker, s.notifyCard)}>
             <div className={s.personas}>
               <Persona kind="dino" />
-              <Persona kind="capybara" className={s.tilted} />
+              <Persona kind="capybara" tilt={8} />
             </div>
             <span className={cx(kit.label, s.kicker)}>
               <Icon name="bell" /> new from your house

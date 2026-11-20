@@ -3,6 +3,7 @@
  * LANE: h3. If h1 ships shared equivalents (REQ "Port Figma theme"), swap these out.
  */
 import type { ReactNode } from "react";
+import { Persona as SharedPersona, type PersonaKind } from "@/components/shared/Persona";
 import s from "./kit.module.css";
 import pin from "./assets/icon-pin.svg";
 import lock from "./assets/icon-lock.svg";
@@ -18,31 +19,13 @@ export { s as kit };
 export const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(" ");
 
 // ─── Persona ────────────────────────────────────────────────────────────────
-// Figma "Persona" (4:52 / 4:54 / 4:56). Art = public/personas/<kind>.png, cropped from the Figma
-// sprite with the exact Figma crop, so the art box below (px on the 88×120 card) matches the design.
-type PersonaKind = "dino" | "capybara" | "fox";
-const PERSONAS: Record<PersonaKind, { bg: string; art: [number, number, number, number] }> = {
-  //             art: left, top, width, height
-  dino: { bg: "var(--hf-blush)", art: [2, 12, 80, 97] },
-  capybara: { bg: "var(--hf-leaf)", art: [6, 5, 72, 110] },
-  fox: { bg: "var(--hf-sky)", art: [9, 5, 66, 110] },
-};
-
-export function Persona({ kind, size = "md", className }: { kind: PersonaKind; size?: "sm" | "md"; className?: string }) {
-  const p = PERSONAS[kind];
-  const w = size === "sm" ? 44 : 88;
-  const h = size === "sm" ? 60 : 120;
-  const pct = (v: number, of: number) => `${(v / of) * 100}%`;
+// The shared one (h1). "sm" = the 44×60 row avatar from Figma 08: scaled, with its layout box shrunk to match.
+export function Persona({ kind, size = "md", tilt }: { kind: PersonaKind; size?: "sm" | "md"; tilt?: number }) {
+  if (size === "md") return <SharedPersona kind={kind} tilt={tilt} />;
   return (
-    <div className={cx(s.persona, size === "sm" && s.personaSm, className)} style={{ width: w, height: h, background: p.bg }} aria-hidden>
-      <div
-        className={s.personaArt}
-        style={{ left: pct(p.art[0], 88), top: pct(p.art[1], 120), width: pct(p.art[2], 88), height: pct(p.art[3], 120) }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/personas/${kind}.png`} alt="" />
-      </div>
-    </div>
+    <span className={s.personaSm}>
+      <SharedPersona kind={kind} scale={0.5} tilt={tilt} />
+    </span>
   );
 }
 
@@ -53,11 +36,15 @@ export type IconName = keyof typeof ICONS;
 
 export function Icon({ name, size = 16 }: { name: IconName; size?: 16 | 20 | 24 }) {
   const a = ICONS[name];
-  // Each glyph was exported at the size it's used in Figma; keep its root dimensions, centre it in the box.
+  // Each glyph keeps the root size it was exported at (Figma 22:673), centred in the box. It's drawn as a
+  // mask filled with currentColor, so it takes the text colour around it (the Figma "recolor by override" rule).
+  const url = `url("${a.src}")`;
   return (
     <span className={s.icon} style={{ width: size, height: size }} aria-hidden>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={a.src} alt="" width={a.width} height={a.height} />
+      <span
+        className={s.iconGlyph}
+        style={{ width: a.width, height: a.height, maskImage: url, WebkitMaskImage: url }}
+      />
     </span>
   );
 }
