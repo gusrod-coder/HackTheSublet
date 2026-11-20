@@ -8,6 +8,7 @@ import { api } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { Persona } from "@/components/shared/Persona";
 import burrowIcon from "@/components/shared/assets/burrow-icon.png";
+import { HomeDots } from "./HomeDots";
 import tryQr from "@/components/shared/assets/try-burrow-qr.svg";
 import s from "./page.module.css";
 
@@ -83,8 +84,7 @@ export default function Home() {
 
   return (
     <div className={s.home}>
-      <span className={`${s.blob} ${s.blobPeach}`} aria-hidden />
-      <span className={`${s.blob} ${s.blobButter}`} aria-hidden />
+      <HomeDots />
 
       <section className={s.hero}>
         <div className={s.heroText}>
@@ -156,7 +156,6 @@ export default function Home() {
               <Persona kind={r.persona} label={r.title} />
               <h3 className={s.headingS}>{r.title}</h3>
               <p className={s.bodyM}>{r.body}</p>
-              <span className={s.divider} aria-hidden />
               <p className={s.gets}>{r.gets}</p>
               {r.status && <span className={s.status}>{r.status}</span>}
               <span className={s.go}>{r.cta} →</span>
