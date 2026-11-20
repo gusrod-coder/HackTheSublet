@@ -59,3 +59,4 @@
   .cardHead { flex-direction: column; align-items: flex-start; }
   .view { margin-left: 0; }
 }
+.areaRow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }

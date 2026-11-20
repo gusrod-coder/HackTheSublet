@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { DEAL_BREAKERS, DEFAULT_WEIGHTS, QUESTIONS, type DealBreakerKey, type Weight, type Weights } from "@/lib/types";
-import { Persona, StepDots, styles as s } from "@/components/incoming/ui";
+import { Persona } from "@/components/shared/Persona";
+import { StepDots, styles as s } from "@/components/incoming/ui";
 import p from "./page.module.css";
 
 const BUBBLES = [

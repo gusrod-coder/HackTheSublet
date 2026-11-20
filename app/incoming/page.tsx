@@ -10,7 +10,8 @@ import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { DEFAULT_FLEX_DAYS, DESTINATIONS, FLEX_OPTIONS, type Destination, type FlexDays } from "@/lib/types";
 import { RangeCalendar } from "@/components/incoming/RangeCalendar";
-import { Icon, Persona, StepDots, longDate, nightsBetween, styles as s } from "@/components/incoming/ui";
+import { Persona } from "@/components/shared/Persona";
+import { Icon, StepDots, longDate, nightsBetween, styles as s } from "@/components/incoming/ui";
 import p from "./page.module.css";
 
 export default function Page() {
@@ -55,7 +56,7 @@ export default function Page() {
       <div className={s.page}>
         <StepDots step={1} />
         <div className={p.intro}>
-          <Persona kind="fox" />
+          <Persona kind="fox" label="You, the incoming fox" />
           <div className={p.introText}>
             <h1 className={s.display}>When and where are you staying?</h1>
             <p className={s.lead}>

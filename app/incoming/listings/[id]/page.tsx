@@ -10,13 +10,17 @@ import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { QUESTIONS, type HouseholdResponse } from "@/lib/types";
 import { OutsideAppNotice, SampleBadge } from "@/components/shared/ui";
-import { FitPill, Icon, Persona, dateRange, habitSummary, joinNames, personaFor, roomLabel, styles as s } from "@/components/incoming/ui";
+import { PERSONA_FOR_ROLE, Persona } from "@/components/shared/Persona";
+import { FitPill, Icon, dateRange, habitSummary, joinNames, roomLabel, styles as s } from "@/components/incoming/ui";
+import { usePoll } from "@/components/incoming/usePoll";
 import p from "./page.module.css";
 
 export default function Page() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { data, error, loading, reload } = useApi(() => api.incoming.household(id), [id]);
+  // While a request is waiting on votes, pick up approve/decline without a manual reload.
+  usePoll(() => void reload(), 5000, data?.request?.status === "sent");
 
   useEffect(() => {
     if (error?.code === "PROFILE_INCOMPLETE") router.replace("/incoming?gate=profile");
@@ -64,11 +68,10 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
       )}
 
       <div className={p.stayers}>
-        {stayers.map((st) => {
-          const kind = personaFor(st.id);
+        {stayers.map((st, i) => {
           return (
-            <section key={st.id} className={`${s.cardInk} ${p.stayer}`} style={{ background: kind === "capybara" ? "var(--peach)" : "var(--mint)" }}>
-              <Persona kind={kind} />
+            <section key={st.id} className={`${s.cardInk} ${p.stayer}`} style={{ background: "var(--peach)" }}>
+              <Persona kind={PERSONA_FOR_ROLE.stayer} tilt={i % 2 ? 3 : -3} label={st.name} />
               <div className={p.stayerText}>
                 <span className={`${s.caption} ${s.muted}`}>stays all summer</span>
                 <h2 className={s.headingM}>{st.name}</h2>

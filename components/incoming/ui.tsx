@@ -4,7 +4,6 @@ import type { Answers, FitLabel, PublicUser } from "@/lib/types";
 import { QUESTIONS } from "@/lib/types";
 import s from "./incoming.module.css";
 
-import personasPng from "./assets/personas.png";
 import arrowLeft from "./assets/icon-arrow-left.svg";
 import arrowRight from "./assets/icon-arrow-right.svg";
 import bell from "./assets/icon-bell.svg";
@@ -36,34 +35,6 @@ export function Icon({ name, size = 24, style }: { name: IconName; size?: number
       style={{ width: size, height: size, ["--icon" as string]: `url(${ICONS[name].src})`, ...style }}
     />
   );
-}
-
-/** Persona sticker. Offsets come from the Figma Persona component (one sprite sheet, three characters). */
-const PERSONAS = {
-  dino: { bg: "var(--mint)", left: "-15.52%", width: "344.83%" },
-  capybara: { bg: "var(--peach)", left: "-123.21%", width: "357.14%" },
-  fox: { bg: "var(--butter)", left: "-217.24%", width: "344.83%" },
-} as const;
-export type PersonaKind = keyof typeof PERSONAS;
-
-export function Persona({ kind, tilt = 0, scale = 1 }: { kind: PersonaKind; tilt?: number; scale?: number }) {
-  const p = PERSONAS[kind];
-  const transform = [tilt && `rotate(${tilt}deg)`, scale !== 1 && `scale(${scale})`].filter(Boolean).join(" ") || undefined;
-  return (
-    <div className={s.persona} style={{ background: p.bg, transform }}>
-      <div className={s.personaArt}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="" src={personasPng.src} style={{ left: p.left, width: p.width }} />
-      </div>
-    </div>
-  );
-}
-
-/** Stable persona per stayer (the incoming is always the fox). */
-export function personaFor(id: string): PersonaKind {
-  let h = 0;
-  for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-  return h % 2 ? "capybara" : "dino";
 }
 
 const STEP_LABELS = ["your stay", "how you live", "browse", "the household"];
