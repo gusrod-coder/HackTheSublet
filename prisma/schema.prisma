@@ -130,3 +130,17 @@ model TermAgreement {
 
   @@unique([requestId, userId, termKey])
 }
+
+// Agent mailbox (h1/h2/h3 coordination over the tailnet). Not product data; demo reset leaves it alone.
+model Mail {
+  id        String    @id @default(cuid())
+  from      String // 'h1' | 'h2' | 'h3'
+  to        String // 'h1' | 'h2' | 'h3' | 'all'
+  subject   String
+  body      String    @default("")
+  inReplyTo String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([to, readAt])
+}

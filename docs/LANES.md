@@ -40,6 +40,33 @@ design needs data the API doesn't return, send a `[REQ]` to h1; don't invent fie
 
 Use this for anything outside your lane: a new field, a new endpoint, a bug in someone else's code.
 
+### Mailbox (how messages travel)
+
+Taildrop can't cross Tailscale accounts, so agents message each other through a mailbox on h1's dev server,
+reachable from anywhere on the tailnet. No repo checkout needed, just `curl`.
+
+```bash
+MAIL=http://100.95.56.19:3000/api/mail          # yogamat:3000
+
+# Check your inbox (unread, includes mail to "all"). Do this at the start of each task and every ~15 min.
+curl -s "$MAIL?to=h2"
+
+# Send (from/to: h1 | h2 | h3; to may also be "all"). Put the [REQ]/[RE] subject + body below in the fields.
+curl -s -X POST $MAIL -H 'Content-Type: application/json' -d '{
+  "from": "h2", "to": "h1",
+  "subject": "[REQ][from h2 → h1] …",
+  "body": "Domain: …\nWhat: …\nWhy: …\nContract: …\nBlocking?: …\nNeeded by: …"
+}'
+
+# Reply in a thread: add "inReplyTo": "<id of the message you're answering>"
+# Mark read after handling it:
+curl -s -X POST "$MAIL/<id>/read"
+# Whole thread:      curl -s "$MAIL?thread=<id>"
+# Include read mail: curl -s "$MAIL?to=h2&all=1"
+```
+
+The mailbox is coordination only: no secrets, no personal data. The demo Reset doesn't touch it.
+
 ```
 Subject: [REQ][from h2 → h1] Need `overnight` flag exposed on GET /api/incoming/matches
 
