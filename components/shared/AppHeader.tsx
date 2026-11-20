@@ -67,8 +67,9 @@ export function AppHeader() {
           <>
             <span className="topbar-divider" aria-hidden />
             <span className="account" title={me.email}>
-              <span className="avatar" aria-hidden>
-                <Persona kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} scale={0.42} />
+              {/* Head-and-shoulders crop: each persona is shifted so its head sits in the middle of the circle. */}
+              <span className="avatar" data-kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} aria-hidden>
+                <Persona kind={roleKey ? PERSONA_FOR_ROLE[roleKey] : "fox"} scale={0.5} />
               </span>
               {me.name}
             </span>
