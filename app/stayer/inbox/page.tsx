@@ -31,20 +31,27 @@ export default function StayerInboxPage() {
         loading={inbox.loading && !inbox.data}
         error={inbox.error?.code === "NO_SESSION" ? { code: "", message: "Pick a demo user in the top bar first." } : inbox.error}
       />
-      {inbox.data && requests.length === 0 && (
+      {inbox.data && (
         <>
-          <Hero persona="capybara" title="No requests yet" lede="When an incoming student asks to join your household, you'll review them here. Nobody moves in without your yes." />
-          <Link href="/stayer" className={cx(kit.btn, kit.btnSecondary)}>Back to your invites</Link>
+          <Hero
+            persona="capybara"
+            title={requests.length ? "Requests to join your household" : "No requests yet"}
+            lede={requests.length
+              ? "Review each student's habits and fit with everyone who's staying. Every roommate gets a say."
+              : "When an incoming student asks to join your household, you'll review them here. Nobody moves in without your yes."}
+          />
+          {me.data?.user && <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>Viewing as {me.data.user.name}</p>}
+          {requests.length === 0 && <Link href="/stayer" className={cx(kit.btn, kit.btnSecondary)}>Back to your invites</Link>}
         </>
       )}
       {requests.map((r) => (
-        <RequestCard key={r.id} r={r} myId={myId} myName={me.data?.user?.name} onChange={() => void inbox.reload()} />
+        <RequestCard key={r.id} r={r} myId={myId} onChange={() => void inbox.reload()} />
       ))}
     </Page>
   );
 }
 
-function RequestCard({ r, myId, myName, onChange }: { r: Req; myId?: string; myName?: string; onChange: () => void }) {
+function RequestCard({ r, myId, onChange }: { r: Req; myId?: string; onChange: () => void }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const dest = DESTINATIONS.find((d) => d.key === r.incoming.destination)?.label;
@@ -69,19 +76,21 @@ function RequestCard({ r, myId, myName, onChange }: { r: Req; myId?: string; myN
   const perStayer = [...r.fit.perStayer].sort((a, b) => Number(b.stayer.id === myId) - Number(a.stayer.id === myId));
 
   return (
-    <section className={kit.col} style={{ gap: 24 }}>
+    <section className={kit.col} style={{ gap: 24 }} aria-labelledby={`request-${r.id}`}>
       <div className={kit.row}>
         <span className={cx(kit.caption, kit.muted)}>
-          {myName ? `viewing as ${myName} · ` : ""}
           {r.listing.name}
         </span>
         <SampleBadge show={r.listing.isSample} />
       </div>
-      <Hero
-        persona="fox"
-        title={r.status === "sent" ? "Someone wants to join your household" : r.status === "approved" ? `${r.incoming.name} is joining your household` : "Request closed"}
-        lede={`${r.incoming.name} · ${formatDate(r.incoming.startDate)} – ${formatDate(r.incoming.endDate)}${dest ? ` · days at ${dest}` : ""}`}
-      />
+      <div className={kit.heroText}>
+        <h2 id={`request-${r.id}`} className={kit.headingM}>
+          {r.status === "sent" ? `${r.incoming.name} wants to join` : r.status === "approved" ? `${r.incoming.name}'s request is approved` : `${r.incoming.name}'s request is closed`}
+        </h2>
+        <p className={kit.lede}>
+          {formatDate(r.incoming.startDate)} – {formatDate(r.incoming.endDate)}{dest ? ` · days at ${dest}` : ""}
+        </p>
+      </div>
 
       <div className={kit.split}>
         {/* Household fit */}
