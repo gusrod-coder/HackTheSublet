@@ -117,7 +117,9 @@ export default function Page() {
             <aside className={p.mascot}>
               <div className={p.bubble}>{BUBBLES[step]}</div>
               <div className={p.mascotArt}>
-                <Persona kind="fox" tilt={4} scale={1.5} />
+                <div className={p.foxCard}>
+                  <Persona kind="fox" label="You, the incoming fox" />
+                </div>
               </div>
             </aside>
 

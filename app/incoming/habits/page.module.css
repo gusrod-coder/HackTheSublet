@@ -59,3 +59,16 @@
   .question, .dealTitle { font-size: 24px; line-height: 30px; }
   .footer { flex-direction: column-reverse; align-items: stretch; }
 }
+
+/* Selected answer + the fox's card get the sketch edge too (Figma 03.x). */
+.answer[aria-checked="true"] { position: relative; border-color: transparent; }
+.answer[aria-checked="true"]::after, .foxCard::after {
+  content: ""; position: absolute; inset: -2px; border: 2px solid var(--sketch-color, var(--ink));
+  border-radius: inherit; filter: url(#hf-sketch); pointer-events: none;
+}
+.answer[aria-checked="true"] { --sketch-color: var(--brand); }
+/* Shared Persona is art-only now; the deck screens put it on a sky card, tilted (Figma 03.1 / 03.9). */
+.foxCard {
+  position: relative; display: flex; align-items: flex-end; justify-content: center; width: 104px; height: 136px;
+  background: var(--sky); border-radius: var(--radius-xl); transform: rotate(-4deg) scale(1.3); transform-origin: top center;
+}

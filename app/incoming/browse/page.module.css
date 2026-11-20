@@ -60,3 +60,10 @@
   .view { margin-left: 0; }
 }
 .areaRow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* The map clips its tiles, so it keeps a plain border instead of the sketch overlay. */
+.map.map { border-color: var(--ink); }
+.map.map::after { display: none; }
+/* Figma 04: excluded list reads as a plain bullet line, not a disclosure arrow. */
+.excluded summary { list-style: none; }
+.excluded summary::-webkit-details-marker { display: none; }
+.excluded summary::before { content: "• "; }

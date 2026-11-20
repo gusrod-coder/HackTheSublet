@@ -71,3 +71,12 @@
 @media (max-width: 640px) {
   .display { font-size: 26px; line-height: 32px; }
 }
+
+/* Hand-drawn outline (Figma sketch edge), same overlay + #hf-sketch filter as globals.css .sketch.
+   The border itself goes transparent and a filtered ::after draws the wobbly line, so text is never distorted. */
+.cardInk, .btn:not(:disabled), .choice[aria-pressed="true"] { position: relative; border-color: transparent; }
+.cardInk::after, .btn:not(:disabled)::after, .choice[aria-pressed="true"]::after {
+  content: ""; position: absolute; inset: -2px; border: 2px solid var(--sketch-color, var(--ink));
+  border-radius: inherit; filter: url(#hf-sketch); pointer-events: none;
+}
+.choice[aria-pressed="true"] { --sketch-color: var(--brand); }

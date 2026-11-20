@@ -22,7 +22,7 @@
 
 /* ── h2 polish (Figma 06/06b) ── */
 /* Same left edge, top spacing and background as the incoming screens: no inset card, no clipped corner blobs. */
-.shell.shell { --hf-sky: var(--sky); padding: 0 0 64px; background: transparent; border-radius: 0; overflow: visible; }
+.shell.shell { --hf-sky: var(--sky); padding: 0 4px 64px; background: transparent; border-radius: 0; overflow: visible; }
 .shell.shell.shell::before, .shell.shell.shell::after { display: none; }
 /* Unagreed term rows have no outline in Figma, only the soft lift. */
 .term:not(.termOn) { border-color: transparent; }
@@ -33,3 +33,9 @@
 .pill.pill[aria-pressed="true"]:disabled { opacity: 1; }
 /* Primary call to action is the deep brand fill with light text, as in Figma 06. */
 .primary.primary { background: var(--brand); color: var(--brand-ink); }
+/* Agreed rows: sketch edge in brand blue (Figma 06b). */
+.termOn { position: relative; border-color: transparent; --sketch-color: var(--brand); }
+.termOn::after {
+  content: ""; position: absolute; inset: -2px; border: 2px solid var(--sketch-color);
+  border-radius: inherit; filter: url(#hf-sketch); pointer-events: none;
+}
