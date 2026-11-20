@@ -1,0 +1,14 @@
+/* Figma 09: centred 620px notification card. */
+.notifyCard {
+  display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center;
+  width: 100%; max-width: 620px; margin: 46px auto 0; padding: 32px 36px;
+}
+.personas { display: flex; }
+.personas > :first-child { margin-right: -16px; }
+.tilted { transform: rotate(8deg); }
+.kicker { display: inline-flex; gap: 8px; align-items: center; color: var(--hf-dino); }
+.others { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+
+@media (max-width: 640px) {
+  .notifyCard { margin-top: 8px; padding: 24px 20px; }
+}

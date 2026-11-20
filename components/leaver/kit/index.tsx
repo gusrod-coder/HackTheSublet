@@ -4,7 +4,6 @@
  */
 import type { ReactNode } from "react";
 import s from "./kit.module.css";
-import sprite from "./assets/persona-sprite.png";
 import pin from "./assets/icon-pin.svg";
 import lock from "./assets/icon-lock.svg";
 import lockOkay from "./assets/icon-lock-okay.svg";
@@ -19,14 +18,14 @@ export { s as kit };
 export const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(" ");
 
 // ─── Persona ────────────────────────────────────────────────────────────────
-// Figma "Persona" (4:52 / 4:54 / 4:56). One sprite, cropped per character.
-// Art box is % of the 88×120 card; img offsets are % of the art box, straight from Figma.
+// Figma "Persona" (4:52 / 4:54 / 4:56). Art = public/personas/<kind>.png, cropped from the Figma
+// sprite with the exact Figma crop, so the art box below (px on the 88×120 card) matches the design.
 type PersonaKind = "dino" | "capybara" | "fox";
-const PERSONAS: Record<PersonaKind, { bg: string; art: [number, number, number, number]; img: [number, number, number, number] }> = {
-  //             art: left, top, width, height (px on 88×120)   img: left, top, width, height (%)
-  dino: { bg: "var(--hf-blush)", art: [2, 12, 80, 97], img: [-16.46, -36.98, 330.59, 181.77] },
-  capybara: { bg: "var(--hf-leaf)", art: [6, 5, 72, 110], img: [-284.17, -33.88, 405, 177.05] },
-  fox: { bg: "var(--hf-sky)", art: [9, 5, 66, 110], img: [-157.72, -22.44, 395.12, 158.05] },
+const PERSONAS: Record<PersonaKind, { bg: string; art: [number, number, number, number] }> = {
+  //             art: left, top, width, height
+  dino: { bg: "var(--hf-blush)", art: [2, 12, 80, 97] },
+  capybara: { bg: "var(--hf-leaf)", art: [6, 5, 72, 110] },
+  fox: { bg: "var(--hf-sky)", art: [9, 5, 66, 110] },
 };
 
 export function Persona({ kind, size = "md", className }: { kind: PersonaKind; size?: "sm" | "md"; className?: string }) {
@@ -41,7 +40,7 @@ export function Persona({ kind, size = "md", className }: { kind: PersonaKind; s
         style={{ left: pct(p.art[0], 88), top: pct(p.art[1], 120), width: pct(p.art[2], 88), height: pct(p.art[3], 120) }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={sprite.src} alt="" style={{ left: `${p.img[0]}%`, top: `${p.img[1]}%`, width: `${p.img[2]}%`, height: `${p.img[3]}%` }} />
+        <img src={`/personas/${kind}.png`} alt="" />
       </div>
     </div>
   );

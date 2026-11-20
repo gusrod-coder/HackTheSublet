@@ -21,6 +21,7 @@ export default function NewListingPage() {
   const [startDate, setStart] = useState("");
   const [endDate, setEnd] = useState("");
   const [roomType, setRoomType] = useState<RoomType>("private");
+  const [furnished, setFurnished] = useState(true);
   // Figma shows the house facts as positive statements ("No indoor smoking"); the API stores the flag.
   const [noSmoking, setNoSmoking] = useState(true);
   const [noPets, setNoPets] = useState(true);
@@ -52,6 +53,7 @@ export default function NewListingPage() {
         endDate,
         houseRules: houseRules.trim() || undefined,
         flags: { smoking: !noSmoking, pets: !noPets },
+        furnished,
       });
       router.push(`/leaver/listings/${listing.id}`);
     } catch (e) {
@@ -104,7 +106,7 @@ export default function NewListingPage() {
             <div className={kit.pills}>
               <button type="button" className={kit.pill} aria-pressed={roomType === "private"} onClick={() => setRoomType("private")}>Private room</button>
               <button type="button" className={kit.pill} aria-pressed={roomType === "shared"} onClick={() => setRoomType("shared")}>Shared bedroom</button>
-              {/* TODO(REQ-furnished): "Furnished" pill from Figma once ListingFlags.furnished exists. */}
+              <button type="button" className={kit.pill} aria-pressed={furnished} onClick={() => setFurnished((v) => !v)}>Furnished</button>
             </div>
           </fieldset>
           <fieldset className={kit.field}>
