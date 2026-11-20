@@ -85,10 +85,10 @@ fit, #1**, with "where you match: Bedtime: everyone before 11pm · Time at home:
 | Time | Leaver | Stayer | Incoming |
 |---|---|---|---|
 | **0:00–0:40** | **Hook** (no clicking): "Every summer thousands of students sublet a room in Ann Arbor. Finding one is easy. But you're not renting a room, you're joining a household. I'm leaving for the summer; I list the room, but I won't live there. My roommate who stays never gets a say, and the new person can't see how we live until they move in. burrow fixes that. Three of us, three roles, all live." | | |
-| **0:40–1:20** | **+ List a room** (the form fills itself as Morgan) → **Next: invite your roommates →** → *invite* the stayer → *Submit*. **"I list it and invite whoever's staying. But it doesn't go live yet."** → point at "Waiting on <name>". | | **"I'm Alex, coming for a summer at the medical campus. I answered the same eight habit questions everyone answers: bedtime, guests, dishes, how you raise problems. Habits only, never identity."** → point at Browse: Packard St #1 at 94; Church St excluded "because of smoking". **"No Oakland Ave. It isn't live."** |
+| **0:40–1:20** | **+ List a room** (the form fills itself as Morgan, rent **$975/mo**) → **Next: invite your roommates →** → *invite* the stayer → *Submit*. **"I list it and invite whoever's staying. But it doesn't go live yet."** → point at "Waiting on <name>". | | **"I'm Alex, coming for a summer at the medical campus. I answered the same eight habit questions everyone answers: bedtime, guests, dishes, how you raise problems. Habits only, never identity."** → point at Browse: Packard St #1 at 94; Church St excluded "because of smoking". **"No Oakland Ave. It isn't live."** |
 | **1:20–2:30** | | → **The invite email arrives** in their real inbox. *Hold up / click it.* **"I'm staying, so I get the email. The link signs me straight in."** *Answer the 8 scripted questions* → **Save my answers →**. **"Nobody sees our house until everyone who stays has answered."** | Meanwhile, *open "Try a change"*: guests 1 → **4+** ("Geddes overtakes Packard"; top mismatch becomes guests) → back to **1**. Bedtime **A lot** → order changes → back to **Some**. **Pets** on → Geddes Ave excluded "pets in the home" → **off**. **"Every number moves for a reason you can check by hand. No AI."** |
 | **2:30–2:50** | → page flips to **Live** by itself. **"Live the moment my roommate answered."** | → "…is now live." | *Reload Browse* → **Oakland Ave house #1, 96, Strong fit.** **"There it is, at the top. And the score is set by the roommate I fit worst, because I live with all of them."** |
-| **2:50–3:20** | | | *Open it* → point at where we match / differ, and covers my dates → **Request to join this household**. |
+| **2:50–3:20** | | | *Open it* → point at where we match / differ, and covers my dates → *(optional)* tick **Share my phone number** → **Request to join this household**. **"If I want, the roommates get my number with the request, so they can text me before they vote."** |
 | **3:20–3:50** | **"I don't get a vote. I won't live there."** | *Inbox* (email "Alex wants to join" also arrives) → shows Alex's answers → **"I only see Alex's answers once Alex asks. Blind until then, both ways."** → **Approve ✓** | Card flips to **Approved → Continue to terms →**. **"Every stayer has to say yes. One pass and it's declined."** |
 | **3:50–4:30** | | **Agree on house terms →** → pick **Email** pill, type address → **Agree to all and share my contact** | **Continue to terms →** → **"House terms are written from everyone's answers, each with a why."** → pick **Text** pill FIRST, type `734-555-0100` → **Agree to all and share my contact** |
 | **4:30** | | **Contacts appear** | **Contacts appear, same moment.** **"Contacts unlock only when everyone has said yes and agreed to every term, and then for everyone at once."** |
@@ -341,6 +341,15 @@ Scope, and safety. Contacts unlock only after mutual approval and agreed terms, 
 channels. No harassment surface, no moderation burden.
 
 ### Product and market
+
+**"What about price?"**
+Every listing shows its monthly rent. An incoming student can set a budget (step 1, or *Try a change* on Browse):
+houses above it move to the excluded list with the reason ("Over your budget: $1,050/mo"). Rent never changes a fit
+score; fit is only about living together. Payment itself happens outside burrow.
+
+**"Can they talk before deciding?"**
+When requesting, the incoming student can choose to share a phone number. Only that household's stayers see it, in the
+request email and their inbox. Otherwise everyone's contacts unlock after they all agree on house terms.
 
 **"Is there evidence this is a real problem?"** *(full sources and limits: `sources.md`)*
 24.2% of responding undergraduates reported roommate or housemate problems in the past year (ACHA-NCHA, Spring 2026,
