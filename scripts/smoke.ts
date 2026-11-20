@@ -51,6 +51,15 @@ const packardFit = (m: any) => m.ranked.find((r: any) => r.listing.id === "l_pac
 async function main() {
   console.log(`Smoke test against ${BASE}`);
   const anon = new Client("anon");
+  // The smoke test triggers dozens of notifications. Never run it against a server that sends real email.
+  const mode = (await anon.get("/api/dev/outbox?limit=1")).data?.mode;
+  if (mode === "smtp" && process.env.SMOKE_ALLOW_EMAIL !== "1") {
+    console.error(
+      "Refusing: this server has SMTP on, so the smoke test would send real email.\n" +
+        "Start the server without it, e.g. SMTP_HOST= EMAIL_REDIRECT= npm run dev, or set SMOKE_ALLOW_EMAIL=1.",
+    );
+    process.exit(2);
+  }
   check((await anon.post("/api/demo/reset")).status === 200, "reset sample data");
   check((await anon.get("/api/incoming/matches")).status === 401, "no session → 401");
 
@@ -191,7 +200,12 @@ async function main() {
   const inv = await morgan.post(`/api/listings/${lid}/invites`, { invites: [{ email: "newstayer@example.edu", name: "Quinn" }] });
   check(inv.data.waitingOn === 1, "invite → waiting on 1");
   const invMail = (await outbox("invite")).find((e) => e.to === "newstayer@example.edu");
-  check(invMail && invMail.link.endsWith(`/stayer/${lid}/form`), "email: invite with link to the stayer form");
+  const invLink = invMail ? new URL(invMail.link) : null;
+  check(
+    !!invLink && invLink.pathname === "/api/demo/login" && invLink.searchParams.get("next") === `/stayer/${lid}/form` &&
+      !!invLink.searchParams.get("u"),
+    "email: invite link signs in as the stayer and opens their form",
+  );
   check((await morgan.post(`/api/listings/${lid}/submit`)).data.listing.status === "awaiting_household", "submit → awaiting_household");
   m = (await alex.get("/api/incoming/matches")).data;
   check(!order(m).includes(lid), "unreleased listing not shown to incoming");
