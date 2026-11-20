@@ -37,9 +37,16 @@
 .differ .boxTitle { color: var(--weak); }
 
 .empty { padding: 24px; margin: 0; }
-.excluded { padding: 4px 0; }
-.excluded summary { cursor: pointer; }
-.excluded ul { margin: 8px 0 0; padding-left: 16px; }
+.excluded { padding: 12px 16px; border: 2px solid var(--line-soft); border-radius: var(--radius-lg, 16px); background: var(--card); }
+.excluded summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; cursor: pointer; }
+.excluded[open] .exCaret { transform: rotate(90deg); }
+.exCaret { flex: none; transition: transform 0.15s; }
+.excluded > * + * { margin-top: 10px !important; }
+.exList { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.exItem { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border-radius: 12px; background: var(--cream); }
+.exItem p { margin: 0; }
+.exWhy { color: var(--weak); margin-top: 4px !important; }
+@media (max-width: 640px) { .exItem { flex-direction: column; align-items: flex-start; } }
 
 .map { position: relative; overflow: hidden; padding: 0; }
 .mapCaption {
@@ -66,7 +73,6 @@
 /* The map clips its tiles, so it keeps a plain border instead of the sketch overlay. */
 .map.map { border-color: var(--ink); }
 .map.map::after { display: none; }
-/* Figma 04: excluded list reads as a plain bullet line, not a disclosure arrow. */
+/* Excluded houses: a collapsible panel (closed by default) with links to each household. */
 .excluded summary { list-style: none; }
 .excluded summary::-webkit-details-marker { display: none; }
-.excluded summary::before { content: "• "; }

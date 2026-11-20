@@ -98,14 +98,27 @@ export default function Page() {
               )}
 
               {matches.data.excluded.length > 0 && (
-                <details className={p.excluded} open>
-                  <summary className={s.label}>
-                    {matches.data.excluded.length} excluded by your deal-breakers or budget
+                <details className={p.excluded}>
+                  <summary>
+                    <span className={s.label}>
+                      {matches.data.excluded.length} {matches.data.excluded.length === 1 ? "house" : "houses"} hidden by your deal-breakers or budget
+                    </span>
+                    <svg className={p.exCaret} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="m9 6 6 6-6 6" />
+                    </svg>
                   </summary>
-                  <ul>
+                  <p className={`${s.caption} ${s.muted}`}>
+                    These aren’t ranked, but you can still look. Change your deal-breakers or budget in <strong>Try a change</strong> to bring them back.
+                  </p>
+                  <ul className={p.exList}>
                     {matches.data.excluded.map((x) => (
-                      <li key={x.listingId} className={`${s.caption} ${s.muted}`}>
-                        {x.name} · excluded because: {x.reasons.join(", ").toLowerCase()}
+                      <li key={x.listingId} className={p.exItem}>
+                        <div>
+                          <p className={s.headingS}>{x.name}</p>
+                          <p className={`${s.caption} ${s.muted}`}>{x.address}</p>
+                          <p className={`${s.caption} ${p.exWhy}`}>Hidden because: {x.reasons.join(", ").toLowerCase()}</p>
+                        </div>
+                        <Link href={`/incoming/listings/${x.listingId}`} className={`${s.btnSecondary} ${p.view}`}>View household</Link>
                       </li>
                     ))}
                   </ul>
