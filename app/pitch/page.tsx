@@ -73,7 +73,16 @@ const SLIDES: ReactNode[] = [
     <p className={s.pill}>Setup takes about 3 minutes</p>
   </div>,
 
-  // 6. How the platform works
+  // 6. How it works
+  <div key="how" className={s.center}>
+    <p className={s.eyebrow}>How it works</p>
+    <ol className={s.steps}>
+      <li className={`card ${s.step}`}><span className={s.stepNum}>1</span><h3>Leaver lists</h3><p>The listing stays hidden.</p></li>
+      <li className={`card ${s.step}`}><span className={s.stepNum}>2</span><h3>Stayers answer</h3><p>8 habit questions. Live once everyone answers.</p></li>
+      <li className={`card ${s.step}`}><span className={s.stepNum}>3</span><h3>Incoming matches</h3><p>Same questions, deal-breakers, dates. Ranked by household fit.</p></li>
+    </ol>
+  </div>,
+  // 7. How the platform works (click → home)
   <div key="tech" className={s.center}>
     <p className={s.eyebrow}>How the platform works</p>
     <h2 className={s.title}>A real app, <span className={s.today}>live</span> end to end.</h2>
@@ -83,18 +92,9 @@ const SLIDES: ReactNode[] = [
       <span className={s.chip}>Real database</span>
     </div>
     <p className={s.lead}>Scoring, the release gate and matching are all live.</p>
-  </div>,
-
-  // 7. How it works (click → home)
-  <div key="how" className={s.center}>
-    <p className={s.eyebrow}>How it works</p>
-    <ol className={s.steps}>
-      <li className={`card ${s.step}`}><span className={s.stepNum}>1</span><h3>Leaver lists</h3><p>The listing stays hidden.</p></li>
-      <li className={`card ${s.step}`}><span className={s.stepNum}>2</span><h3>Stayers answer</h3><p>8 habit questions. Live once everyone answers.</p></li>
-      <li className={`card ${s.step}`}><span className={s.stepNum}>3</span><h3>Incoming matches</h3><p>Same questions, deal-breakers, dates. Ranked by household fit.</p></li>
-    </ol>
     <p className={s.hint}>Click to try it →</p>
   </div>,
+
 ];
 
 export default function PitchPage() {
