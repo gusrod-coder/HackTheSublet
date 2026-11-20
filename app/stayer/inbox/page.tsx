@@ -161,6 +161,16 @@ function RequestCard({ r, myId, single, onChange }: { r: Req; myId?: string; sin
             {r.listing.leader.name}, who's leaving, can't approve this for you. Every roommate who stays has to say yes.
           </p>
 
+          {r.sharedPhone && (
+            <div className={cx(kit.notice, kit.noticeSky)}>
+              <Icon name="bell" size={20} />
+              <span>
+                {r.incoming.name} shared a phone number so you can talk before deciding:{" "}
+                <a href={`tel:${r.sharedPhone.replace(/[^\d+]/g, "")}`} style={{ fontWeight: 700, whiteSpace: "nowrap" }}>{r.sharedPhone}</a>
+              </span>
+            </div>
+          )}
+
           {r.status === "approved" ? (
             <>
               <span className={cx(kit.headingS, s.approved)}>

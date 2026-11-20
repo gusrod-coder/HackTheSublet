@@ -23,6 +23,7 @@ function request(): StayerInboxResponse["requests"][number] {
     listing: { ...listing, status: "live", isSample: true, leader: person(listing.leaverId) },
     incoming: { ...person(incoming.userId), ...incoming },
     fit: scoreListing(incoming, { ...listing, stayers }, { incomingName: "Noor" }),
+    sharedPhone: null,
     myDecision: "approve",
     approvals: stayers.map((stayer) => ({ stayer, decision: stayer.id === "u_lena" ? "approve" : null })),
   };

@@ -26,6 +26,7 @@ import type {
   OutboxResponse,
   RequestDetailResponse,
   RequestRef,
+  RequestToJoinBody,
   StayerInboxResponse,
   StayerInvitesResponse,
   StayerProfileBody,
@@ -107,7 +108,7 @@ export const api = {
     saveProfile: (b: IncomingProfileBody) => call<IncomingProfileResponse>("PUT", "/api/incoming/profile", b),
     matches: () => call<MatchesResponse>("GET", "/api/incoming/matches"),
     household: (listingId: string) => call<HouseholdResponse>("GET", `/api/listings/${enc(listingId)}/household`),
-    request: (listingId: string) => call<RequestRef>("POST", `/api/listings/${enc(listingId)}/requests`),
+    request: (listingId: string, b: RequestToJoinBody = {}) => call<RequestRef>("POST", `/api/listings/${enc(listingId)}/requests`, b),
     myRequests: () => call<IncomingRequestsResponse>("GET", "/api/incoming/requests"),
   },
 

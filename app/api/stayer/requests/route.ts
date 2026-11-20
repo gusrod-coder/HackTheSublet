@@ -41,6 +41,7 @@ export const GET = handle(async () => {
           answers,
         },
         fit,
+        sharedPhone: r.sharedPhone ?? null,
         myDecision: vote(u.id),
         approvals: l.memberships.map((m) => ({ stayer: pub(m.user), decision: vote(m.userId) })),
       };

@@ -9,7 +9,7 @@ import { useParams, useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { QUESTIONS, type HouseholdResponse } from "@/lib/types";
-import { OutsideAppNotice, SampleBadge } from "@/components/shared/ui";
+import { OutsideAppNotice, SampleBadge, formatRent } from "@/components/shared/ui";
 import { PERSONA_FOR_ROLE, Persona } from "@/components/shared/Persona";
 import { FitPill, Icon, dateRange, habitSummary, joinNames, roomLabel, styles as s } from "@/components/incoming/ui";
 import { usePoll } from "@/components/incoming/usePoll";
@@ -65,7 +65,7 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
         <SampleBadge show={l.isSample} />
       </div>
       <p className={`${s.body} ${s.muted} ${p.sub}`}>
-        {l.area} · {data.distance.label} · {roomLabel(l.roomType).toLowerCase()}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
+        {l.rent != null && <><strong>{formatRent(l.rent)}</strong> · </>}{l.area} · {data.distance.label} · {roomLabel(l.roomType).toLowerCase()}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
         {fit.coverage.charAt(0).toLowerCase() + fit.coverage.slice(1)}
       </p>
 
@@ -150,6 +150,10 @@ function RequestCard({ data, onRequested }: { data: HouseholdResponse; onRequest
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
+  const [sharePhone, setSharePhone] = useState(false);
+  const [phone, setPhone] = useState("");
+  const phoneDigits = phone.replace(/\D/g, "").length;
+  const phoneOk = !sharePhone || (phoneDigits >= 10 && phoneDigits <= 15);
   const names = joinNames(data.stayers);
   const both = data.stayers.length === 2 ? "both" : data.stayers.length > 2 ? "all" : "";
   const req = data.request;
@@ -158,7 +162,7 @@ function RequestCard({ data, onRequested }: { data: HouseholdResponse; onRequest
     setBusy(true);
     setProblem(null);
     try {
-      await api.incoming.request(data.listing.id);
+      await api.incoming.request(data.listing.id, sharePhone ? { sharePhone: phone.trim() } : {});
       router.push("/incoming/requests");
     } catch (e) {
       if (e instanceof ApiClientError && e.code === "ALREADY_REQUESTED") onRequested();
@@ -202,8 +206,33 @@ function RequestCard({ data, onRequested }: { data: HouseholdResponse; onRequest
         {data.stayers.length > 1 ? `${names} ${both} have to say yes.` : `${names} has to say yes.`} {data.listing.leader.name}, who’s
         leaving, can’t approve for them.
       </p>
+      <div className={p.phoneShare}>
+        <label className={p.phoneCheck}>
+          <input type="checkbox" checked={sharePhone} onChange={(e) => setSharePhone(e.target.checked)} disabled={busy} />
+          <span>
+            <strong>Share my phone number</strong> with {names} so they can text or call me before deciding.
+          </span>
+        </label>
+        {sharePhone && (
+          <input
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            className={p.phoneInput}
+            placeholder="(734) 555-0123"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value.slice(0, 30))}
+            disabled={busy}
+            aria-label="Your phone number"
+            aria-invalid={!phoneOk && phone.length > 0}
+          />
+        )}
+        <span className={`${s.caption} ${s.muted}`}>
+          Optional. Only the roommates who stay see it, in their request email and inbox. Otherwise contacts unlock after everyone agrees.
+        </span>
+      </div>
       {problem && <p className={s.noticeWarn}>{problem}</p>}
-      <button type="button" className={s.btn} disabled={busy} onClick={ask}>
+      <button type="button" className={s.btn} disabled={busy || !phoneOk} onClick={ask}>
         {busy ? "Sending…" : "Request to join this household"}
       </button>
     </section>

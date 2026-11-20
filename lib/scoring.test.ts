@@ -210,3 +210,20 @@ describe("demo §8.1 follow-through: Omar's scripted answers keep the script's o
     expect(rank(setWeight(ALEX, 0, 3)).slice(0, 2)).toEqual(["l_geddes", "l_packard"]);
   });
 });
+
+describe("budget (display + exclusion only)", () => {
+  const packard = { ...LIVE.find((l) => l.id === "l_packard")!, rent: 950 };
+  it("excludes a listing over budget with a reason", () => {
+    expect(exclusionReasons({ dealBreakers: [], maxRent: 900 }, packard)).toEqual(["Over your budget: $950/mo (you set up to $900)"]);
+  });
+  it("keeps listings at or under budget, or with no rent given, or with no budget", () => {
+    expect(exclusionReasons({ dealBreakers: [], maxRent: 950 }, packard)).toEqual([]);
+    expect(exclusionReasons({ dealBreakers: [], maxRent: 500 }, { ...packard, rent: null })).toEqual([]);
+    expect(exclusionReasons({ dealBreakers: [], maxRent: null }, packard)).toEqual([]);
+  });
+  it("never changes scores", () => {
+    const a = rankListings(ALEX, LIVE).ranked.map((f) => [f.listingId, f.householdScore]);
+    const b = rankListings({ ...ALEX, maxRent: 100000 }, LIVE.map((l) => ({ ...l, rent: 950 }))).ranked.map((f) => [f.listingId, f.householdScore]);
+    expect(b).toEqual(a);
+  });
+});

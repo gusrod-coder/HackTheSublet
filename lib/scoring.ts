@@ -34,6 +34,8 @@ export interface IncomingInput {
   endDate: ISODate;
   /** ± days of date flexibility; display-only. Defaults to 7. */
   flexDays?: FlexDays;
+  /** Optional monthly budget (USD). Listings with a higher rent are excluded, never re-scored. */
+  maxRent?: number | null;
 }
 
 export interface StayerInput extends PublicUser {
@@ -49,6 +51,8 @@ export interface ListingInput {
   flags: ListingFlags;
   startDate: ISODate;
   endDate: ISODate;
+  /** Monthly rent (USD) or null/undefined if not given. */
+  rent?: number | null;
   stayers: StayerInput[];
 }
 
@@ -138,7 +142,9 @@ export function coverageText(nights: number): string {
 
 const OVERNIGHT_WEEKLY = 2;
 
-export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers">, listing: ListingInput): string[] {
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
+
+export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers" | "maxRent">, listing: ListingInput): string[] {
   const reasons: string[] = [];
   const db = new Set(inc.dealBreakers);
   if (db.has("smoke") && listing.flags.smoking) reasons.push("Indoor smoking or vaping allowed");
@@ -149,6 +155,8 @@ export function exclusionReasons(inc: Pick<IncomingInput, "dealBreakers">, listi
       reasons.push(`Overnight guests weekly or more (${who.map((s) => s.name).join(", ")})`);
   }
   if (db.has("shared") && listing.roomType === "shared") reasons.push("Shared bedroom");
+  if (inc.maxRent != null && listing.rent != null && listing.rent > inc.maxRent)
+    reasons.push(`Over your budget: ${usd(listing.rent)}/mo (you set up to ${usd(inc.maxRent)})`);
   return reasons;
 }
 

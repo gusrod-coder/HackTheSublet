@@ -41,6 +41,7 @@ export const POST = handle(async (req) => {
       houseRules: b.houseRules,
       flagSmoking: b.flags.smoking ?? false,
       flagPets: b.flags.pets ?? false,
+      rent: b.rent ?? null,
       status: "draft",
       memberships: { create: { userId: u.id, role: "leaver", inviteStatus: "answered" } },
     },

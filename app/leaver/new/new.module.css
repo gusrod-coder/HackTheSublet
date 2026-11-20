@@ -28,3 +28,7 @@
 @media (max-width: 640px) {
   .twoUp { flex-direction: column; }
 }
+
+/* Monthly rent: "$ [950] / month" */
+.money { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.money input { max-width: 160px; }

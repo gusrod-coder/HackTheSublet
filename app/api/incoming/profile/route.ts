@@ -31,6 +31,7 @@ export const PUT = handle(async (req) => {
     answers: b.answers ? JSON.stringify(b.answers) : undefined,
     weights: b.weights ? JSON.stringify(b.weights) : undefined,
     dealBreakers: b.dealBreakers ? JSON.stringify([...new Set(b.dealBreakers)]) : undefined,
+    maxRent: b.maxRent,
   };
   const saved = await prisma.incomingProfile.upsert({ where: { userId: u.id }, create: { userId: u.id, ...data }, update: data });
   const v = incomingView(saved);

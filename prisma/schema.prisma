@@ -46,6 +46,7 @@ model Listing {
   flagSmoking Boolean      @default(false)
   flagPets    Boolean      @default(false)
   furnished   Boolean      @default(true)
+  rent        Int? // monthly rent in USD; null = not given. Display + budget filter only, never scored.
   status      String       @default("draft") // 'draft' | 'awaiting_household' | 'live'
   isSample    Boolean      @default(false)
   createdAt   DateTime     @default(now())
@@ -91,6 +92,7 @@ model IncomingProfile {
   answers      String? // JSON (int|null)[8]
   weights      String   @default("[1,1,1,1,1,1,1,1]") // JSON (0|1|3)[8]
   dealBreakers String   @default("[]") // JSON DealBreakerKey[]
+  maxRent      Int? // optional monthly budget in USD; listings above it are excluded with a reason
   complete     Boolean  @default(false)
   updatedAt    DateTime @updatedAt
 }
@@ -103,6 +105,7 @@ model Request {
   incoming   User            @relation("IncomingRequests", fields: [incomingId], references: [id], onDelete: Cascade)
   status     String          @default("sent") // 'sent' | 'approved' | 'declined'
   contactsNotifiedAt DateTime? // set once the "contacts unlocked" email went out
+  sharedPhone String? // optional: the incoming chose to share this number with the stayers when requesting
   createdAt  DateTime        @default(now())
   approvals  Approval[]
   terms      TermAgreement[]

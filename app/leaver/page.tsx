@@ -7,7 +7,7 @@ import Link from "next/link";
 import { api } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { usePoll } from "@/components/leaver/use-poll";
-import { SampleBadge, formatDate } from "@/components/shared/ui";
+import { SampleBadge, formatDate, formatRent } from "@/components/shared/ui";
 import { Hero, Page, Status, cx, kit } from "@/components/leaver/kit";
 import type { ListingStatus } from "@/lib/types";
 
@@ -46,7 +46,7 @@ export default function LeaverListingsPage() {
               </span>
             </div>
             <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>
-              {formatDate(l.startDate)} – {formatDate(l.endDate)} · {l.roomType === "private" ? "Private room" : "Shared bedroom"} · {l.stayerCount}{" "}
+              {l.rent != null && `${formatRent(l.rent)} · `}{formatDate(l.startDate)} – {formatDate(l.endDate)} · {l.roomType === "private" ? "Private room" : "Shared bedroom"} · {l.stayerCount}{" "}
               {l.stayerCount === 1 ? "roommate" : "roommates"}
             </p>
             {l.status !== "live" && l.waitingOn > 0 && (

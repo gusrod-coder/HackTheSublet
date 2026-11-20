@@ -29,6 +29,8 @@ export interface SampleListing {
   endDate: string;
   houseRules: string;
   flags: { smoking: boolean; pets: boolean };
+  /** Monthly rent, USD (sample data). */
+  rent: number;
   /** Stayers; answers null = invited but hasn't answered. */
   stayers: Array<{ userId: string; answers: Answers | null }>;
 }
@@ -110,6 +112,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-31",
     houseRules: "Shoes off inside. Shared groceries for basics, split monthly.",
     flags: { smoking: false, pets: false },
+    rent: 950,
     stayers: [
       { userId: "u_priya", answers: [0, 1, 1, 0, 0, 0, 1, 0] },
       { userId: "u_sam", answers: [1, 1, 1, 0, 0, 0, 1, 0] },
@@ -129,6 +132,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-10",
     houseRules: "Friday dinners are a house thing. Quiet hours are flexible.",
     flags: { smoking: false, pets: false },
+    rent: 1100,
     stayers: [
       { userId: "u_marcus", answers: [2, 2, 3, 2, 2, 2, 2, 1] },
       { userId: "u_tasha", answers: [2, 1, 2, 1, 2, 1, 2, 0] },
@@ -148,6 +152,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-20",
     houseRules: "Garden out back is shared; water it if you're last home.",
     flags: { smoking: false, pets: false },
+    rent: 875,
     stayers: [
       { userId: "u_nina", answers: [0, 0, 1, 0, 0, 0, 1, 0] },
       { userId: "u_omar", answers: null }, // ← keeps Hill St unreleased (demo §8.1)
@@ -167,6 +172,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-31",
     houseRules: "Smoking and vaping on the back porch or in rooms with the window open.",
     flags: { smoking: true, pets: false },
+    rent: 800,
     stayers: [{ userId: "u_ben", answers: [0, 1, 1, 0, 0, 1, 1, 0] }],
   },
   {
@@ -183,6 +189,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-25",
     houseRules: "Two friendly cats live here. Keep the basement door closed.",
     flags: { smoking: false, pets: true },
+    rent: 1050,
     stayers: [
       { userId: "u_hana", answers: [0, 1, 2, 0, 0, 0, 1, 0] },
       { userId: "u_rosa", answers: [0, 1, 2, 0, 0, 1, 1, 0] },
@@ -202,6 +209,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-31",
     houseRules: "Shared bedroom with Kevin. Bunk beds, separate desks.",
     flags: { smoking: false, pets: false },
+    rent: 900,
     stayers: [{ userId: "u_kevin", answers: [1, 2, 3, 1, 1, 1, 2, 1] }],
   },
   // ── More sample households (added Nov 20). All land below the demo's top 3 for Alex. ──
@@ -219,6 +227,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-31",
     houseRules: "Six-person house: three of us leave for the summer, three stay. Sunday chore wheel.",
     flags: { smoking: false, pets: false },
+    rent: 750,
     stayers: [
       { userId: "u_lena", answers: [0, 1, 2, 0, 1, 0, 2, 0] },
       { userId: "u_tariq", answers: [1, 0, 1, 0, 1, 1, 1, 1] },
@@ -239,6 +248,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-31",
     houseRules: "Third-floor walk-up above the shops. Bike storage in the basement.",
     flags: { smoking: false, pets: false },
+    rent: 1000,
     stayers: [{ userId: "u_diego", answers: [1, 2, 1, 1, 1, 1, 1, 1] }],
   },
   {
@@ -255,6 +265,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-25",
     houseRules: "Porch dinners when the weather's good. Partners stay over sometimes.",
     flags: { smoking: false, pets: false },
+    rent: 850,
     stayers: [
       { userId: "u_ana", answers: [0, 1, 1, 0, 1, 1, 1, 1] },
       { userId: "u_felix", answers: [1, 1, 2, 2, 1, 1, 2, 1] }, // overnight weekly → excluded by that deal-breaker
@@ -274,6 +285,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-31",
     houseRules: "You'd share the big front bedroom with Hugo. Cheapest room on the list.",
     flags: { smoking: false, pets: false },
+    rent: 825,
     stayers: [{ userId: "u_hugo", answers: [1, 0, 0, 0, 1, 1, 0, 1] }],
   },
   {
@@ -290,6 +302,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-31",
     houseRules: "Quiet street, big kitchen. Waiting on one roommate before it's released.",
     flags: { smoking: false, pets: false },
+    rent: 780,
     stayers: [
       { userId: "u_sofia", answers: [0, 1, 1, 0, 0, 0, 1, 0] },
       { userId: "u_jonah", answers: [1, 1, 1, 1, 1, 1, 1, 0] },
@@ -310,6 +323,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-20",
     houseRules: "Unfurnished room, five minutes' walk to the Medical Campus. Very quiet building.",
     flags: { smoking: false, pets: false },
+    rent: 925,
     stayers: [{ userId: "u_grace", answers: [0, 0, 0, 0, 0, 1, 0, 2] }],
   },
   {
@@ -326,6 +340,7 @@ export const LISTINGS: SampleListing[] = [
     endDate: "2027-08-31",
     houseRules: "Vaping is fine on the balcony and in your own room.",
     flags: { smoking: true, pets: false },
+    rent: 700,
     stayers: [
       { userId: "u_ivan", answers: [2, 2, 3, 2, 2, 2, 2, 2] },
       { userId: "u_zoe", answers: [1, 1, 2, 1, 1, 1, 2, 1] },
@@ -349,6 +364,7 @@ export const DRAFTS: Array<Omit<SampleListing, "stayers">> = [
     endDate: "2027-08-15",
     houseRules: "",
     flags: { smoking: false, pets: false },
+    rent: 1150,
   },
 ];
 
@@ -454,6 +470,7 @@ export async function seedDatabase(prisma: PrismaClient): Promise<void> {
         houseRules: l.houseRules,
         flagSmoking: l.flags.smoking,
         flagPets: l.flags.pets,
+        rent: l.rent,
         status: allAnswered ? "live" : "awaiting_household",
         isSample: true,
         memberships: {

@@ -44,3 +44,10 @@
   .th, .topic { padding: 0 2px; font-size: 12px; line-height: 16px; }
   .cell { padding: 4px 6px; font-size: 11px; line-height: 14px; overflow-wrap: anywhere; }
 }
+
+/* Opt-in phone sharing on "Request to join" (h1 for the human's request, h2 down). */
+.phoneShare { display: flex; flex-direction: column; gap: 8px; padding: 12px 16px; border-radius: 16px; background: var(--cream, #fff8ec); }
+.phoneCheck { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 14px; line-height: 20px; }
+.phoneCheck input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--brand); flex: none; }
+.phoneInput { max-width: 260px; padding: 10px 14px; border-radius: 12px; border: 2px solid var(--line-soft); background: #fff; font: inherit; }
+.phoneInput[aria-invalid="true"] { border-color: var(--dino-red, #b8433a); }

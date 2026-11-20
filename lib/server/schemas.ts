@@ -26,6 +26,16 @@ export const partialAnswersSchema = z
     });
   });
 
+/** Monthly rent / budget, whole USD. */
+const dollars = z.number().int().min(0).max(20000);
+
+/** Loose phone check: 10–15 digits, common separators allowed. */
+export const phoneSchema = z
+  .string()
+  .trim()
+  .max(30)
+  .refine((v) => /^\+?[\d\s().-]+$/.test(v) && v.replace(/\D/g, "").length >= 10 && v.replace(/\D/g, "").length <= 15, "Enter a phone number with area code.");
+
 const weight = z.union([z.literal(0), z.literal(1), z.literal(3)]);
 
 export const createListingSchema = z
@@ -41,6 +51,7 @@ export const createListingSchema = z
     endDate: isoDate,
     houseRules: z.string().default(""),
     flags: z.object({ smoking: z.boolean().optional(), pets: z.boolean().optional() }).default({}),
+    rent: dollars.nullable().optional(),
   })
   .refine((b) => b.startDate < b.endDate, { message: "startDate must be before endDate", path: ["endDate"] });
 
@@ -56,6 +67,7 @@ export const updateListingSchema = z.object({
   endDate: isoDate.optional(),
   houseRules: z.string().optional(),
   flags: z.object({ smoking: z.boolean().optional(), pets: z.boolean().optional() }).optional(),
+  rent: dollars.nullable().optional(),
 });
 
 export const inviteSchema = z.object({
@@ -74,7 +86,10 @@ export const incomingProfileSchema = z.object({
   answers: partialAnswersSchema.optional(),
   weights: z.array(weight).length(QUESTIONS.length).optional(),
   dealBreakers: z.array(z.enum(["smoke", "pets", "overnight", "shared"])).optional(),
+  maxRent: dollars.nullable().optional(),
 });
+
+export const requestToJoinSchema = z.object({ sharePhone: phoneSchema.optional() });
 
 export const decisionSchema = z.object({ decision: z.enum(["approve", "pass"]) });
 

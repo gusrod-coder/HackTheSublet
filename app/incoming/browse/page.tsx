@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { DESTINATIONS, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
-import { SampleBadge } from "@/components/shared/ui";
+import { BUDGET_OPTIONS, SampleBadge, formatRent } from "@/components/shared/ui";
 import { FitPill, Icon, StepDots, dateRange, roomLabel, styles as s } from "@/components/incoming/ui";
 import { BrowseHelp } from "@/components/incoming/BrowseHelp";
 import { useLiveFit } from "@/components/leaver/use-live-fit";
@@ -100,7 +100,7 @@ export default function Page() {
               {matches.data.excluded.length > 0 && (
                 <details className={p.excluded} open>
                   <summary className={s.label}>
-                    {matches.data.excluded.length} excluded by your deal-breakers
+                    {matches.data.excluded.length} excluded by your deal-breakers or budget
                   </summary>
                   <ul>
                     {matches.data.excluded.map((x) => (
@@ -156,7 +156,7 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
         <SampleBadge show={l.isSample} />
       </p>
       <p className={`${p.meta} ${p.tight}`}>
-        {roomLabel(l.roomType)}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
+        {l.rent != null && <><strong>{formatRent(l.rent)}</strong> · </>}{roomLabel(l.roomType)}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
         <span className={fit.uncoveredNights === 0 ? p.covers : fit.withinFlex ? p.uncovered : p.outside}>{fit.coverage}</span>
         {r.request && <span className={p.reqTag}>Request {r.request.status}</span>}
       </p>
@@ -179,7 +179,7 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
   );
 }
 
-/** Demo quick-edit (spec §8.2–8.4): change one habit, one priority or one deal-breaker and watch the ranking move. */
+/** Demo quick-edit (spec §8.2–8.4): change one habit, one priority, one deal-breaker or the budget and watch the ranking move. */
 function TryAChange({ profile, onSaved }: { profile: IncomingProfileResponse; onSaved: () => void }) {
   const [busy, setBusy] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
@@ -227,6 +227,15 @@ function TryAChange({ profile, onSaved }: { profile: IncomingProfileResponse; on
             onClick={() => save({ dealBreakers: pets ? profile.dealBreakers.filter((d) => d !== "pets") : [...profile.dealBreakers, "pets"] })}>
             Pets
           </button>
+        </div>
+      </div>
+      <div className={p.tryRow}>
+        <span className={s.caption}>Monthly budget</span>
+        <div className={s.choices}>
+          {BUDGET_OPTIONS.map((b) => (
+            <button key={b.label} type="button" className={s.choice} disabled={busy} aria-pressed={profile.maxRent === b.value}
+              onClick={() => save({ maxRent: b.value })}>{b.label}</button>
+          ))}
         </div>
       </div>
       {problem && <p className={s.noticeWarn} role="alert">{problem}</p>}

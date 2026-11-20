@@ -259,6 +259,8 @@ export interface ListingSummary {
   houseRules: string;
   flags: ListingFlags;
   furnished: boolean;
+  /** Monthly rent in USD, or null if the leaver didn't give one. Never scored. */
+  rent: number | null;
   status: ListingStatus;
   isSample: boolean;
   leader: PublicUser;
@@ -278,6 +280,8 @@ export interface CreateListingBody {
   houseRules?: string;
   flags?: Partial<ListingFlags>;
   furnished?: boolean;
+  /** Monthly rent in USD (whole dollars). */
+  rent?: number | null;
 }
 
 /** GET /api/listings — listings the current user leads. */
@@ -386,6 +390,8 @@ export interface IncomingProfileBody {
   answers?: Array<number | null>;
   weights?: Weights;
   dealBreakers?: DealBreakerKey[];
+  /** Max monthly rent in USD; null clears it. Listings above it are excluded (with a reason), never re-scored. */
+  maxRent?: number | null;
 }
 
 /** GET/PUT /api/incoming/profile */
@@ -397,6 +403,7 @@ export interface IncomingProfileResponse {
   answers: Array<number | null>;
   weights: Weights;
   dealBreakers: DealBreakerKey[];
+  maxRent: number | null;
   complete: boolean;
   /** What's still missing, e.g. ["startDate", "answers.3"]. Empty when complete. */
   missing: string[];
@@ -473,9 +480,17 @@ export interface StayerInboxResponse {
     };
     /** Fit computed from the incoming's weights; lines name the incoming, not "you". */
     fit: ListingFit;
+    /** Phone number the incoming chose to share with the stayers when requesting, or null. */
+    sharedPhone: string | null;
     myDecision: Decision | null;
     approvals: Array<{ stayer: PublicUser; decision: Decision | null }>;
   }>;
+}
+
+/** POST /api/listings/:id/requests body (optional). */
+export interface RequestToJoinBody {
+  /** Opt-in: a phone number shown to this household's stayers so they can talk before voting. */
+  sharePhone?: string;
 }
 
 /** POST /api/requests/:id/decision */

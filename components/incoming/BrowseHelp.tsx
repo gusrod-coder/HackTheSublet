@@ -55,14 +55,20 @@ export function BrowseHelp({ matches, shownCount, query, onClearQuery, profile, 
   // 2. Nothing ranked at all.
   if (total === 0) {
     const active = DEAL_BREAKERS.filter((d) => profile?.dealBreakers.includes(d.key));
-    if (matches.excluded.length > 0 && active.length > 0) {
+    const budget = profile?.maxRent ?? null;
+    if (matches.excluded.length > 0 && (active.length > 0 || budget !== null)) {
       return (
-        <Box tone="warn" title="Your deal-breakers rule out every house that’s live right now.">
+        <Box tone="warn" title={active.length ? "Your deal-breakers or budget rule out every house that’s live right now." : "Your budget rules out every house that’s live right now."}>
           <p className={h.text}>
             {matches.excluded.length} {matches.excluded.length === 1 ? "house is" : "houses are"} left out (listed below with the reason).
-            Turning one deal-breaker off brings back the houses it excluded, ranked by fit.
+            Turning a filter off brings back the houses it excluded, ranked by fit.
           </p>
           <div className={h.actions}>
+            {budget !== null && (
+              <button type="button" className="btn secondary" disabled={busy} onClick={() => save({ maxRent: null })}>
+                Remove budget limit
+              </button>
+            )}
             {active.map((d) => (
               <button key={d.key} type="button" className="btn secondary" disabled={busy || !profile}
                 onClick={() => profile && save({ dealBreakers: profile.dealBreakers.filter((k) => k !== d.key) })}>

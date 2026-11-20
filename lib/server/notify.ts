@@ -59,6 +59,9 @@ export async function notifyRequestReceived(requestId: string) {
       subject: `${c.r.incoming.name} wants to join ${c.name}`,
       body:
         `${c.r.incoming.name} asked to sublet at ${c.r.listing.address}. You can now see their answers and how well they fit each of you.\n\n` +
+        (c.r.sharedPhone
+          ? `${c.r.incoming.name} shared a phone number so you can talk before you decide: ${c.r.sharedPhone}\n\n`
+          : "") +
         `Every roommate who stays has to approve. One pass declines the request.`,
       path: `/stayer/inbox`,
     });

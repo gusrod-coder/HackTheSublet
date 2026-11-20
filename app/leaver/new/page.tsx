@@ -18,6 +18,7 @@ const DEMO_LISTING = {
   pin: { lat: 42.2688, lng: -83.7375 },
   startDate: "2027-05-10",
   endDate: "2027-08-20",
+  rent: "975",
 };
 
 const ListingMap = dynamic(() => import("@/components/shared/ListingMap"), { ssr: false });
@@ -36,6 +37,7 @@ export default function NewListingPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [area, setArea] = useState("");
+  const [rent, setRent] = useState("");
   const [pin, setPin] = useState<{ lat: number; lng: number } | null>(null);
   const [startDate, setStart] = useState("");
   const [endDate, setEnd] = useState("");
@@ -52,6 +54,7 @@ export default function NewListingPage() {
     !address.trim() && "an address",
     !pin && "a pin on the map",
     !area.trim() && "the area",
+    !/^\d{2,5}$/.test(rent.trim()) && "the monthly rent",
     !startDate && "a start date",
     !endDate && "an end date",
   ].filter(Boolean) as string[];
@@ -74,6 +77,7 @@ export default function NewListingPage() {
         houseRules: houseRules.trim() || undefined,
         flags: { smoking: !noSmoking, pets: !noPets },
         furnished,
+        rent: Number(rent.trim()),
       });
       router.push(`/leaver/listings/${listing.id}`);
     } catch (e) {
@@ -85,6 +89,7 @@ export default function NewListingPage() {
   function fillDemo() {
     setAddress(DEMO_LISTING.address);
     setArea(DEMO_LISTING.area);
+    setRent(DEMO_LISTING.rent);
     setPin(DEMO_LISTING.pin);
     setStart(DEMO_LISTING.startDate);
     setEnd(DEMO_LISTING.endDate);
@@ -127,6 +132,15 @@ export default function NewListingPage() {
           <div className={kit.field}>
             <label htmlFor="area" className={kit.label}>Area</label>
             <input id="area" className={cx(kit.input, s.input)} value={area} onChange={(e) => setArea(e.target.value)} placeholder="Near Central Campus" disabled={saving} />
+          </div>
+          <div className={kit.field}>
+            <label htmlFor="rent" className={kit.label}>Monthly rent</label>
+            <div className={s.money}>
+              <span aria-hidden>$</span>
+              <input id="rent" inputMode="numeric" className={cx(kit.input, s.input)} value={rent} onChange={(e) => setRent(e.target.value.replace(/[^\d]/g, "").slice(0, 5))} placeholder="950" disabled={saving} aria-describedby="rent-hint" />
+              <span aria-hidden className={cx(kit.caption, kit.muted)}>/ month</span>
+            </div>
+            <span id="rent-hint" className={cx(kit.caption, kit.muted)}>What the incoming student pays each month. Burrow shows it; payment is arranged outside the app.</span>
           </div>
           <div className={s.twoUp}>
             <div className={kit.field}>

@@ -55,6 +55,7 @@ export function toSummary(l: Listing & { leaver: User }): ListingSummary {
     houseRules: l.houseRules,
     flags: { smoking: l.flagSmoking, pets: l.flagPets },
     furnished: l.furnished,
+    rent: l.rent ?? null,
     status: l.status as ListingStatus,
     isSample: l.isSample,
     leader: pub(l.leaver),
@@ -100,6 +101,7 @@ export function toListingInput(l: LoadedListing): ListingInput {
     flags: { smoking: l.flagSmoking, pets: l.flagPets },
     startDate: l.startDate,
     endDate: l.endDate,
+    rent: l.rent ?? null,
     stayers,
   };
 }
@@ -167,6 +169,7 @@ export function incomingView(p: IncomingProfile | null): IncomingProfileResponse
     answers,
     weights,
     dealBreakers,
+    maxRent: p?.maxRent ?? null,
     complete: missing.length === 0,
     missing: [...new Set(missing)],
   };
@@ -175,7 +178,7 @@ export function incomingView(p: IncomingProfile | null): IncomingProfileResponse
 /** Gate §2.2: 403 PROFILE_INCOMPLETE until dates, destination and all 8 answers are in. */
 export async function requireCompleteIncoming(
   userId: string,
-): Promise<IncomingInput & { destination: Destination; flexDays: FlexDays }> {
+): Promise<IncomingInput & { destination: Destination; flexDays: FlexDays; maxRent: number | null }> {
   const p = await prisma.incomingProfile.findUnique({ where: { userId } });
   const v = incomingView(p);
   if (!v.complete)
@@ -188,6 +191,7 @@ export async function requireCompleteIncoming(
     endDate: v.endDate!,
     destination: v.destination!,
     flexDays: v.flexDays,
+    maxRent: v.maxRent,
   };
 }
 

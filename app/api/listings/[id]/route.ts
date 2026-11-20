@@ -37,6 +37,7 @@ export const PATCH = handle<{ id: string }>(async (req, { id }) => {
       houseRules: b.houseRules,
       flagSmoking: b.flags?.smoking,
       flagPets: b.flags?.pets,
+      rent: b.rent,
     },
     include: { leaver: true },
   });

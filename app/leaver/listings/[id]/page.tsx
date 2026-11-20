@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import { usePoll } from "@/components/leaver/use-poll";
-import { SampleBadge, formatDate } from "@/components/shared/ui";
+import { SampleBadge, formatDate, formatRent } from "@/components/shared/ui";
 import { Icon, Page, Persona, StepDots, Status, cx, kit } from "@/components/leaver/kit";
 import s from "./invite.module.css";
 
@@ -150,7 +150,7 @@ export default function InvitePage() {
         <div className={cx(kit.sticker, s.card)}>
           <div className={kit.row} style={{ justifyContent: "space-between" }}>
             <span className={cx(kit.caption, kit.muted)}>
-              {listing.address} · {formatDate(listing.startDate)} – {formatDate(listing.endDate)}
+              {listing.address} · {formatDate(listing.startDate)} – {formatDate(listing.endDate)}{listing.rent != null && ` · ${formatRent(listing.rent)}`}
             </span>
             <SampleBadge show={listing.isSample} />
           </div>
