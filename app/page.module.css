@@ -22,7 +22,7 @@
 .actions { display: flex; gap: 16px; flex-wrap: wrap; padding: 8px 0; }
 
 /* Burrow icon tile (Figma 55:2015) */
-.icon { position: relative; flex: none; overflow: hidden; background: var(--sky); }
+.icon { position: relative; flex: none; overflow: hidden; }
 .icon img { position: absolute; max-width: none; object-fit: cover; }
 
 /* Sections */

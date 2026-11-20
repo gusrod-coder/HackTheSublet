@@ -11,7 +11,7 @@ import burrowIcon from "@/components/shared/assets/burrow-icon.png";
 import tryQr from "@/components/shared/assets/try-burrow-qr.svg";
 import s from "./page.module.css";
 
-/** Figma "Logo / Burrow icon" (55:2015): the fox peeking out of its burrow, cropped in a sky tile. */
+/** Figma "Logo / Burrow icon" (55:2015): the fox peeking out of its burrow, no background. */
 function BurrowIcon({ size }: { size: number }) {
   const k = size / 120; // Figma art box: 160x151 at (-20,-8) inside a 120 tile
   return (

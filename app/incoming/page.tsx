@@ -137,10 +137,6 @@ export default function Page() {
           <h2 className={`${s.headingS} ${p.whereTitle}`} id="price-h">Monthly price range</h2>
           <div className={p.budget}>
             <PriceRange min={minRent} max={maxRent} onChange={(lo, hi) => { setMinRent(lo); setMaxRent(hi); }} />
-            <p className={`${s.caption} ${s.muted}`} style={{ margin: 0 }}>
-              Drag both ends. Places outside your range are set aside with the reason shown, and you can still look at them.
-              Rent never changes a fit score.
-            </p>
           </div>
         </section>
 
