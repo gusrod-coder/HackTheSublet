@@ -39,8 +39,8 @@ const SLIDES: ReactNode[] = [
         <h3>Stayers</h3><p>Live with someone they never chose.</p>
       </div>
       <div className={`card ${s.card}`} style={{ background: "var(--sky)" }}>
-        <Persona kind="fox" scale={0.8} label="Newcomer" />
-        <h3>Newcomer</h3><p>Moves in blind to who they’ll share a home with.</p>
+        <Persona kind="fox" scale={0.8} label="Incoming" />
+        <h3>Incoming</h3><p>Moves in blind to who they’ll share a home with.</p>
       </div>
       <div className={`card ${s.card}`} style={{ background: "var(--blush)" }}>
         <Persona kind="dino" scale={0.8} label="Leaver" />
@@ -67,7 +67,7 @@ const SLIDES: ReactNode[] = [
     <h2 className={s.title}>The whole household in the <span className={s.today}>same room</span>, before anyone signs.</h2>
     <div className={`${s.pair} ${s.trio}`}>
       <figure className={s.who}><Persona kind="capybara" label="Stayers" /><figcaption>Stayers get a say</figcaption></figure>
-      <figure className={s.who}><Persona kind="fox" label="Newcomer" /><figcaption>Newcomer knows who they’re living with</figcaption></figure>
+      <figure className={s.who}><Persona kind="fox" label="Incoming" /><figcaption>Incoming knows who they’re living with</figcaption></figure>
       <figure className={s.who}><Persona kind="dino" label="Leaver" /><figcaption>Leaver fills the room faster</figcaption></figure>
     </div>
     <p className={s.pill}>Setup takes about 3 minutes</p>
