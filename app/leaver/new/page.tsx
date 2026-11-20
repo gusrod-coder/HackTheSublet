@@ -11,6 +11,15 @@ import type { RoomType } from "@/lib/types";
 import { Hero, Page, StepDots, cx, kit } from "@/components/leaver/kit";
 import s from "./new.module.css";
 
+/** The scripted live-demo listing (docs/DEMO-GUIDE.md): covers Alex's dates, no smoking, no pets. */
+const DEMO_LISTING = {
+  address: "1020 Oakland Ave, Ann Arbor",
+  area: "Central Campus",
+  pin: { lat: 42.2688, lng: -83.7375 },
+  startDate: "2027-05-10",
+  endDate: "2027-08-20",
+};
+
 const ListingMap = dynamic(() => import("@/components/shared/ListingMap"), { ssr: false });
 
 export default function NewListingPage() {
@@ -62,6 +71,18 @@ export default function NewListingPage() {
     }
   }
 
+  function fillDemo() {
+    setAddress(DEMO_LISTING.address);
+    setArea(DEMO_LISTING.area);
+    setPin(DEMO_LISTING.pin);
+    setStart(DEMO_LISTING.startDate);
+    setEnd(DEMO_LISTING.endDate);
+    setRoomType("private");
+    setFurnished(true);
+    setNoSmoking(true);
+    setNoPets(true);
+  }
+
   const short = address.split(",")[0].trim();
 
   return (
@@ -85,6 +106,9 @@ export default function NewListingPage() {
         </div>
 
         <div className={cx(kit.sticker, kit.col, s.formCard)}>
+          <button type="button" className="btn ghost small" style={{ alignSelf: "flex-start" }} onClick={fillDemo}>
+            Fill demo listing
+          </button>
           <div className={kit.field}>
             <label htmlFor="address" className={kit.label}>Address</label>
             <input id="address" className={kit.input} value={address} onChange={(e) => setAddress(e.target.value)} placeholder="1100 Packard St, Ann Arbor" />

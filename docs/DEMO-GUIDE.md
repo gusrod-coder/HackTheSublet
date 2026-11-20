@@ -62,6 +62,7 @@ cookie, so one browser = one person). Each of us stands at our own window and cl
 ### Scripted inputs (rehearse these exactly)
 
 **Leaver (Morgan) → List your room**
+- Shortcut: click **Fill demo listing** (top of the form) and everything below is filled in, pin included. Then **Next**.
 - Address: `1020 Oakland Ave, Ann Arbor` · Area: `Central Campus`
 - Available from **May 10, 2027** until **Aug 20, 2027** (covers Alex's May 15 – Aug 15)
 - Click the map near central campus to drop the pin
@@ -82,7 +83,7 @@ fit, #1**, with "where you match: Bedtime: everyone before 11pm · Time at home:
 | Time | Leaver | Stayer | Incoming |
 |---|---|---|---|
 | **0:00–0:40** | **Hook** (no clicking): "Every summer thousands of students sublet a room in Ann Arbor. Finding one is easy. But you're not renting a room, you're joining a household. I'm leaving for the summer; I list the room, but I won't live there. My roommate who stays never gets a say, and the new person can't see how we live until they move in. burrow fixes that. Three of us, three roles, all live." | | |
-| **0:40–1:20** | *List your room* with the scripted inputs → *invite* the stayer → *Submit*. **"I list it and invite whoever's staying. But it doesn't go live yet."** → point at "Waiting on <name>". | | **"I'm Alex, coming for a summer at the medical campus. I answered the same eight habit questions everyone answers: bedtime, guests, dishes, how you raise problems. Habits only, never identity."** → point at Browse: Packard St #1 at 94; Church St excluded "because of smoking". **"No Oakland Ave. It isn't live."** |
+| **0:40–1:20** | *List your room* → **Fill demo listing** (or type the scripted inputs) → *invite* the stayer → *Submit*. **"I list it and invite whoever's staying. But it doesn't go live yet."** → point at "Waiting on <name>". | | **"I'm Alex, coming for a summer at the medical campus. I answered the same eight habit questions everyone answers: bedtime, guests, dishes, how you raise problems. Habits only, never identity."** → point at Browse: Packard St #1 at 94; Church St excluded "because of smoking". **"No Oakland Ave. It isn't live."** |
 | **1:20–2:30** | | → **The invite email arrives** in their real inbox. *Hold up / click it.* **"I'm staying, so I get the email. The link signs me straight in."** *Answer the 8 scripted questions* → **Save my answers →**. **"Nobody sees our house until everyone who stays has answered."** | Meanwhile, *open "Try a change"*: guests 1 → **4+** ("Geddes overtakes Packard"; top mismatch becomes guests) → back to **1**. Bedtime **A lot** → order changes → back to **Some**. **Pets** on → Geddes Ave excluded "pets in the home" → **off**. **"Every number moves for a reason you can check by hand. No AI."** |
 | **2:30–2:50** | → page flips to **Live** by itself. **"Live the moment my roommate answered."** | → "…is now live." | *Reload Browse* → **Oakland Ave house #1, 96, Strong fit.** **"There it is, at the top. And the score is set by the roommate I fit worst, because I live with all of them."** |
 | **2:50–3:20** | | | *Open it* → point at where we match / differ, and covers my dates → **Request to join this household**. |
