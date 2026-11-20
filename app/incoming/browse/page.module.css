@@ -11,6 +11,9 @@
 .side { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 16px; }
 
 .card { display: flex; flex-direction: column; gap: 8px; padding: 24px; }
+.changed { outline: 2px solid var(--brand); outline-offset: 3px; }
+.fitUpdate { padding: 4px 10px; border-radius: var(--radius-pill); background: var(--sky); color: var(--brand); font-size: 12px; line-height: 16px; font-weight: 600; }
+.liveStatus { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .cardHead { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
 .cardTitle { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1; min-width: 0; }
 .rank {

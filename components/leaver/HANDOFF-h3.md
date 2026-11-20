@@ -6,7 +6,18 @@ Read `CLAUDE.md`, `docs/LANES.md`, and the mailbox first. Lane = h3.
 `h3/expanded-data-qa` was merged as `2d3b463`.
 `h3/burrow-brand` was merged as `4e9c54a`.
 `h3/figma-review` is pushed at `4903bad` for review.
-Current follow-up branch: `h3/form-reliability` (based on `4903bad`, so it depends on the Figma branch until that is merged).
+The Figma and form-reliability branches are now merged (H1 confirmed main `2976be7`); H2 passed 20/20 delayed/error-state browser checks on the reliability work.
+Current follow-up branch: `h3/live-fit-workflow` (based on `0d32db2`).
+
+## Live stayer-edit to incoming Browse workflow
+- Human requested: leave Alex's Browse open while Priya edits and saves; refresh matches automatically and briefly show the real score change and current mismatch.
+- H3 edit confirmation now says: Saved. Incoming students' fit scores now reflect your updated habits.
+- `npx tsx components/leaver/qa/live-fit-workflow.ts` verifies the backend with independent Alex/Priya cookie jars on localhost only. Requires outbox mode, resets local sample data before/after. Fifteen checks passed: 94→88 after Priya's bedtime edit, updated limiting stayer/mismatch/rank, same Alex profile/session, stable repeated reads, failed-save stability, 88→94 on restoration, and unchanged profile/role gates.
+- Existing POST stayer profile commits answers before returning; GET incoming matches recomputes from current household profiles. No backend contract change is needed for polling.
+- Browse now polls every three seconds while visible, updates current ranking/mismatch data, and highlights actual score changes for ten seconds. Search and open controls are preserved. First load and unchanged responses do not produce change notices; failed reads keep the last results and retry. Terminal profile/session gates hide scores and stop polling.
+- The serialized loader prevents overlapping reads and queues a post-save refresh after an older poll, so the quick-edit workflow gets a fresh read. Seven delta tests and two request-order/error tests supplement the existing polling tests; typecheck and all 49 tests pass.
+- Final integrated production build, full local API smoke, and all 15 separate-session backend checks pass. The API runs restore the local sample DB; no shared server reset or external email was used.
+- Incoming Browse implementation was requested from H2 in `cmwotptyn0001l9cctrvbssew`; H1 coordination in `cmwotptvq0000l9ccxqqqycq8`. With no reply, H1/H2 were notified that H3 prepared the scoped integration (two Browse files, helpers in H3) for the human-requested workflow. H2 browser/design review remains requested; no local browser verification is claimed because browser access is unavailable.
 
 ## Form reliability follow-up
 - Listing dates require end > start before the UI submits; equal or reversed dates show a linked inline error and disable Next. Server date validation remains authoritative.
