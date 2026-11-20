@@ -10,13 +10,26 @@ import { useApi } from "@/lib/use-api";
 import { usePoll } from "@/components/leaver/use-poll";
 import { DESTINATIONS, QUESTIONS, type Decision, type FitLabel, type StayerInboxResponse } from "@/lib/types";
 import { SampleBadge, formatDate } from "@/components/shared/ui";
-import { Hero, Icon, Page, Status, cx, kit } from "@/components/leaver/kit";
+import { Hero, Icon, Page, Persona, Status, cx, kit } from "@/components/leaver/kit";
 import s from "./inbox.module.css";
 
 type Req = StayerInboxResponse["requests"][number];
 
 const FIT_CLS: Record<FitLabel, string> = { "Strong fit": kit.chipLeaf, "Okay fit": kit.chipButter, "Weak fit": kit.chipBlush };
 const names = (n: string[]) => (n.length <= 1 ? n.join("") : `${n.slice(0, -1).join(", ")} and ${n[n.length - 1]}`);
+const subtitle = (r: Req) => {
+  const destination = DESTINATIONS.find((d) => d.key === r.incoming.destination)?.label;
+  return `${r.incoming.name} · ${formatDate(r.incoming.startDate)} – ${formatDate(r.incoming.endDate)}${destination ? ` · days at ${destination}` : ""}`;
+};
+
+function RequestCaption({ r, viewerName }: { r: Req; viewerName?: string }) {
+  return (
+    <div className={kit.row}>
+      <span className={cx(kit.caption, kit.muted)}>{viewerName ? `viewing as ${viewerName} · ` : ""}{r.listing.name}</span>
+      <SampleBadge show={r.listing.isSample} />
+    </div>
+  );
+}
 
 export default function StayerInboxPage() {
   const inbox = useApi(() => api.stayer.inbox(), []);
@@ -24,6 +37,7 @@ export default function StayerInboxPage() {
   const me = useApi(() => api.me.get(), []);
   const myId = me.data?.user?.id;
   const requests = inbox.data?.requests ?? [];
+  const single = requests.length === 1 ? requests[0] : null;
 
   return (
     <Page>
@@ -33,37 +47,41 @@ export default function StayerInboxPage() {
       />
       {inbox.data && (
         <>
+          {single ? <RequestCaption r={single} viewerName={me.data?.user?.name} /> : me.data?.user && (
+            <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>viewing as {me.data.user.name}</p>
+          )}
           <Hero
-            persona="capybara"
-            title={requests.length ? "Requests to join your household" : "No requests yet"}
-            lede={requests.length
+            persona={single ? "fox" : requests.length === 0 ? "capybara" : undefined}
+            title={single
+              ? single.status === "sent" ? "Someone wants to join your household" : single.status === "approved" ? `${single.incoming.name}'s request is approved` : "Request closed"
+              : requests.length ? "Requests to join your household" : "No requests yet"}
+            lede={single ? subtitle(single) : requests.length
               ? "Review each student's habits and fit with everyone who's staying. Every roommate gets a say."
               : "When an incoming student asks to join your household, you'll review them here. Nobody moves in without your yes."}
           />
-          {me.data?.user && <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>Viewing as {me.data.user.name}</p>}
           {requests.length === 0 && <Link href="/stayer" className={cx(kit.btn, kit.btnSecondary)}>Back to your invites</Link>}
         </>
       )}
       {requests.map((r) => (
-        <RequestCard key={r.id} r={r} myId={myId} onChange={() => void inbox.reload()} />
+        <RequestCard key={r.id} r={r} myId={myId} single={!!single} onChange={inbox.reload} />
       ))}
     </Page>
   );
 }
 
-function RequestCard({ r, myId, onChange }: { r: Req; myId?: string; onChange: () => void }) {
+function RequestCard({ r, myId, single, onChange }: { r: Req; myId?: string; single: boolean; onChange: () => Promise<void> }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const dest = DESTINATIONS.find((d) => d.key === r.incoming.destination)?.label;
 
   const act = async (fn: () => Promise<unknown>) => {
+    if (busy) return;
     setBusy(true);
     setErr(null);
     try {
       await fn();
-      onChange();
+      await onChange();
     } catch (e) {
-      if (e instanceof ApiClientError && e.code === "REQUEST_CLOSED") onChange();
+      if (e instanceof ApiClientError && e.code === "REQUEST_CLOSED") await onChange();
       setErr(e instanceof ApiClientError ? e.message : String(e));
     } finally {
       setBusy(false);
@@ -76,29 +94,27 @@ function RequestCard({ r, myId, onChange }: { r: Req; myId?: string; onChange: (
   const perStayer = [...r.fit.perStayer].sort((a, b) => Number(b.stayer.id === myId) - Number(a.stayer.id === myId));
 
   return (
-    <section className={kit.col} style={{ gap: 24 }} aria-labelledby={`request-${r.id}`}>
-      <div className={kit.row}>
-        <span className={cx(kit.caption, kit.muted)}>
-          {r.listing.name}
-        </span>
-        <SampleBadge show={r.listing.isSample} />
-      </div>
-      <div className={kit.heroText}>
-        <h2 id={`request-${r.id}`} className={kit.headingM}>
-          {r.status === "sent" ? `${r.incoming.name} wants to join` : r.status === "approved" ? `${r.incoming.name}'s request is approved` : `${r.incoming.name}'s request is closed`}
-        </h2>
-        <p className={kit.lede}>
-          {formatDate(r.incoming.startDate)} – {formatDate(r.incoming.endDate)}{dest ? ` · days at ${dest}` : ""}
-        </p>
-      </div>
+    <section className={kit.col} style={{ gap: 24 }} aria-labelledby={single ? undefined : `request-${r.id}`} aria-label={single ? `${r.incoming.name}'s request` : undefined}>
+      {!single && <>
+        <RequestCaption r={r} />
+        <div className={kit.hero}>
+          <Persona kind="fox" />
+          <div className={kit.heroText}>
+            <h2 id={`request-${r.id}`} className={kit.headingM}>
+              {r.status === "sent" ? `${r.incoming.name} wants to join` : r.status === "approved" ? `${r.incoming.name}'s request is approved` : `${r.incoming.name}'s request is closed`}
+            </h2>
+            <p className={kit.lede}>{subtitle(r)}</p>
+          </div>
+        </div>
+      </>}
 
       <div className={kit.split}>
         {/* Household fit */}
         <div className={cx(kit.sticker, kit.col, s.fitCard)}>
           <div className={kit.row}>
             <h2 className={kit.headingM}>Household fit</h2>
-            <span className={cx(kit.chip, kit.fit, FIT_CLS[r.fit.label])} title={`Household fit ${r.fit.householdScore}/100`}>
-              {r.fit.label} · {r.fit.householdScore}
+            <span className={cx(kit.chip, kit.fit, FIT_CLS[r.fit.label])} title={`Household fit ${r.fit.householdScore}/100`} aria-label={`${r.fit.label}, household fit ${r.fit.householdScore} out of 100`}>
+              {r.fit.label}
             </span>
           </div>
           {perStayer.map((p) => (

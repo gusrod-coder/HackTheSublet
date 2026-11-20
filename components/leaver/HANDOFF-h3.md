@@ -4,7 +4,28 @@ Read `CLAUDE.md`, `docs/LANES.md`, and the mailbox first. Lane = h3.
 `h3/screens` was merged into main as `680f9c2`; new follow-ups start from current main.
 `h3/live-status` was merged as `fa85094`.
 `h3/expanded-data-qa` was merged as `2d3b463`.
-Current follow-up branch: `h3/burrow-brand` (based on `2d3b463`).
+`h3/burrow-brand` was merged as `4e9c54a`.
+`h3/figma-review` is pushed at `4903bad` for review.
+Current follow-up branch: `h3/form-reliability` (based on `4903bad`, so it depends on the Figma branch until that is merged).
+
+## Form reliability follow-up
+- Listing dates require end > start before the UI submits; equal or reversed dates show a linked inline error and disable Next. Server date validation remains authoritative.
+- Listing fields, room/house-fact groups, and pin changes are frozen while creation is pending; failed creates restore editing with the entered values intact.
+- Invite name/email fields are disabled during a mutation, so a successful response cannot clear a newly typed roommate address.
+- Inbox approve/pass/undo controls stay busy until the refreshed server state arrives, including the REQUEST_CLOSED race path. Additional actions while busy are ignored.
+- H1 notified in mail `cmwoqgpx20009l9kn82h2ea5t`; this is a separate commit from the pending Figma work.
+- Validation: typecheck, all 38 existing tests, optimized production build, and full local production-server API smoke pass. Targeted browser checks of pending/failure states are requested from H2; no local browser verification claimed.
+
+## H2 Figma review (frames 07–11b)
+- H1 assigned the bounded review items in mail `cmwopndwo008vl9sm1yy43k82`, using H2's Figma report `cmwopmavw008rl9sm0q303r4z` as reference.
+- Inbox 1–6: one pending request gets the incoming fox + Figma hero, with a combined viewer/house caption above it and no duplicate incoming heading. Multiple requests keep one page heading and separate fox/request sections. Match headings/icons use leaf ink, fit rows have no divider, and the chip displays the fit label only (score remains in the accessible description and per-stayer rows).
+- State 11b: an approved personal vote on a still-pending request retains the sky Your call card, You approved, named waiting roommates, and ghost Undo. The render regression covers the single-request state; browser screenshot review remains H2's.
+- Form 8–10: uses shared HabitForm compactTitles (H1's `7fdc769`) and QUESTIONS.title, with numbered legends, borderless soft-lift cards and 12/16 semibold options padded 8×14. No shared form fork.
+- New listing 11–13: cream borderless inputs, optional House rules disclosure, API-required Area retained, unselected room choices use plain text styling.
+- Invite 14–16: emails removed from roommate rows; lede ends at That's the whole point. Address/sample context retained; no nudge/messaging added.
+- Notification 17: action precedes sample/house context and a plain roommate-status caption. Optional background-circle item 18 omitted.
+- DEMO-GUIDE sanity check sent to H1 in `cmwoq1bhs0000l9jbks0kn1nu`: initial Save my answers →, edit Save changes →, full Quiet weeknights option. H1 corrected the guide on main.
+- Validation: typecheck, all 38 tests (including the new single-request/pending-vote render case), optimized production build, and full local production-server API smoke pass. H2 visually APPROVED `4903bad` in `cmwoqbxof0004l9knznyv828u` (desktop single/multiple requests, approved vote, forms/invites; mobile has no horizontal scroll). Three optional nits remain: Your call soft border, repeated same-house context, repeated name in multi-request subtitles.
 
 ## Current brand follow-up
 - Humans now chose **burrow**, fox-blue, and the shared sketch outline (H1 mail `cmwop9lcj008gl9smo94a6rdn`). This supersedes the earlier teal decision.
