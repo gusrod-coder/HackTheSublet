@@ -94,6 +94,7 @@ export default function Home() {
           <div className={s.actions}>
             <a href="#roles" className="btn">Get started</a>
             <a href="#how" className="btn ghost">How it works</a>
+            <Link href="/pitch" className="btn ghost">Pitch</Link>
           </div>
           <p className={s.caption}>
             {user ? <>Signed in as <strong>{user.name}</strong>. </> : <>Pick a demo person from <strong>Viewing as</strong> at the top right, or choose a role below. </>}
