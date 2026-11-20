@@ -54,9 +54,9 @@ app/api/**              route handlers                                          
 prisma/                 schema + sample data                                                   (h1)
 components/shared/*     AppHeader (demo switcher), HabitForm, ListingMap, FitBadge, notices                (h1)
 app/incoming/**         incoming screens                                                       (h2)
+app/requests/[id]       terms + contacts, shared by incoming and stayers                       (h2)
 app/leaver/**           leaver screens                                                         (h3)
 app/stayer/**           stayer screens                                                         (h3)
-app/requests/[id]       terms + contacts, shared by incoming and stayers                       (h3)
 ```
 
 Read [`docs/LANES.md`](docs/LANES.md) before you change anything. API reference: [`docs/API.md`](docs/API.md).

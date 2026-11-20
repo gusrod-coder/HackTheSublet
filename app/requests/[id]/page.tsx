@@ -1,9 +1,9 @@
 "use client";
 /**
- * Terms and contacts. LANE: h3. Spec: §5 Generated terms, gate §2.5.
+ * Terms and contacts. LANE: h2 (moved from h3). Spec: §5 Generated terms, gate §2.5.
  * Design: consult the Figma MCP with the link from your chat (primary). Prototype: https://claude.ai/artifact/RYVwAPw5Cm35x8pAPpMAGt
  *
- * TODO(h3):
+ * TODO(h2):
  *  - Shared by incoming AND stayers (api.requests.get(id).viewerRole tells you which).
  *  - Each term with its "why"; Agree → api.requests.agree(id, key).
  *  - Preferred contact form → api.me.setContact({ method, value }).
@@ -21,7 +21,7 @@ export default function Page() {
   return (
     <div className="stack">
       <h1>Terms and contacts</h1>
-      <p className="small muted">Stub, owned by h3. Replace with the real screen.</p>
+      <p className="small muted">Stub, owned by h2. Replace with the real screen.</p>
       {loading && <p className="muted">Loading…</p>}
       {error && <p className="notice warn">{error.code}: {error.message}</p>}
       {data && <DevJson value={data} />}

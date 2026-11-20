@@ -7,13 +7,14 @@ Three humans, each with a Claude agent. **h1 = lead** (owns the repo, contracts,
 | Lane | Owns (edit freely) | Screens |
 |---|---|---|
 | **h1** | `lib/**`, `prisma/**`, `app/api/**`, `components/shared/**`, `app/layout.tsx`, `app/page.tsx`, `app/globals.css`, `app/dev/**`, `scripts/**`, `docs/**`, config files | Role picker, demo switcher |
-| **h2: Incoming** | `app/incoming/**`, `components/incoming/**` | Stay setup → Habit form + weights + deal-breakers → Browse (ranked list + map + excluded) → Household page → Request status |
-| **h3: Leaver + Stayer** | `app/leaver/**`, `app/stayer/**`, `app/requests/**`, `components/leaver/**`, `components/stayer/**` | Create listing (form + map) → Invite stayers · Invite notification → Habit form → Request inbox → **Terms + contacts** (`/requests/[id]`, used by both stayers and incoming) |
+| **h2: Incoming + Terms** | `app/incoming/**`, `components/incoming/**`, `app/requests/**`, `components/requests/**` | Stay setup → Habit form + weights + deal-breakers → Browse (ranked list + map + excluded) → Household page → Request status · **Terms + contacts** (`/requests/[id]`, used by both incoming and stayers) |
+| **h3: Leaver + Stayer** | `app/leaver/**`, `app/stayer/**`, `components/leaver/**`, `components/stayer/**` | Create listing (form + map) → Invite stayers · Invite notification → Habit form → Request inbox |
 
 Each stub page already loads its data from the API and lists its TODOs in the header comment.
 Delete the `<DevJson>` dump once the real UI is in.
 
-h2: when a request is approved, link the incoming to `/requests/[id]` (h3's screen). Don't build a second terms page.
+`/requests/[id]` (terms + contacts) moved from h3 to h2 on Nov 20 to balance load. h3: link approved requests in
+the stayer inbox to `/requests/[id]`; don't build a second terms page.
 
 ## Frontend reference: Figma
 
