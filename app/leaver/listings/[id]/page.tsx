@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
+import { usePoll } from "@/components/leaver/use-poll";
 import { SampleBadge, formatDate } from "@/components/shared/ui";
 import { Icon, Page, Persona, StepDots, Status, cx, kit } from "@/components/leaver/kit";
 import s from "./invite.module.css";
@@ -17,12 +18,13 @@ const names = (n: string[]) => (n.length <= 1 ? n.join("") : `${n.slice(0, -1).j
 
 export default function InvitePage() {
   const { id } = useParams<{ id: string }>();
-  const { data, error, loading, setData } = useApi(() => api.leaver.householdStatus(id), [id]);
+  const { data, error, loading, setData, reload } = useApi(() => api.leaver.householdStatus(id), [id]);
   const [adding, setAdding] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  usePoll(reload, !!data && data.waitingOn > 0 && !busy);
 
   async function run<T>(fn: () => Promise<T>, after: (r: T) => void) {
     setBusy(true);
@@ -125,7 +127,7 @@ export default function InvitePage() {
           ) : (
             <div className={cx(kit.notice, kit.noticeButter)}>
               <Icon name="lockOkay" size={20} />
-              <span>Not visible to incoming students yet. Waiting on {names(waiting)}.</span>
+              <span>Not visible to incoming students yet. {stayers.length ? `Waiting on ${names(waiting)}.` : "Invite at least one roommate who is staying."}</span>
             </div>
           )}
 
