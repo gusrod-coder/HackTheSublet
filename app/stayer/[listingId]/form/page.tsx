@@ -14,6 +14,9 @@ import { HabitForm } from "@/components/shared/HabitForm";
 import { Hero, Icon, Page, Status, cx, kit } from "@/components/leaver/kit";
 import s from "./form.module.css";
 
+/** Scripted live-demo answers: match Alex except people-over nights (2–3 vs 1) → 96, #1. */
+const DEMO_STAYER_ANSWERS = [0, 1, 2, 0, 0, 0, 1, 0] as const;
+
 export default function StayerFormPage() {
   const { listingId } = useParams<{ listingId: string }>();
   const profile = useApi(() => api.stayer.profile(listingId), [listingId]);
@@ -27,6 +30,15 @@ export default function StayerFormPage() {
   useEffect(() => {
     if (profile.data?.answers) setAnswers(profile.data.answers);
   }, [profile.data]);
+
+  // Live demo: the scripted stayer (NEXT_PUBLIC_DEMO_STAYER_EMAIL) opens the form with the scripted answers
+  // pre-selected (docs/DEMO-GUIDE.md), so the new house lands #1 for Alex. Only before their first save.
+  const me = useApi(() => api.me.get(), []);
+  useEffect(() => {
+    const demoEmail = process.env.NEXT_PUBLIC_DEMO_STAYER_EMAIL?.toLowerCase();
+    if (!demoEmail || !profile.data || profile.data.answers) return;
+    if (me.data?.user?.email.toLowerCase() === demoEmail) setAnswers([...DEMO_STAYER_ANSWERS]);
+  }, [profile.data, me.data]);
 
   const unanswered = answers.filter((a) => a === null).length;
   const street = listing.data?.listing.name ?? "your place";
