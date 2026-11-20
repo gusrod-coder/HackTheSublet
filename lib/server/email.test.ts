@@ -1,5 +1,11 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { redirectFor, skipReason } from "./email";
+
+// Prisma (imported by ./email) loads the developer's .env; tests must not depend on it.
+beforeEach(() => {
+  delete process.env.EMAIL_ALLOW;
+  delete process.env.EMAIL_REDIRECT;
+});
 
 describe("email safety: which addresses get real mail", () => {
   afterEach(() => delete process.env.EMAIL_ALLOW);

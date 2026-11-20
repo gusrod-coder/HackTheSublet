@@ -85,7 +85,7 @@ you why, instead of just hiding it."**
 stayer describes the household, nobody can see it. That's enforced on the server, not just hidden in the UI."**
 
 *Switch to **Omar** → Hill St form → answer: After 1am · Mixed · 2–3 · 1–2 nights · Quiet weeknights, livelier weekends · Right
-away · Friendly but separate · In person → Submit.* (Practice this; it's 8 clicks.)
+away · Friendly but separate · In person → **Save my answers →**.* (Practice this; it's 8 clicks.)
 
 → The confirmation: **"…Hill St house is now live."**
 
