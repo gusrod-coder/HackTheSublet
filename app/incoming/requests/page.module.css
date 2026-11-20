@@ -2,7 +2,7 @@
 .tight { margin: 0; }
 .empty { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; padding: 24px; }
 .card { display: flex; gap: 24px; align-items: center; padding: 24px; }
-.approved { background: var(--mint); }
+.approved { background: var(--sky); }
 .declined { background: var(--blush); }
 .main { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 0; }
 .titleRow { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
@@ -11,7 +11,7 @@
   width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
   border: 2px solid var(--ink); border-radius: var(--radius-pill); background: var(--card);
 }
-.voteYes { background: var(--deep-teal); color: var(--brand-ink); }
+.voteYes { background: var(--brand); color: var(--brand-ink); }
 .votes .vote:last-of-type { margin-right: 6px; }
 .action { flex: none; }
 

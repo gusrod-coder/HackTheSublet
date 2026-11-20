@@ -84,16 +84,20 @@ export default function Page() {
         <section className={`${s.cardInk} ${p.dates}`}>
           <div className={p.summary}>
             <Icon name="calendar" style={{ color: "var(--ink)" }} />
-            <div className={`${p.when} ${p.whenActive}`}>
+            {/* Figma "Date range picker" (37:2013): the box you're picking next is highlighted, plus a hint. */}
+            <div className={`${p.when} ${!start ? p.whenActive : ""}`}>
               <span className={`${s.caption} ${s.muted}`}>Move in</span>
-              <span className={s.headingS}>{start ? longDate(start) : "Pick a day"}</span>
+              <span className={`${s.headingS} ${start ? "" : p.pick}`}>{start ? longDate(start) : "Pick a day"}</span>
             </div>
             <Icon name="arrow-right" style={{ color: "var(--muted)" }} />
             <div className={`${p.when} ${start && !end ? p.whenActive : ""}`}>
               <span className={`${s.caption} ${s.muted}`}>Move out</span>
-              <span className={s.headingS}>{end ? longDate(end) : "Pick a day"}</span>
+              <span className={`${s.headingS} ${end ? "" : p.pick}`}>{end ? longDate(end) : "Pick a day"}</span>
             </div>
             {start && end && <span className={p.nights}>{nightsBetween(start, end)} nights</span>}
+            <span className={`${s.caption} ${s.muted}`}>
+              {!start ? "Tap your move-in day" : !end ? "Now tap your move-out day" : "Tap any day to start over"}
+            </span>
           </div>
 
           <RangeCalendar

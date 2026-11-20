@@ -9,7 +9,7 @@
 .stayerText { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
 .limits { align-self: flex-start; white-space: nowrap; margin-top: 6px; padding: 2px 10px; border-radius: var(--radius-pill); background: var(--butter); color: var(--okay); font-size: 12px; font-weight: 700; }
 .score { display: flex; flex-direction: column; align-items: center; }
-.scoreNum { font-family: var(--font-display), cursive; font-size: 32px; line-height: 40px; color: var(--deep-teal); }
+.scoreNum { font-family: var(--font-display), cursive; font-size: 32px; line-height: 40px; color: var(--brand); }
 
 .bottom { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
 .table { padding: 24px; }
@@ -19,7 +19,7 @@
 .th { padding: 0 10px; font-size: 14px; line-height: 18px; font-weight: 600; color: var(--muted); }
 .topic { padding: 0 10px; font-size: 14px; line-height: 18px; font-weight: 700; }
 .cell { padding: 6px 10px; border-radius: var(--radius-md); font-size: 12px; line-height: 16px; font-weight: 600; }
-.you { background: var(--mint); }
+.you { background: var(--sky); }
 .diff { background: var(--butter); color: var(--okay); }
 
 .aside { display: flex; flex-direction: column; gap: 16px; }
@@ -30,8 +30,8 @@
 .why { margin: 12px 0 0; color: var(--okay); }
 .ask { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; padding: 20px; color: var(--muted); }
 .ask h2 { color: var(--ink); }
-.approved { background: var(--mint); }
-.ask h2.approvedTitle { display: flex; gap: 8px; align-items: flex-start; color: var(--deep-teal); }
+.approved { background: var(--sky); }
+.ask h2.approvedTitle { display: flex; gap: 8px; align-items: flex-start; color: var(--brand); }
 
 @media (max-width: 900px) {
   .bottom { grid-template-columns: 1fr; }

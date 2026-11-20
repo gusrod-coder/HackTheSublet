@@ -36,7 +36,7 @@ export default function Page() {
 
   return (
     <>
-      <div className={s.blob} style={{ width: 360, height: 360, left: "calc(50% + 400px)", top: 90, background: "var(--mint)", opacity: 0.8 }} />
+      <div className={s.blob} style={{ width: 360, height: 360, left: "calc(50% + 400px)", top: 90, background: "var(--sky)", opacity: 0.8 }} />
       <div className={s.page}>
         <Link href="/incoming/browse" className={s.btnText} style={{ alignSelf: "flex-start" }}>
           <Icon name="arrow-left" size={16} /> Back to sublets
@@ -78,7 +78,7 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
       <div className={p.stayers}>
         {stayers.map((st, i) => {
           return (
-            <section key={st.id} className={`${s.cardInk} ${p.stayer}`} style={{ background: "var(--peach)" }}>
+            <section key={st.id} className={`${s.cardInk} ${p.stayer}`} style={{ background: "var(--leaf)" }}>
               <Persona kind={PERSONA_FOR_ROLE.stayer} tilt={i % 2 ? 3 : -3} label={st.name} />
               <div className={p.stayerText}>
                 <span className={`${s.caption} ${s.muted}`}>stays all summer</span>

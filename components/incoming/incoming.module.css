@@ -3,7 +3,7 @@
 .screen { position: relative; overflow: clip; font-size: 15px; line-height: 22px; font-weight: 500; }
 
 /* Type */
-.display { font-family: var(--font-display), cursive; font-weight: 400; font-size: 32px; line-height: 40px; color: var(--deep-teal); margin: 0; }
+.display { font-family: var(--font-display), cursive; font-weight: 400; font-size: 32px; line-height: 40px; color: var(--brand); margin: 0; }
 .headingM { font-family: var(--font-heading), cursive; font-weight: 700; font-size: 24px; line-height: 30px; margin: 0; }
 .headingS { font-family: var(--font-heading), cursive; font-weight: 700; font-size: 19px; line-height: 24px; margin: 0; }
 .body { font-size: 15px; line-height: 22px; font-weight: 500; }
@@ -21,44 +21,44 @@
 /* Step dots: "Step 1 of 4 · your stay" */
 .steps { display: flex; align-items: center; gap: 8px; }
 .dot { width: 12px; height: 12px; border-radius: var(--radius-pill); background: var(--line); }
-.dotDone { background: var(--teal); }
-.dotNow { width: 28px; background: var(--teal); }
+.dotDone { background: var(--accent); }
+.dotNow { width: 28px; background: var(--accent); }
 .stepsLabel { composes: caption muted; margin-left: 8px; }
 
 /* Buttons */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 12px 24px; border-radius: var(--radius-pill); border: 2px solid var(--ink);
-  background: var(--deep-teal); color: var(--brand-ink) !important; box-shadow: var(--sticker);
+  background: var(--brand); color: var(--brand-ink) !important; box-shadow: var(--sticker);
   font: inherit; font-size: 14px; line-height: 18px; font-weight: 700; cursor: pointer; text-decoration: none; white-space: nowrap;
 }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .btnSecondary { composes: btn; background: var(--card); color: var(--ink) !important; }
 .btnText {
   display: inline-flex; align-items: center; gap: 6px; padding: 12px 20px; border: 0; background: none;
-  color: var(--deep-teal); font: inherit; font-size: 14px; line-height: 18px; font-weight: 700; cursor: pointer; text-decoration: none;
+  color: var(--brand); font: inherit; font-size: 14px; line-height: 18px; font-weight: 700; cursor: pointer; text-decoration: none;
 }
 
 /* Choice row chips (single- or multi-select) */
 .choices { display: flex; flex-wrap: wrap; gap: 8px; }
 .choice {
-  padding: 12px 16px; border-radius: var(--radius-pill); border: 2px solid var(--line); background: var(--card);
+  padding: 12px 16px; border-radius: var(--radius-pill); border: 2px solid transparent; background: var(--cream);
   color: var(--ink); font: inherit; font-size: 14px; line-height: 18px; font-weight: 700; cursor: pointer;
 }
-.choice[aria-pressed="true"] { background: var(--mint); border-color: var(--deep-teal); color: var(--deep-teal); }
+.choice[aria-pressed="true"] { background: var(--sky); border-color: var(--brand); color: var(--brand); }
 .choice:disabled { cursor: not-allowed; opacity: 0.6; }
 
 /* Cards */
 .cardInk { background: var(--card); border: 2px solid var(--ink); border-radius: var(--radius-xl); box-shadow: var(--sticker); }
-.cardSoft { background: var(--card); border: 2px solid var(--line); border-radius: var(--radius-xl); box-shadow: var(--soft-lift); }
+.cardSoft { background: var(--card); border: 2px solid transparent; border-radius: var(--radius-xl); box-shadow: var(--soft-lift); }
 
 /* Pills */
 .pill { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: var(--radius-pill); font-size: 12px; line-height: 16px; font-weight: 600; white-space: nowrap; }
 .pillButter { composes: pill; background: var(--butter); color: var(--okay); }
-.fit { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--radius-pill); border: 1.5px solid; font-size: 12px; line-height: 16px; font-weight: 600; white-space: nowrap; }
-.fitStrong { composes: fit; background: var(--mint); border-color: var(--deep-teal); color: var(--deep-teal); }
-.fitOkay { composes: fit; background: var(--butter); border-color: var(--okay); color: var(--okay); }
-.fitWeak { composes: fit; background: var(--blush); border-color: var(--weak); color: var(--weak); }
+.fit { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--radius-pill); font-size: 12px; line-height: 16px; font-weight: 600; white-space: nowrap; }
+.fitStrong { composes: fit; background: var(--leaf); color: var(--leaf-ink); }
+.fitOkay { composes: fit; background: var(--butter); color: var(--okay); }
+.fitWeak { composes: fit; background: var(--blush); color: var(--weak); }
 
 /* Notices */
 .notice { display: flex; gap: 12px; align-items: flex-start; padding: 16px 20px; border-radius: var(--radius-lg); background: var(--butter); color: var(--okay); }

@@ -22,14 +22,14 @@
 
 /* ── h2 polish (Figma 06/06b) ── */
 /* Same left edge, top spacing and background as the incoming screens: no inset card, no clipped corner blobs. */
-.shell.shell { padding: 0 0 64px; background: transparent; border-radius: 0; overflow: visible; }
+.shell.shell { --hf-sky: var(--sky); padding: 0 0 64px; background: transparent; border-radius: 0; overflow: visible; }
 .shell.shell.shell::before, .shell.shell.shell::after { display: none; }
 /* Unagreed term rows have no outline in Figma, only the soft lift. */
 .term:not(.termOn) { border-color: transparent; }
-/* Contact pills: cream when off, mint with a deep-teal outline when picked (Figma Pill 4:42). */
+/* Contact pills: cream when off, sky with a brand outline when picked (Figma Pill 4:42). */
 .pill.pill { background: var(--cream); border: 2px solid transparent; color: var(--ink); box-shadow: none; }
-.pill.pill[aria-pressed="true"] { background: var(--mint); border-color: var(--deep-teal); color: var(--deep-teal); box-shadow: none; }
+.pill.pill[aria-pressed="true"] { background: var(--sky); border-color: var(--brand); color: var(--brand); box-shadow: none; }
 .pill.pill:disabled { opacity: 0.55; }
 .pill.pill[aria-pressed="true"]:disabled { opacity: 1; }
 /* Primary call to action is the deep brand fill with light text, as in Figma 06. */
-.primary.primary { background: var(--deep-teal); color: var(--brand-ink); }
+.primary.primary { background: var(--brand); color: var(--brand-ink); }

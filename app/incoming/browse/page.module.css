@@ -2,7 +2,7 @@
 .headText { display: flex; flex-direction: column; gap: 8px; }
 .search {
   display: flex; align-items: center; gap: 8px; width: 256px; padding: 10px 16px;
-  border: 2px solid var(--line); border-radius: var(--radius-pill); background: var(--card);
+  border: 0; border-radius: var(--radius-pill); background: var(--card); box-shadow: var(--soft-lift);
 }
 .search input { border: 0; padding: 0; background: none; outline: none; width: 100%; font: inherit; font-size: 14px; color: var(--ink); }
 
@@ -15,26 +15,26 @@
 .cardTitle { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1; min-width: 0; }
 .rank {
   width: 22px; height: 22px; flex: none; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-pill);
-  background: var(--deep-teal); color: var(--brand-ink); font-size: 12px; font-weight: 700;
+  background: var(--brand); color: var(--brand-ink); font-size: 12px; font-weight: 700;
 }
 .view { margin-left: auto; }
 .tight { margin: 0; }
 .meta { font-size: 12px; line-height: 16px; font-weight: 600; }
-.covers { color: var(--deep-teal); }
+.covers { color: var(--brand); }
 .uncovered { color: var(--okay); }
 .outside { color: var(--weak); }
-.reqTag { margin-left: 8px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--mint); color: var(--deep-teal); }
+.reqTag { margin-left: 8px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--sky); color: var(--brand); }
 
 .boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
 .match, .differ { display: flex; flex-direction: column; gap: 6px; padding: 12px 16px; border-radius: var(--radius-lg); font-size: 12px; line-height: 16px; font-weight: 600; }
-.match { background: var(--mint); }
+.match { background: var(--leaf); }
 .differ { background: var(--blush); }
 .boxTitle { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; font-size: 14px; line-height: 18px; font-weight: 700; }
-.match .boxTitle { color: var(--deep-teal); }
+.match .boxTitle { color: var(--leaf-ink); }
 .differ .boxTitle { color: var(--weak); }
 
 .empty { padding: 24px; margin: 0; }
-.excluded { padding: 16px 20px; border: 2px dashed var(--line); border-radius: var(--radius-lg); }
+.excluded { padding: 4px 0; }
 .excluded summary { cursor: pointer; }
 .excluded ul { margin: 8px 0 0; padding-left: 16px; }
 

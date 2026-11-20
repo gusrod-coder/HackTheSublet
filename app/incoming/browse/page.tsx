@@ -86,7 +86,7 @@ export default function Page() {
               )}
 
               {matches.data.excluded.length > 0 && (
-                <details className={p.excluded}>
+                <details className={p.excluded} open>
                   <summary className={s.label}>
                     {matches.data.excluded.length} excluded by your deal-breakers
                   </summary>
