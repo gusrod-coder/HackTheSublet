@@ -137,15 +137,17 @@ Blind until then, in both directions."**
 
 **"It takes everyone. One pass and it's declined."**
 
-→ All three windows flip to **"Agree on house terms."**
+→ Windows B and C flip to **"Agree on house terms."** Window A (Alex, on My requests) flips to **Approved → "Continue to terms →"** within a few seconds.
 
-*Open the terms page in all three.*
+*Open the terms page in all three (A: "Continue to terms →"; B, C: "Agree on house terms").*
 
 **"burrow writes the house terms from everyone's answers: quiet hours from the earliest sleeper, a guest policy,
 dishes, how to raise problems. Each one says why."** → point at one "why".
 
-*Window A: enter a contact (e.g. text, 734-555-0100) → "Agree to all and share my contact." Window B: Agree to all.
-Window C: Agree to all.*
+*Window A: click the **Text** pill FIRST (the input only appears after a pill is picked), type 734-555-0100, then
+"Agree to all and share my contact." Window B: Agree to all. Window C: Agree to all.* (Priya and Sam already have
+contacts saved. If Alex clicks Agree before entering a contact, it agrees to the terms and asks for the contact:
+enter it and you're done.)
 
 → **Contacts appear in all three windows at the same moment.**
 
