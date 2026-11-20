@@ -19,6 +19,9 @@ the stayer inbox to `/requests/[id]`; don't build a second terms page.
 
 ## Frontend reference: Figma
 
+**Figma owner: h2.** h2 has Figma access and is the source of truth for design questions; h1 does not.
+Shared-style changes (globals.css, components/shared) go to h1 as a `[REQ]` with exact values from the file.
+
 h1, h2 and h3 should each **consult the Figma MCP for frontend reference** before and while building screens.
 Each human gets their own Figma link(s) in their chat; use the link you were given rather than guessing at
 layouts. Match its layout, hierarchy and copy, built with the primitives in `app/globals.css`. If the Figma
