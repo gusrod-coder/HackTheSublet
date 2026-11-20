@@ -100,7 +100,7 @@ describe("demo script (spec §8) — these must keep passing", () => {
   it("baseline: Packard first, Church excluded for smoking, Hill not present", () => {
     const { ranked, excluded } = rankListings(ALEX, LIVE);
     expect(ranked[0].listingId).toBe("l_packard");
-    expect(excluded.map((e) => e.listingId)).toEqual(["l_church"]);
+    expect(excluded.map((e) => e.listingId).sort()).toEqual(["l_church", "l_fuller"]);
     expect(LIVE.find((l) => l.id === "l_hill")).toBeUndefined();
   });
 
@@ -199,7 +199,13 @@ describe("demo §8.1 follow-through: Omar's scripted answers keep the script's o
     expect(rank(ALEX).slice(0, 3)).toEqual(["l_packard", "l_geddes", "l_hill"]);
   });
 
-  it("Hill St never takes the top two in steps 2, 3 and 5", () => {
+  it("no other sample listing ties Hill St at step 1", () => {
+    const fits = rankListings(ALEX, WITH_HILL).ranked;
+    const hill = fits.find((f) => f.listingId === "l_hill")!.householdScore;
+    expect(fits.filter((f) => f.listingId !== "l_hill" && f.householdScore === hill)).toEqual([]);
+  });
+
+  it("Packard + Geddes stay the top two in steps 2, 3 and 5", () => {
     expect(rank(setAnswer(ALEX, 2, 3)).slice(0, 2)).toEqual(["l_geddes", "l_packard"]);
     expect(rank(setWeight(ALEX, 0, 3)).slice(0, 2)).toEqual(["l_geddes", "l_packard"]);
   });

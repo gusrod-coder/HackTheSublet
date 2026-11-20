@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import { seedDatabase } from "./seed-data";
+import { DRAFTS, LISTINGS, USERS, seedDatabase } from "./seed-data";
 
 const prisma = new PrismaClient();
 
 seedDatabase(prisma)
-  .then(() => console.log("Seeded sample data (6 listings, 20 users)."))
+  .then(() => console.log(`Seeded sample data (${LISTINGS.length + DRAFTS.length} listings, ${USERS.length} users).`))
   .catch((e) => {
     console.error(e);
     process.exit(1);

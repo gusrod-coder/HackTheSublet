@@ -16,8 +16,15 @@ Numbers below come from the sample data and are pinned by `lib/scoring.test.ts`.
 | 5 | Stayer side | **Priya**: bedtime → *After 1am* | Alex's Packard fit 94 → 88; Geddes moves ahead |
 | 6 | Approval → terms → contacts | Alex requests Packard → **Priya** approves → **Sam** approves → each party agrees to all 5 terms + sets a contact | Contacts appear for everyone at the same moment |
 
-Hill St stays 3rd through steps 2–5 with those answers (pinned in `lib/scoring.test.ts`). If Omar answers
-differently, the order on screen can differ from this table.
+With those answers, Packard St and Geddes Ave stay the top two through steps 2–5, and only their order changes
+(pinned in `lib/scoring.test.ts`). Below them, Hill St, Catherine St and Plymouth Rd trade places as weights change.
+That's fine to point at, but the script doesn't depend on it. If Omar answers differently, the order on screen can differ.
+
+**More sample households to show off (all sample data):** Plymouth Rd (3 roommates stay, North Campus),
+E Washington St (dates fall 17 nights short → "outside your ±1 week"), Wilmot St (Felix has weekly overnight guests;
+turn on that deal-breaker to exclude it), Lincoln Ave (shared bedroom), Prospect St (unreleased, waiting on **Mei**),
+Catherine St (**Noor** already approved; terms half agreed: switch to Noor or Grace to see terms mid-way),
+Fuller Ct (vaping → excluded), Maynard St (**Taylor**'s unsubmitted draft).
 
 Undo steps 2–5 between runs, or just hit Reset.
 

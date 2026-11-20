@@ -70,6 +70,29 @@ export const USERS: SampleUser[] = [
   { id: "u_alex", name: "Alex", email: "alex@example.edu", hint: "Incoming · profile complete (demo)" },
   { id: "u_jamie", name: "Jamie", email: "jamie@example.edu", hint: "Incoming · requested Packard St", contactMethod: "email", contactValue: "jamie@example.edu" },
   { id: "u_riley", name: "Riley", email: "riley@example.edu", hint: "Incoming · new, no profile" },
+  // ── More sample households (added Nov 20) ──
+  { id: "u_avery", name: "Avery", email: "avery@example.edu", hint: "Leaver · Plymouth Rd" },
+  { id: "u_jules", name: "Jules", email: "jules@example.edu", hint: "Leaver · E Washington St" },
+  { id: "u_reese", name: "Reese", email: "reese@example.edu", hint: "Leaver · Wilmot St" },
+  { id: "u_casey", name: "Casey", email: "casey@example.edu", hint: "Leaver · Lincoln Ave" },
+  { id: "u_drew", name: "Drew", email: "drew@example.edu", hint: "Leaver · Prospect St (unreleased)" },
+  { id: "u_parker", name: "Parker", email: "parker@example.edu", hint: "Leaver · Catherine St" },
+  { id: "u_rowan", name: "Rowan", email: "rowan@example.edu", hint: "Leaver · Fuller Ct" },
+  { id: "u_taylor", name: "Taylor", email: "taylor@example.edu", hint: "Leaver · Maynard St (draft)" },
+  { id: "u_lena", name: "Lena", email: "lena@example.edu", hint: "Stayer · Plymouth Rd" },
+  { id: "u_tariq", name: "Tariq", email: "tariq@example.edu", hint: "Stayer · Plymouth Rd" },
+  { id: "u_wei", name: "Wei", email: "wei@example.edu", hint: "Stayer · Plymouth Rd" },
+  { id: "u_diego", name: "Diego", email: "diego@example.edu", hint: "Stayer · E Washington St" },
+  { id: "u_ana", name: "Ana", email: "ana@example.edu", hint: "Stayer · Wilmot St" },
+  { id: "u_felix", name: "Felix", email: "felix@example.edu", hint: "Stayer · Wilmot St" },
+  { id: "u_hugo", name: "Hugo", email: "hugo@example.edu", hint: "Stayer · Lincoln Ave (shared room)" },
+  { id: "u_mei", name: "Mei", email: "mei@example.edu", hint: "Stayer · Prospect St (NOT answered)" },
+  { id: "u_sofia", name: "Sofia", email: "sofia@example.edu", hint: "Stayer · Prospect St" },
+  { id: "u_jonah", name: "Jonah", email: "jonah@example.edu", hint: "Stayer · Prospect St" },
+  { id: "u_grace", name: "Grace", email: "grace@example.edu", hint: "Stayer · Catherine St (approved Noor)", contactMethod: "email", contactValue: "grace@example.edu" },
+  { id: "u_ivan", name: "Ivan", email: "ivan@example.edu", hint: "Stayer · Fuller Ct" },
+  { id: "u_zoe", name: "Zoe", email: "zoe@example.edu", hint: "Stayer · Fuller Ct" },
+  { id: "u_noor", name: "Noor", email: "noor@example.edu", hint: "Incoming · approved at Catherine St" },
 ];
 
 export const LISTINGS: SampleListing[] = [
@@ -181,6 +204,152 @@ export const LISTINGS: SampleListing[] = [
     flags: { smoking: false, pets: false },
     stayers: [{ userId: "u_kevin", answers: [1, 2, 3, 1, 1, 1, 2, 1] }],
   },
+  // ── More sample households (added Nov 20). All land below the demo's top 3 for Alex. ──
+  {
+    id: "l_plymouth",
+    name: "Plymouth Rd house",
+    furnished: true,
+    leaverId: "u_avery",
+    address: "1607 Plymouth Rd",
+    lat: 42.2992,
+    lng: -83.7128,
+    area: "North Campus",
+    roomType: "private",
+    startDate: "2027-05-01",
+    endDate: "2027-08-31",
+    houseRules: "Six-person house: three of us leave for the summer, three stay. Sunday chore wheel.",
+    flags: { smoking: false, pets: false },
+    stayers: [
+      { userId: "u_lena", answers: [0, 1, 2, 0, 1, 0, 2, 0] },
+      { userId: "u_tariq", answers: [1, 0, 1, 0, 1, 1, 1, 1] },
+      { userId: "u_wei", answers: [0, 2, 1, 1, 0, 0, 1, 0] },
+    ],
+  },
+  {
+    id: "l_washington",
+    name: "E Washington St apartment",
+    furnished: true,
+    leaverId: "u_jules",
+    address: "425 E Washington St",
+    lat: 42.2807,
+    lng: -83.744,
+    area: "Downtown",
+    roomType: "private",
+    startDate: "2027-06-01",
+    endDate: "2027-08-31",
+    houseRules: "Third-floor walk-up above the shops. Bike storage in the basement.",
+    flags: { smoking: false, pets: false },
+    stayers: [{ userId: "u_diego", answers: [1, 2, 1, 1, 1, 1, 1, 1] }],
+  },
+  {
+    id: "l_wilmot",
+    name: "Wilmot St house",
+    furnished: true,
+    leaverId: "u_reese",
+    address: "1330 Wilmot St",
+    lat: 42.2689,
+    lng: -83.7268,
+    area: "Burns Park",
+    roomType: "private",
+    startDate: "2027-05-01",
+    endDate: "2027-08-25",
+    houseRules: "Porch dinners when the weather's good. Partners stay over sometimes.",
+    flags: { smoking: false, pets: false },
+    stayers: [
+      { userId: "u_ana", answers: [0, 1, 1, 0, 1, 1, 1, 1] },
+      { userId: "u_felix", answers: [1, 1, 2, 2, 1, 1, 2, 1] }, // overnight weekly → excluded by that deal-breaker
+    ],
+  },
+  {
+    id: "l_lincoln",
+    name: "Lincoln Ave house",
+    furnished: true,
+    leaverId: "u_casey",
+    address: "910 Lincoln Ave",
+    lat: 42.2671,
+    lng: -83.7302,
+    area: "Burns Park",
+    roomType: "shared",
+    startDate: "2027-05-01",
+    endDate: "2027-08-31",
+    houseRules: "You'd share the big front bedroom with Hugo. Cheapest room on the list.",
+    flags: { smoking: false, pets: false },
+    stayers: [{ userId: "u_hugo", answers: [1, 0, 0, 0, 1, 1, 0, 1] }],
+  },
+  {
+    id: "l_prospect",
+    name: "Prospect St house",
+    furnished: true,
+    leaverId: "u_drew",
+    address: "1201 Prospect St",
+    lat: 42.2679,
+    lng: -83.7254,
+    area: "Burns Park",
+    roomType: "private",
+    startDate: "2027-05-01",
+    endDate: "2027-08-31",
+    houseRules: "Quiet street, big kitchen. Waiting on one roommate before it's released.",
+    flags: { smoking: false, pets: false },
+    stayers: [
+      { userId: "u_sofia", answers: [0, 1, 1, 0, 0, 0, 1, 0] },
+      { userId: "u_jonah", answers: [1, 1, 1, 1, 1, 1, 1, 0] },
+      { userId: "u_mei", answers: null }, // second unreleased listing (Figma 08 "Waiting on Mei")
+    ],
+  },
+  {
+    id: "l_catherine",
+    name: "Catherine St apartment",
+    furnished: false,
+    leaverId: "u_parker",
+    address: "711 Catherine St",
+    lat: 42.2826,
+    lng: -83.7401,
+    area: "Kerrytown",
+    roomType: "private",
+    startDate: "2027-05-10",
+    endDate: "2027-08-20",
+    houseRules: "Unfurnished room, five minutes' walk to the Medical Campus. Very quiet building.",
+    flags: { smoking: false, pets: false },
+    stayers: [{ userId: "u_grace", answers: [0, 0, 0, 0, 0, 1, 0, 2] }],
+  },
+  {
+    id: "l_fuller",
+    name: "Fuller Ct townhouse",
+    furnished: true,
+    leaverId: "u_rowan",
+    address: "2250 Fuller Ct",
+    lat: 42.2906,
+    lng: -83.7214,
+    area: "North Campus",
+    roomType: "private",
+    startDate: "2027-05-01",
+    endDate: "2027-08-31",
+    houseRules: "Vaping is fine on the balcony and in your own room.",
+    flags: { smoking: true, pets: false },
+    stayers: [
+      { userId: "u_ivan", answers: [2, 2, 3, 2, 2, 2, 2, 2] },
+      { userId: "u_zoe", answers: [1, 1, 2, 1, 1, 1, 2, 1] },
+    ],
+  },
+];
+
+/** Drafts: created by a leaver but never submitted, so invisible to everyone else. */
+export const DRAFTS: Array<Omit<SampleListing, "stayers">> = [
+  {
+    id: "l_maynard",
+    name: "Maynard St studio share",
+    furnished: true,
+    leaverId: "u_taylor",
+    address: "335 Maynard St",
+    lat: 42.2786,
+    lng: -83.742,
+    area: "Downtown",
+    roomType: "private",
+    startDate: "2027-05-15",
+    endDate: "2027-08-15",
+    houseRules: "",
+    flags: { smoking: false, pets: false },
+  },
 ];
 
 export const INCOMING: SampleIncoming[] = [
@@ -202,10 +371,45 @@ export const INCOMING: SampleIncoming[] = [
     weights: [3, 1, 1, 1, 1, 1, 0, 1],
     dealBreakers: [],
   },
+  {
+    userId: "u_noor",
+    startDate: "2027-05-20",
+    endDate: "2027-08-15",
+    destination: "medical",
+    answers: [0, 0, 0, 0, 0, 0, 0, 1],
+    weights: [3, 1, 1, 3, 3, 1, 1, 1],
+    dealBreakers: ["smoke", "pets"],
+  },
 ];
 
-/** Pending requests at seed time: Jamie → Packard St, no votes yet (stayer inbox has work). */
-export const REQUESTS = [{ id: "r_jamie_packard", listingId: "l_packard", incomingId: "u_jamie" }];
+/**
+ * Requests at seed time:
+ * - Jamie → Packard St: sent, no votes yet (Priya/Sam inbox has work; also the decline path in smoke).
+ * - Noor → Plymouth Rd: sent, Lena approved, Tariq + Wei still to vote.
+ * - Noor → Catherine St: approved by Grace; Grace agreed to every term, Noor to two. Shows terms mid-way.
+ */
+export const REQUESTS: Array<{
+  id: string;
+  listingId: string;
+  incomingId: string;
+  status: "sent" | "approved";
+  approvals: string[];
+  agreed: Array<{ userId: string; keys: string[] }>;
+}> = [
+  { id: "r_jamie_packard", listingId: "l_packard", incomingId: "u_jamie", status: "sent", approvals: [], agreed: [] },
+  { id: "r_noor_plymouth", listingId: "l_plymouth", incomingId: "u_noor", status: "sent", approvals: ["u_lena"], agreed: [] },
+  {
+    id: "r_noor_catherine",
+    listingId: "l_catherine",
+    incomingId: "u_noor",
+    status: "approved",
+    approvals: ["u_grace"],
+    agreed: [
+      { userId: "u_grace", keys: ["dates", "quiet", "guests", "kitchen", "issues"] },
+      { userId: "u_noor", keys: ["dates", "quiet"] },
+    ],
+  },
+];
 
 export async function seedDatabase(prisma: PrismaClient): Promise<void> {
   // Wipe in dependency order.
@@ -286,7 +490,40 @@ export async function seedDatabase(prisma: PrismaClient): Promise<void> {
     });
   }
 
+  for (const d of DRAFTS) {
+    await prisma.listing.create({
+      data: {
+        id: d.id,
+        name: d.name,
+        furnished: d.furnished,
+        leaverId: d.leaverId,
+        address: d.address,
+        lat: d.lat,
+        lng: d.lng,
+        area: d.area,
+        roomType: d.roomType,
+        startDate: d.startDate,
+        endDate: d.endDate,
+        houseRules: d.houseRules,
+        flagSmoking: d.flags.smoking,
+        flagPets: d.flags.pets,
+        status: "draft",
+        isSample: true,
+        memberships: { create: [{ userId: d.leaverId, role: "leaver", inviteStatus: "answered" }] },
+      },
+    });
+  }
+
   for (const r of REQUESTS) {
-    await prisma.request.create({ data: { ...r, status: "sent" } });
+    await prisma.request.create({
+      data: {
+        id: r.id,
+        listingId: r.listingId,
+        incomingId: r.incomingId,
+        status: r.status,
+        approvals: { create: r.approvals.map((stayerId) => ({ stayerId, decision: "approve" })) },
+        terms: { create: r.agreed.flatMap((a) => a.keys.map((termKey) => ({ userId: a.userId, termKey, agreed: true }))) },
+      },
+    });
   }
 }

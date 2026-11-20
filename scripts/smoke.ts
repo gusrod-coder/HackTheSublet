@@ -69,7 +69,10 @@ async function main() {
   const alex = await as("u_alex");
   let m = (await alex.get("/api/incoming/matches")).data;
   check(!order(m).includes("l_hill"), "Hill St not in matches");
-  check(m.unreleased.length === 1 && m.unreleased[0].listingId === "l_hill" && Object.keys(m.unreleased[0]).sort().join() === "address,listingId,name", "Hill St listed as unreleased (name + address only)");
+  const hillU = m.unreleased.find((u: any) => u.listingId === "l_hill");
+  check(hillU && Object.keys(hillU).sort().join() === "address,listingId,name", "Hill St listed as unreleased (name + address only)");
+  check(!order(m).includes("l_prospect") && !order(m).includes("l_maynard"), "Prospect (unreleased) and Maynard (draft) not ranked");
+  check(!m.unreleased.some((u: any) => u.listingId === "l_maynard"), "drafts aren't even listed as unreleased");
   check(m.ranked.every((r: any) => r.distance?.label?.includes("Medical Campus")), "distance labels present");
   check((await alex.get("/api/listings/l_hill/household")).status === 404, "Hill St household 404");
   check(m.excluded.some((e: any) => e.listingId === "l_church"), "Church St excluded (smoking)");
@@ -83,7 +86,7 @@ async function main() {
   check((await outbox("listing_live")).some((e) => e.to === "leo@example.edu"), "email: Leo told Hill St is live");
   m = (await alex.get("/api/incoming/matches")).data;
   check(order(m).includes("l_hill"), "Hill St now in matches");
-  check(m.unreleased.length === 0, "unreleased list now empty");
+  check(!m.unreleased.some((u: any) => u.listingId === "l_hill"), "Hill St no longer unreleased");
   await alex.put("/api/incoming/profile", { flexDays: 3 });
   const st = (await alex.get("/api/incoming/matches")).data.ranked.find((r: any) => r.listing.id === "l_state").fit;
   check(st.coverage.includes("outside your ±3 days") && !st.withinFlex, `flex coverage: ${st.coverage}`);

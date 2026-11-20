@@ -17,6 +17,22 @@ From the browser, call them through `api.*` in `lib/api-client.ts`. It throws `A
 | GET | `/api/me` | → `MeResponse` | `user: null` when signed out (no 401) |
 | PUT | `/api/me/contact` | `ContactBody` → `ContactBody` | Preferred contact |
 
+## Email notifications (h1)
+
+Sent automatically by the server; there's nothing to call. Every email is logged and visible at **/dev/outbox**
+(`GET /api/dev/outbox?to=<email>` → `OutboxResponse`). With `SMTP_*` set in `.env`, emails also go out for real,
+except to sample `@example.*` addresses (optional `EMAIL_ALLOW` allowlist). Emails carry a link back into the app,
+never contact details.
+
+| Moment | Who gets it | Links to |
+|---|---|---|
+| Leaver invites a stayer | that stayer | `/stayer/:listingId/form` |
+| Listing goes live | leaver | `/leaver/listings/:id` |
+| Incoming sends a request | every stayer | `/stayer/inbox` |
+| Request approved | incoming + every stayer | `/requests/:id` |
+| Request declined | incoming | `/incoming/browse` |
+| Contacts unlock (once) | incoming + every stayer | `/requests/:id` |
+
 ## Leaver (h3)
 
 | Method | Path | Body → Response | Gates / errors |
