@@ -7,7 +7,10 @@
  *   average         = mean(stayerScore)     ← shown for comparison only
  *   label           = ≥75 Strong · ≥55 Okay · else Weak
  *
- * Deal-breakers exclude a listing before scoring. Date coverage is display-only.
+ * A "difference" (where-you-differ lines, talk-about lines, highlighted cells) is any answer that isn't
+ * identical on a question you weight > 0, so every point lost from 100 is explained somewhere on screen.
+ *
+ * Deal-breakers and budget exclude a listing before scoring. Rent and date coverage are never scored.
  */
 import {
   QUESTIONS,
@@ -66,6 +69,11 @@ export interface ScoreOptions {
 export function gap(i: number, a: number, b: number): number {
   const span = QUESTIONS[i].options.length - 1;
   return Math.abs(a - b) / span;
+}
+
+/** True when two answers differ at all (gap > 0). The one rule for "where you differ" and highlights. */
+export function differs(i: number, a: number, b: number): boolean {
+  return gap(i, a, b) > 0;
 }
 
 export function stayerScore(incoming: Answers, weights: Weights, stayer: Answers): number {
@@ -169,7 +177,7 @@ interface Mismatch {
   severity: number; // gap × weight
 }
 
-/** All (stayer, question) pairs with w > 0 and gap ≥ 0.5, most severe first. */
+/** All (stayer, question) pairs with w > 0 and different answers, most severe (gap × weight) first. */
 export function allMismatches(inc: IncomingInput, stayers: StayerInput[]): Mismatch[] {
   const out: Mismatch[] = [];
   for (const s of stayers) {
@@ -177,7 +185,7 @@ export function allMismatches(inc: IncomingInput, stayers: StayerInput[]): Misma
       const w = inc.weights[i];
       if (w <= 0) continue;
       const g = gap(i, inc.answers[i], s.answers[i]);
-      if (g >= 0.5) out.push({ index: i, stayer: s, gap: g, severity: g * w });
+      if (g > 0) out.push({ index: i, stayer: s, gap: g, severity: g * w });
     }
   }
   // Stable tiebreak: question order, then stayer order (already the insertion order).

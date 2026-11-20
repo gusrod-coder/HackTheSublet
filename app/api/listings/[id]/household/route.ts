@@ -2,7 +2,7 @@ import { prisma } from "@/lib/server/db";
 import { handle, ok } from "@/lib/server/http";
 import { requireCompleteIncoming, requireLiveListing, toListingInput, toSummary } from "@/lib/server/repo";
 import { requireUser } from "@/lib/server/session";
-import { exclusionReasons, gap, scoreListing } from "@/lib/scoring";
+import { exclusionReasons, differs, scoreListing } from "@/lib/scoring";
 import { distanceTo } from "@/lib/geo";
 import { QUESTIONS, type HouseholdResponse, type RequestStatus } from "@/lib/types";
 
@@ -35,7 +35,7 @@ export const GET = handle<{ id: string }>(async (_req, { id }) => {
       stayers: input.stayers.map((s) => ({ stayerId: s.id, answer: s.answers[q.index] })),
       mismatchWith:
         inc.weights[q.index] > 0
-          ? input.stayers.filter((s) => gap(q.index, inc.answers[q.index], s.answers[q.index]) >= 0.5).map((s) => s.id)
+          ? input.stayers.filter((s) => differs(q.index, inc.answers[q.index], s.answers[q.index])).map((s) => s.id)
           : [],
     })),
     request: r ? { id: r.id, status: r.status as RequestStatus } : null,

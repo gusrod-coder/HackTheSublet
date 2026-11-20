@@ -5,7 +5,7 @@
  * so the arithmetic on screen is exactly the one behind the number on the card.
  */
 import { useState } from "react";
-import { gap, stayerScore } from "@/lib/scoring";
+import { differs, gap, stayerScore } from "@/lib/scoring";
 import { QUESTIONS, type HouseholdResponse, type Weight } from "@/lib/types";
 import b from "./ScoreBreakdown.module.css";
 
@@ -28,7 +28,8 @@ export function ScoreBreakdown({ data }: { data: HouseholdResponse }) {
   const rows = QUESTIONS.map((q) => {
     const w = you.weights[q.index];
     const g = gap(q.index, you.answers[q.index], st.answers[q.index]);
-    return { q, w, g, points: w * (1 - g) };
+    const close = 1 - g; // 1 = same answer, 0 = opposite ends of the scale
+    return { q, w, close, diff: differs(q.index, you.answers[q.index], st.answers[q.index]), points: w * close };
   });
   const sumPoints = rows.reduce((t, r) => t + r.points, 0);
   const sumW = rows.reduce((t, r) => t + r.w, 0);
@@ -38,9 +39,9 @@ export function ScoreBreakdown({ data }: { data: HouseholdResponse }) {
     <details className={`card soft ${b.box}`}>
       <summary className={b.summary}>How was this score calculated?</summary>
       <p className={b.lead}>
-        Each roommate gets a score from the questions you said matter. A question you weight <strong>a lot</strong> counts 3,{" "}
-        <strong>some</strong> counts 1, <strong>not at all</strong> counts 0. The further apart your answers are, the fewer points it
-        gives. No AI: it’s this table.
+        Each question is worth up to 3 points if it matters <strong>a lot</strong> to you, 1 if it matters <strong>some</strong>, and 0
+        if <strong>not at all</strong>. You get the full points when your answers are the same, half when they’re one step apart, and none
+        at opposite ends. The score is the share of possible points you got. No AI: it’s this table.
       </p>
 
       {stayers.length > 1 && (
@@ -68,19 +69,19 @@ export function ScoreBreakdown({ data }: { data: HouseholdResponse }) {
               <th scope="col">You</th>
               <th scope="col">{st.name}</th>
               <th scope="col" className={b.num}>Matters</th>
-              <th scope="col" className={b.num}>Gap</th>
+              <th scope="col" className={b.num}>Closeness</th>
               <th scope="col" className={b.num}>Points</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map(({ q, w, g, points }) => (
-              <tr key={q.key} className={w === 0 ? b.ignored : g >= 0.5 ? b.far : undefined}>
+            {rows.map(({ q, w, close, diff, points }) => (
+              <tr key={q.key} className={w === 0 ? b.ignored : diff ? b.far : undefined}>
                 <th scope="row">{q.short}</th>
                 <td>{short(q.index, you.answers[q.index])}</td>
                 <td>{short(q.index, st.answers[q.index])}</td>
                 <td className={b.num}>{WEIGHT_LABEL[w]} ({w})</td>
-                <td className={b.num}>{num(g)}</td>
-                <td className={b.num}>{w === 0 ? "–" : `${w} × ${num(1 - g)} = ${num(points)}`}</td>
+                <td className={b.num}>{num(close)}</td>
+                <td className={b.num}>{w === 0 ? "–" : `${w} × ${num(close)} = ${num(points)}`}</td>
               </tr>
             ))}
           </tbody>
@@ -92,14 +93,15 @@ export function ScoreBreakdown({ data }: { data: HouseholdResponse }) {
           <>Nothing is weighted, so every roommate scores 100.</>
         ) : (
           <>
-            <span>{num(sumPoints)} points ÷ {sumW} possible</span>
-            <span> = {num(sumPoints / sumW)}</span>
-            <span> × 100 → <strong>{score}</strong> fit with {st.name}</span>
+            <span>{num(sumPoints)} of {sumW} possible points</span>
+            <span> = {num((100 * sumPoints) / sumW)}%</span>
+            <span> → rounds to <strong>{score}</strong> fit with {st.name}</span>
           </>
         )}
       </p>
       <p className={b.note}>
-        Gap = how far apart the two answers are on that question’s scale (0 = same answer, 1 = opposite ends).
+        Points = Matters × Closeness. Closeness is 1 for the same answer and 0 for opposite ends of the scale; one step apart is 0.5
+        (0.67 for Guests, which has four choices, so each step is smaller).
         {stayers.length > 1 && (
           <>
             {" "}The house’s fit is the <strong>lowest</strong> roommate score, {fit.householdScore} (scores:{" "}

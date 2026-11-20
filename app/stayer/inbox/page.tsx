@@ -137,7 +137,7 @@ function RequestCard({ r, myId, single, onChange }: { r: Req; myId?: string; sin
               <span className={cx(kit.label, s.lineHead)}>
                 <Icon name="bolt" /> where you differ
               </span>
-              {r.fit.mismatches.length ? r.fit.mismatches.map((m) => <p key={m} className={kit.caption}>{m}</p>) : <p className={kit.caption}>No big differences.</p>}
+              {r.fit.mismatches.length ? r.fit.mismatches.map((m) => <p key={m} className={kit.caption}>{m}</p>) : <p className={kit.caption}>Same answers on everything they said matters.</p>}
             </div>
           </div>
           {r.fit.talkAbout.length > 0 && <p className={cx(kit.caption, kit.muted)}>{r.fit.talkAbout.join(" · ")}</p>}

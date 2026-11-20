@@ -436,7 +436,7 @@ export interface HouseholdResponse {
   you: { answers: Answers; weights: Weights };
   /**
    * Side-by-side table. One row per question. `mismatchWith` lists stayer ids whose
-   * answer has gap ≥ 0.5 on a question you weight > 0 (highlight these cells).
+   * answer differs from yours (gap > 0) on a question you weight > 0 (highlight these cells).
    */
   table: Array<{
     index: number;

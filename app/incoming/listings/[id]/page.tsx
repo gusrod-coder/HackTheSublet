@@ -100,7 +100,7 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
         <section className={`${s.cardSoft} ${p.table}`}>
           <h2 className={s.headingM}>Side by side</h2>
           <p className={`${s.caption} ${s.muted} ${p.tableNote}`}>
-            Revealed because you both answered. Highlighted = a big difference on something you said matters.
+            Revealed because you both answered. Highlighted = a different answer on something you said matters.
           </p>
           <div className={p.grid} style={{ ["--cols" as string]: stayers.length + 1 }} role="table">
             <span className={p.th} role="columnheader">Topic</span>
@@ -128,7 +128,7 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
             {fit.talkAbout.length ? (
               <ul>{fit.talkAbout.map((t) => <li key={t}>{t}</li>)}</ul>
             ) : (
-              <p className={p.tight}>No big differences on what you said matters. Still worth a quick hello.</p>
+              <p className={p.tight}>Same answers on everything you said matters. Still worth a quick hello.</p>
             )}
             {stayers.length > 1 && (
               <p className={`${s.caption} ${p.why}`}>

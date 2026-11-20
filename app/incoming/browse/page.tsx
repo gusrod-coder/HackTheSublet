@@ -185,7 +185,7 @@ function ListingCard({ r, top, onHover, change }: { r: Ranked & { rank: number }
         </div>
         <div className={p.differ}>
           <span className={p.boxTitle}><Icon name="bolt" size={16} /> where you differ</span>
-          {fit.mismatches.length ? fit.mismatches.map((m) => <span key={m}>{m}</span>) : <span>No big differences on what matters to you</span>}
+          {fit.mismatches.length ? fit.mismatches.map((m) => <span key={m}>{m}</span>) : <span>Same answers on everything that matters to you</span>}
         </div>
       </div>
     </article>

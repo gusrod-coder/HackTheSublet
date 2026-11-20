@@ -227,3 +227,23 @@ describe("budget (display + exclusion only)", () => {
     expect(b).toEqual(a);
   });
 });
+
+describe("explanations account for every lost point", () => {
+  it("a one-step difference on a 4-option question is listed (scripted demo: Tom, guests 2–3 vs 1 → 96)", () => {
+    const oakland: ListingInput = {
+      id: "l_oak", address: "1828 Oakland Ave", roomType: "private", flags: { smoking: false, pets: false },
+      startDate: "2027-05-10", endDate: "2027-08-20",
+      stayers: [{ id: "u_tom", name: "Tom", answers: [0, 1, 2, 0, 0, 0, 1, 0] }],
+    };
+    const fit = scoreListing(ALEX, oakland);
+    expect(fit.householdScore).toBe(96); // 100 · (7 + 2/3) / 8 = 95.83 → 96
+    expect(fit.mismatches).toEqual(["Guests: you 1 night, Tom 2–3 nights"]);
+  });
+
+  it("any score below 100 has at least one difference listed", () => {
+    for (const l of LIVE) {
+      const fit = scoreListing(ALEX, l);
+      if (fit.householdScore < 100) expect(fit.mismatches.length).toBeGreaterThan(0);
+    }
+  });
+});
