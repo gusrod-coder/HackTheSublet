@@ -4,8 +4,10 @@
 
 .stayers { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
 .stayer { display: flex; align-items: center; gap: 16px; padding: 20px; }
+/* Three or more stayers: tighter cards so text keeps a readable width. */
+.stayers:has(> :nth-child(3)) .stayer { gap: 12px; padding: 16px; }
 .stayerText { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
-.limits { align-self: flex-start; margin-top: 6px; padding: 2px 10px; border-radius: var(--radius-pill); background: var(--butter); color: var(--okay); font-size: 12px; font-weight: 700; }
+.limits { align-self: flex-start; white-space: nowrap; margin-top: 6px; padding: 2px 10px; border-radius: var(--radius-pill); background: var(--butter); color: var(--okay); font-size: 12px; font-weight: 700; }
 .score { display: flex; flex-direction: column; align-items: center; }
 .scoreNum { font-family: var(--font-display), cursive; font-size: 32px; line-height: 40px; color: var(--deep-teal); }
 

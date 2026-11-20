@@ -62,12 +62,12 @@ function RequestRow({ r }: { r: Req }) {
         <p className={`${s.caption} ${s.muted} ${p.tight}`}>
           {r.listing.area} · {roomLabel(r.listing.roomType)} · {dateRange(r.listing.startDate, r.listing.endDate)}
         </p>
-        <div className={p.votes} aria-label={`${approved} of ${total} roommates approved`}>
+        <div className={p.votes} aria-label={`${approved} of ${total} ${total === 1 ? "roommate" : "roommates"} approved`}>
           {Array.from({ length: total }, (_, i) => (
             <span key={i} className={`${p.vote} ${i < approved ? p.voteYes : ""}`}>{i < approved && <Icon name="check" size={14} />}</span>
           ))}
           <span className={s.label}>
-            {r.status === "declined" ? "Someone who stays passed" : `${approved} of ${total} roommates said yes`}
+            {r.status === "declined" ? "Someone who stays passed" : `${approved} of ${total} ${total === 1 ? "roommate" : "roommates"} said yes`}
           </span>
         </div>
       </div>
