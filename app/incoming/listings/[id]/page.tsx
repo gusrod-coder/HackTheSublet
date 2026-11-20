@@ -93,7 +93,7 @@ function Household({ data, onRequested }: { data: HouseholdResponse; onRequested
           <p className={`${s.caption} ${s.muted} ${p.tableNote}`}>
             Revealed because you both answered. Highlighted = a big difference on something you said matters.
           </p>
-          <div className={p.grid} style={{ gridTemplateColumns: `130px repeat(${stayers.length + 1}, minmax(0, 1fr))` }} role="table">
+          <div className={p.grid} style={{ ["--cols" as string]: stayers.length + 1 }} role="table">
             <span className={p.th} role="columnheader">Topic</span>
             <span className={p.th} role="columnheader">You</span>
             {stayers.map((st) => <span key={st.id} className={p.th} role="columnheader">{st.name}</span>)}

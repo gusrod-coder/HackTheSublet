@@ -12,7 +12,7 @@
 .bottom { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
 .table { padding: 24px; }
 .tableNote { margin: 4px 0 16px; }
-.grid { display: grid; gap: 6px 8px; align-items: center; }
+.grid { --topic: 130px; display: grid; grid-template-columns: var(--topic) repeat(var(--cols), minmax(0, 1fr)); gap: 6px 8px; align-items: center; }
 .tr { display: contents; }
 .th { padding: 0 10px; font-size: 14px; line-height: 18px; font-weight: 600; color: var(--muted); }
 .topic { padding: 0 10px; font-size: 14px; line-height: 18px; font-weight: 700; }
@@ -36,6 +36,9 @@
 }
 @media (max-width: 640px) {
   .stayers { grid-template-columns: 1fr; }
-  .table { padding: 16px; overflow-x: auto; }
-  .grid { min-width: 480px; }
+  /* Every column stays on screen: the highlighted stayer is the point of the table. */
+  .table { padding: 16px 12px; }
+  .grid { --topic: 72px; gap: 4px; }
+  .th, .topic { padding: 0 2px; font-size: 12px; line-height: 16px; }
+  .cell { padding: 4px 6px; font-size: 11px; line-height: 14px; overflow-wrap: anywhere; }
 }
