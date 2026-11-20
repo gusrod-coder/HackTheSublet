@@ -136,11 +136,13 @@ function ListingCard({ r, top, onHover }: { r: Ranked & { rank: number }; top: b
           <span className={p.rank}>{r.rank}</span>
           <h2 className={s.headingM}>{l.name}</h2>
           <FitPill label={fit.label} />
-          <SampleBadge show={l.isSample} />
         </div>
         <Link href={`/incoming/listings/${l.id}`} className={`${s.btnSecondary} ${p.view}`}>View household</Link>
       </div>
-      <p className={`${s.body} ${s.muted} ${p.tight}`}>{l.area} · {r.distance.label}</p>
+      <p className={`${s.body} ${s.muted} ${p.tight} ${p.areaRow}`}>
+        <span>{l.area} · {r.distance.label}</span>
+        <SampleBadge show={l.isSample} />
+      </p>
       <p className={`${p.meta} ${p.tight}`}>
         {roomLabel(l.roomType)}{l.furnished ? ", furnished" : ""} · {dateRange(l.startDate, l.endDate)} ·{" "}
         <span className={fit.uncoveredNights === 0 ? p.covers : fit.withinFlex ? p.uncovered : p.outside}>{fit.coverage}</span>
