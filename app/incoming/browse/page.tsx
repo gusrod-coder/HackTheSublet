@@ -12,6 +12,7 @@ import { useApi } from "@/lib/use-api";
 import { DESTINATIONS, QUESTIONS, type IncomingProfileBody, type IncomingProfileResponse, type MatchesResponse } from "@/lib/types";
 import { SampleBadge } from "@/components/shared/ui";
 import { FitPill, Icon, StepDots, dateRange, roomLabel, styles as s } from "@/components/incoming/ui";
+import { BrowseHelp } from "@/components/incoming/BrowseHelp";
 import p from "./page.module.css";
 
 const ListingMap = dynamic(() => import("@/components/shared/ListingMap"), { ssr: false });
@@ -65,11 +66,14 @@ export default function Page() {
         {matches.data && (
           <div className={p.layout}>
             <div className={p.list}>
-              {ranked.length === 0 && (
-                <p className={`${s.cardSoft} ${p.empty}`}>
-                  {query ? `No sublets match “${query}”.` : "No released households fit your dates yet."}
-                </p>
-              )}
+              <BrowseHelp
+                matches={matches.data}
+                shownCount={ranked.length}
+                query={query}
+                onClearQuery={() => setQuery("")}
+                profile={prof ?? null}
+                onSaved={() => { void matches.reload(); void profile.reload(); }}
+              />
               {ranked.map((r) => (
                 <ListingCard key={r.listing.id} r={r} top={r.rank === 1} onHover={setHover} />
               ))}

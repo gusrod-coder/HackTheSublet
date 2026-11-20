@@ -1,0 +1,6 @@
+.box { display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; border-radius: var(--radius-xl); background: var(--card); box-shadow: var(--soft-lift); color: var(--ink); }
+.warn { background: var(--butter); color: var(--okay); }
+.body { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.title { margin: 0; font-family: var(--font-heading), var(--font); font-weight: 700; font-size: 19px; line-height: 24px; color: inherit; }
+.text { margin: 0; font-size: 14px; line-height: 21px; color: var(--ink); max-width: 64ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
