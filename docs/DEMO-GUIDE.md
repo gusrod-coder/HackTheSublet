@@ -342,6 +342,14 @@ channels. No harassment surface, no moderation burden.
 
 ### Product and market
 
+**"Is there evidence this is a real problem?"** *(full sources and limits: `sources.md`)*
+24.2% of responding undergraduates reported roommate or housemate problems in the past year (ACHA-NCHA, Spring 2026,
+44k students at 86 schools). 60% of US roommates in SpareRoom's Aug 2025 census picked cleanliness as a likely
+tension point, and 8% left their previous rental over a roommate dispute. U-M's own off-campus guide says to agree
+on quiet hours, guests and cleaning before signing, and that everyone in the unit should agree to a sublet. Be
+precise: these are separate surveys, not about Ann Arbor sublets specifically, and **we have not measured burrow's
+effect**; a pilot would.
+
 **"Isn't finding a sublet the hard part?"**
 In Ann Arbor, not really. U-M's own research program tells incoming fellows it's usually easy. What's hard is
 choosing the household. (Have the source link ready.)

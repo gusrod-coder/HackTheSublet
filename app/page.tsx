@@ -21,6 +21,28 @@ function BurrowIcon({ size }: { size: number }) {
   );
 }
 
+/** Homepage evidence cards, from sources.md (recommended stat cards). */
+const STATS = [
+  {
+    num: "24.2%",
+    text: "of responding undergraduates reported roommate or housemate problems in the past year.",
+    source: "ACHA-NCHA, Spring 2026 (44,320 undergraduates, 86 US schools)",
+    href: "https://www.acha.org/wp-content/uploads/NCHA-IIIb_SPRING_2026_UNDERGRADUATE_REFERENCE_GROUP_DATA_REPORT.pdf#page=49",
+  },
+  {
+    num: "60%",
+    text: "of surveyed US roommates picked cleanliness as a likely source of household tension.",
+    source: "SpareRoom roommate census, Aug 2025 (1,257 US roommates)",
+    href: "https://www.spareroom.com/content/info-statistics/avoid-roommate-disputes",
+  },
+  {
+    num: "8%",
+    text: "of surveyed US roommates said a roommate dispute made them leave their previous rental.",
+    source: "SpareRoom roommate census, Aug 2025",
+    href: "https://www.spareroom.com/content/info-statistics/avoid-roommate-disputes",
+  },
+] as const;
+
 export default function Home() {
   const { data: me } = useApi(() => api.me.get(), []);
   const user = me?.user;
@@ -86,18 +108,22 @@ export default function Home() {
           <h2 id="problem" className={s.title}>You sign with one person and live with three.</h2>
           <p className={s.bodyL}>Sublets are arranged with whoever is leaving. The roommates who stay never get a say.</p>
         </div>
+        {/* Cited per sources.md (research checked 2026-11-20). Separate findings: don't add them up or
+            generalise them to all students, renters or Ann Arbor. */}
         <div className={s.stats}>
-          <div className={s.stat}>
-            <p className={s.statNum}>12 mo</p>
-            <p className={s.bodyM}>Typical lease near campus. Leave for summer, and the room still needs filling.</p>
-            <p className={s.caption}>U-M Dean of Students</p>
-          </div>
-          <div className={s.stat}>
-            <p className={s.statNum}>4 of 6</p>
-            <p className={s.bodyM}>Roommates leaving in one real U-M sublet listing. The other two stay.</p>
-            <p className={s.caption}>U-M Off-Campus Housing, 2026</p>
-          </div>
+          {STATS.map((st) => (
+            <div key={st.num} className={s.stat}>
+              <p className={s.statNum}>{st.num}</p>
+              <p className={s.bodyM}>{st.text}</p>
+              <p className={s.caption}>
+                <a href={st.href} target="_blank" rel="noreferrer" className={s.sourceLink}>{st.source}</a>
+              </p>
+            </div>
+          ))}
         </div>
+        <p className={s.caption}>
+          Separate surveys with different populations; figures are not additive. Sources and limitations: <code>sources.md</code>.
+        </p>
       </section>
 
       <section className={`card ${s.why}`}>

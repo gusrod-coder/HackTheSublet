@@ -26,7 +26,9 @@
 /* Sections */
 .section { display: flex; flex-direction: column; gap: 48px; }
 .head { display: flex; flex-direction: column; gap: 10px; }
-.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-bottom: 16px; }
+.sourceLink { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+.sourceLink:hover { color: var(--brand); }
 .stat { display: flex; flex-direction: column; gap: 12px; }
 .statNum { margin: 0; font-family: var(--font-display), var(--font); font-size: 64px; line-height: 64px; color: var(--dino-red); font-variant-numeric: tabular-nums; }
 
