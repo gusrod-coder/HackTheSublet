@@ -92,6 +92,8 @@ export const api = {
       call<StayerProfileResponse>("POST", `/api/stayer/${enc(listingId)}/profile`, b),
     inbox: () => call<StayerInboxResponse>("GET", "/api/stayer/requests"),
     decide: (requestId: string, b: DecisionBody) => call<RequestRef>("POST", `/api/requests/${enc(requestId)}/decision`, b),
+    /** Retract my vote while the request is still "sent". */
+    undoDecision: (requestId: string) => call<RequestRef>("DELETE", `/api/requests/${enc(requestId)}/decision`),
   },
 
   // ── Incoming (h2) ──

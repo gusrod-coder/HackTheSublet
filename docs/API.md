@@ -38,6 +38,7 @@ From the browser, call them through `api.*` in `lib/api-client.ts`. It throws `A
 | POST | `/api/stayer/:listingId/profile` | `StayerProfileBody` → `StayerProfileResponse` | Only the stayer themself. May release the listing (`listingStatus: "live"`) |
 | GET | `/api/stayer/requests` | → `StayerInboxResponse` | Incoming's answers + fit (lines name the incoming) |
 | POST | `/api/requests/:id/decision` | `DecisionBody` → `RequestRef` | Stayers only (`403 NOT_STAYER`; leaver has no vote). `409 REQUEST_CLOSED` once decided |
+| DELETE | `/api/requests/:id/decision` | → `RequestRef` | Undo my vote while `sent`. `409 REQUEST_CLOSED` once decided |
 
 ## Incoming (h2)
 

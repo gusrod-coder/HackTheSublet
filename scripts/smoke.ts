@@ -133,6 +133,10 @@ async function main() {
   check((await alex.get(`/api/requests/${rid}/terms`)).data?.error?.code === "NOT_APPROVED", "terms 403 before approval");
   let d = await priya.post(`/api/requests/${rid}/decision`, { decision: "approve" });
   check(d.data.status === "sent", "one approval → still sent");
+  check((await priya.req("DELETE", `/api/requests/${rid}/decision`)).data.status === "sent", "Priya retracts the vote");
+  let inb = (await priya.get("/api/stayer/requests")).data.requests.find((r: any) => r.id === rid);
+  check(inb.myDecision === null, "vote retracted");
+  await priya.post(`/api/requests/${rid}/decision`, { decision: "approve" });
   const sam = await as("u_sam");
   d = await sam.post(`/api/requests/${rid}/decision`, { decision: "approve" });
   check(d.data.status === "approved", "all stayers approve → approved");

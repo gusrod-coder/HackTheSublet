@@ -14,6 +14,16 @@
   --ink: #2b2420;
   --line: #eadbc8;
   --muted: #6b5e55;
+  --line-soft: #eadbc8;
+  --fox-blue: #6f9bd8;
+  --fox-blue-deep: #2f5c9a;
+  --dino-red: #b5443e;
+  --sky: #dde8f6;
+  --leaf: #ddefd8;
+  --leaf-ink: #2c6a3b;
+  --weak-ink: #8e2f2c;
+  --okay-ink: #7a4a00;
+  --map: #e3eddb;
 
   /* semantic (names kept stable for existing components) */
   --bg: var(--cream);
@@ -32,8 +42,16 @@
 
   /* shape */
   --border: 2px solid var(--ink);
+  --border-soft: 2px solid var(--line-soft);
   --sticker: 0 4px 0 var(--ink);
-  --radius: 16px;
+  --soft-lift: 0 6px 18px rgba(138, 90, 43, 0.12);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-pill: 999px;
+  --radius: var(--radius-lg);
   --gap: 16px;
   --font: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
@@ -61,6 +79,7 @@ h3 { font-size: 1.2rem; }
 .card.butter { background: var(--butter); }
 .card.peach { background: var(--peach); }
 .card.blush { background: var(--blush); }
+.card.soft { border: var(--border-soft); box-shadow: var(--soft-lift); }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
@@ -72,6 +91,7 @@ h3 { font-size: 1.2rem; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn.secondary { background: var(--card); }
 .btn.dark { background: var(--deep-teal); color: #fff; }
+.btn.ghost { background: transparent; border-color: transparent; box-shadow: none; color: var(--brand); }
 
 .pill, .chip {
   display: inline-block; padding: 2px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
