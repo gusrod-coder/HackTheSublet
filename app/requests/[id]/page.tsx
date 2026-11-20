@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { api, ApiClientError } from "@/lib/api-client";
 import { useApi } from "@/lib/use-api";
 import type { ContactMethod, ContactsResponse, TermKey } from "@/lib/types";
-import { OutsideAppNotice, SampleBadge } from "@/components/shared/ui";
+import { SampleBadge } from "@/components/shared/ui";
 import { Icon, StepDots, Status, cx, kit } from "@/components/leaver/kit";
 import { usePoll } from "@/components/incoming/usePoll";
 import s from "./terms.module.css";
@@ -198,7 +198,11 @@ export default function TermsPage() {
                 </button>
               );
             })}
-            <OutsideAppNotice />
+            {/* Figma 06/06b caption (10:333): money and the lease stay outside the app. */}
+            <p className={cx(kit.caption, kit.muted)} style={{ margin: 0 }}>
+              Rent, deposit and the sublease agreement are settled with {listing?.leader.name ?? "the leaver"} and the landlord.
+              Burrow never touches money.
+            </p>
           </div>
 
           <div className={kit.col} style={{ gap: 16 }}>
