@@ -2,7 +2,18 @@
 
 Read `CLAUDE.md`, `docs/LANES.md`, and the mailbox first. Lane = h3.
 `h3/screens` was merged into main as `680f9c2`; new follow-ups start from current main.
-Current follow-up branch: `h3/live-status` (based on `73c0d3e`).
+`h3/live-status` was merged as `fa85094`.
+Current follow-up branch: `h3/expanded-data-qa` (based on `2a6c174`).
+
+## Expanded-data QA and visual fixes
+- H1 assigned V1–V4 from H2's browser QA and explicitly approved using H2's report plus existing incoming/terms styles. H2 now owns Figma fidelity and screenshot review.
+- V1: one inbox page heading and viewer label; each request has its own incoming name, listing, sample label, dates, and decision controls.
+- V2: lane form fieldsets reset the inherited border and padding.
+- V3: Page uses the app's existing content edge with no extra horizontal/top padding or clipped background blobs. `.page`, `.warmTop`, all kit exports and `--hf-*` aliases remain available to H2's terms page.
+- V4: match panels use the shared mint/brand colors.
+- `npx tsx components/leaver/qa/expanded-states.ts` runs 30 checks against **localhost:3000 only**, using the typed API client. It resets the local sample DB before and after. Covers Taylor's draft/submission/invite, listing-specific answers, Mei's release gate, three-person approvals/undo, and Grace's partially agreed terms/contact lock.
+- Validation: 30 expanded-state checks, typecheck, all 34 unit/render tests, and full local smoke pass. Two render tests cover multiple-request heading/action separation and the empty inbox.
+- Local browser QA was blocked by the Chrome URL-identification safeguard. No browser workaround used. H2 screenshot review is requested with this branch; do not claim local visual verification.
 
 ## Current ownership (H1 mailbox, November 20)
 - H3 owns `app/leaver/**`, `app/stayer/**`, `components/leaver/**`, `components/stayer/**`.
