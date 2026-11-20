@@ -12,6 +12,8 @@
 import { QUESTIONS, WEIGHT_OPTIONS, type Weight } from "@/lib/types";
 
 interface Props {
+  /** Figma 10:564 stayer form: legend "1. Weeknight lights out" and no full-question line. */
+  compactTitles?: boolean;
   answers: Array<number | null>;
   onAnswers: (next: Array<number | null>) => void;
   weights?: Weight[];
@@ -19,14 +21,18 @@ interface Props {
   disabled?: boolean;
 }
 
-export function HabitForm({ answers, onAnswers, weights, onWeights, disabled }: Props) {
+export function HabitForm({ answers, onAnswers, weights, onWeights, disabled, compactTitles = false }: Props) {
   const setAt = <T,>(arr: T[], i: number, v: T) => arr.map((x, j) => (j === i ? v : x));
   return (
     <div className="stack">
       {QUESTIONS.map((q) => (
         <fieldset key={q.key} className="card stack" disabled={disabled}>
-          <legend className="small muted">Question {q.index + 1} of {QUESTIONS.length}</legend>
-          <strong>{q.question}</strong>
+          {compactTitles ? (
+            <legend>{`${q.index + 1}. ${q.title}`}</legend>
+          ) : (
+            <legend className="small muted">Question {q.index + 1} of {QUESTIONS.length}</legend>
+          )}
+          {!compactTitles && <strong>{q.question}</strong>}
           <div className="options" role="group" aria-label={q.question}>
             {q.options.map((opt, oi) => (
               <button

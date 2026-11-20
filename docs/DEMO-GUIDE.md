@@ -84,7 +84,7 @@ you why, instead of just hiding it."**
 **"Notice what's missing: Hill St. Its leaver listed it, but one roommate, Omar, hasn't answered yet. Until every
 stayer describes the household, nobody can see it. That's enforced on the server, not just hidden in the UI."**
 
-*Switch to **Omar** → Hill St form → answer: After 1am · Mixed · 2–3 · 1–2 nights · Quiet weeknights · Right
+*Switch to **Omar** → Hill St form → answer: After 1am · Mixed · 2–3 · 1–2 nights · Quiet weeknights, livelier weekends · Right
 away · Friendly but separate · In person → Submit.* (Practice this; it's 8 clicks.)
 
 → The confirmation: **"…Hill St house is now live."**
@@ -115,7 +115,7 @@ want."**
 
 ### 2:35–3:05 · Stayers shape the match too
 
-*Window B (Priya) → Packard St habit form → bedtime: After 1am → Save.*
+*Window B (Priya) → Packard St habit form → bedtime: After 1am → **Save changes →**.*
 
 **"It goes both ways. Priya, a stayer at Packard, updates her bedtime."**
 
