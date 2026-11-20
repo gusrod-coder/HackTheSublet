@@ -20,8 +20,8 @@ const SLIDES: ReactNode[] = [
 
   // 2. Today: a two-person deal
   <div key="two" className={s.center}>
-    <p className={s.eyebrow}>Summer sublets today</p>
-    <h2 className={s.title}>The deal is made between two people.</h2>
+    <p className={s.eyebrow}>How summer sublets work now</p>
+    <h2 className={s.title}><span className={s.today}>Today,</span> the deal is made between two people.</h2>
     <div className={s.pair}>
       <figure className={s.who}><Persona kind="dino" label="The one leaving" /><figcaption>The one leaving</figcaption></figure>
       <span className={s.arrow} aria-hidden>⇄</span>

@@ -53,3 +53,4 @@
   .card [role="img"] { display: none; }
   .card, .step { padding: 16px !important; }
 }
+.today { color: var(--accent); }
