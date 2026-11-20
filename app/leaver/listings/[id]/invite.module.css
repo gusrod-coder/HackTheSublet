@@ -1,0 +1,10 @@
+/* Figma 08: 640px sticker card with one row per stayer. */
+.card { display: flex; flex-direction: column; gap: 4px; max-width: 640px; }
+.stayer { display: flex; gap: 16px; align-items: center; padding: 12px 0; }
+.who { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.inviteForm { display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 8px; padding-top: 12px; }
+
+@media (max-width: 640px) {
+  .stayer { flex-wrap: wrap; }
+  .inviteForm { grid-template-columns: 1fr; }
+}

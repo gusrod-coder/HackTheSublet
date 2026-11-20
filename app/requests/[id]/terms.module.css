@@ -1,0 +1,21 @@
+/* Figma 06 / 06b: term rows are soft cards; agreed rows get the fox-blue border + sticker shadow. */
+.term {
+  display: flex; gap: 16px; align-items: flex-start; width: 100%; text-align: left;
+  padding: 16px 24px; border-radius: 24px; cursor: pointer; font: inherit; color: inherit;
+  background: var(--hf-card); border: 2px solid var(--hf-line-soft); box-shadow: var(--hf-lift);
+}
+.term:hover:not(:disabled) { border-color: var(--hf-fox-deep); }
+.term:disabled { cursor: default; }
+.termOn { border-color: var(--hf-fox-deep); box-shadow: var(--hf-sticker); }
+.box {
+  flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px; border: 2px solid var(--hf-ink);
+  background: var(--hf-card); display: inline-flex; align-items: center; justify-content: center;
+}
+.boxOn { background: var(--hf-fox-deep); border-color: var(--hf-fox-deep); color: #fffdf8; }
+.termText { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.contactForm { display: flex; gap: 8px; }
+.allSet { display: inline-flex; align-items: center; gap: 8px; color: var(--hf-fox-deep); }
+.contact { display: flex; gap: 12px; align-items: center; padding: 8px 0; flex-wrap: wrap; }
+.contactValue { color: var(--hf-fox-deep); overflow-wrap: anywhere; }
+.parties { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.party { display: flex; justify-content: space-between; align-items: center; gap: 8px; }

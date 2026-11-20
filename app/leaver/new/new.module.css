@@ -1,0 +1,21 @@
+/* Figma 07: 440px map sticker on the left, form card on the right. */
+.layout { display: grid; grid-template-columns: 440px minmax(0, 1fr); gap: 24px; align-items: start; }
+.mapWrap {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.mapWrap > div:first-child {
+  border: 2px solid var(--hf-ink) !important;
+  border-radius: 32px !important;
+  box-shadow: var(--hf-sticker);
+  background: var(--hf-map);
+}
+.mapHint { margin: 0; padding-left: 12px; }
+.formCard { gap: 16px; }
+.twoUp { display: flex; gap: 12px; }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .twoUp { flex-direction: column; }
+}
