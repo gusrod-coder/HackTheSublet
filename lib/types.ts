@@ -46,6 +46,8 @@ export interface HabitQuestion {
   question: string;
   /** Short label used in mismatch lines: "Bedtime: you before 11pm, Sam after 1am". */
   short: string;
+  /** Card title on the habit form (Figma 10:564), shown as "1. Weeknight lights out". */
+  title: string;
   /** Option labels, index 0 → n, shown on the form. */
   options: string[];
   /** Lower-case phrasing of each option for generated sentences. */
@@ -60,6 +62,7 @@ export const QUESTIONS: readonly HabitQuestion[] = [
     key: "bedtime",
     question: "On a weeknight, when do your lights go out?",
     short: "Bedtime",
+    title: "Weeknight lights out",
     options: ["Before 11pm", "11pm–1am", "After 1am"],
     phrases: ["before 11pm", "11pm–1am", "after 1am"],
     topic: "sleep schedules",
@@ -69,6 +72,7 @@ export const QUESTIONS: readonly HabitQuestion[] = [
     key: "home",
     question: "On weekdays, how much are you home?",
     short: "Time at home",
+    title: "Home on weekdays",
     options: ["Mostly out", "Mixed", "Home most of the day"],
     phrases: ["mostly out", "mixed", "home most of the day"],
     topic: "time at home",
@@ -78,6 +82,7 @@ export const QUESTIONS: readonly HabitQuestion[] = [
     key: "guests",
     question: "Nights a week you have people over",
     short: "Guests",
+    title: "Nights with people over",
     options: ["None", "1", "2–3", "4+"],
     phrases: ["none", "1 night", "2–3 nights", "4+ nights"],
     topic: "having people over",
@@ -87,6 +92,7 @@ export const QUESTIONS: readonly HabitQuestion[] = [
     key: "overnight",
     question: "Overnight guests in the last month",
     short: "Overnight guests",
+    title: "Overnight guests last month",
     options: ["None", "1–2 nights", "Weekly or more"],
     phrases: ["none", "1–2 nights", "weekly or more"],
     topic: "overnight guests",
@@ -96,6 +102,7 @@ export const QUESTIONS: readonly HabitQuestion[] = [
     key: "noise",
     question: "Which is closer to you?",
     short: "Noise",
+    title: "Noise",
     options: [
       "Steady low noise all week",
       "Quiet weeknights, livelier weekends",
@@ -109,6 +116,7 @@ export const QUESTIONS: readonly HabitQuestion[] = [
     key: "dishes",
     question: "After you cook, dishes get washed…",
     short: "Dishes",
+    title: "Dishes get washed",
     options: ["Right away", "Same day", "Next day or later"],
     phrases: ["right away", "same day", "next day or later"],
     topic: "kitchen cleanup",
@@ -118,6 +126,7 @@ export const QUESTIONS: readonly HabitQuestion[] = [
     key: "social",
     question: "What do you want from housemates this summer?",
     short: "Social",
+    title: "From housemates you want",
     options: ["Keep to ourselves", "Friendly but separate", "Hang out often"],
     phrases: ["keep to ourselves", "friendly but separate", "hang out often"],
     topic: "how social the house is",
@@ -127,6 +136,7 @@ export const QUESTIONS: readonly HabitQuestion[] = [
     key: "issues",
     question: "How do you bring up a problem with a roommate?",
     short: "Raising problems",
+    title: "Bringing up problems",
     options: ["In person", "By text", "Let it slide"],
     phrases: ["in person", "by text", "let it slide"],
     topic: "how you raise problems",
