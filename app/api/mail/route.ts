@@ -2,7 +2,7 @@
  * Agent mailbox over the tailnet. OWNER: h1. See docs/LANES.md "Requests between agents".
  * No session cookie: identity is the `from` / `to` lane names. Tailnet-only, coordination only.
  *
- *   GET  /api/mail?to=h2              unread mail for h2 (and mail to "all"), oldest first
+ *   GET  /api/mail?to=h2              unread mail for h2 (and others' broadcasts to "all"), oldest first
  *   GET  /api/mail?to=h2&all=1        include already-read mail
  *   GET  /api/mail?thread=<id>        a message and its replies
  *   POST /api/mail  { from, to, subject, body, inReplyTo? }
@@ -33,7 +33,11 @@ export const GET = handle(async (req) => {
   const to = lane.safeParse(q.get("to"));
   if (!to.success) throw badRequest("BAD_LANE", "Pass ?to=h1|h2|h3 (or ?thread=<id>).");
   const mail = await prisma.mail.findMany({
-    where: { to: { in: [to.data, "all"] }, ...(q.get("all") ? {} : { readAt: null }) },
+    // Broadcasts ("all") go to everyone except the sender.
+    where: {
+      OR: [{ to: to.data }, { to: "all", from: { not: to.data } }],
+      ...(q.get("all") ? {} : { readAt: null }),
+    },
     orderBy: { createdAt: "asc" },
   });
   return ok({ mail });
